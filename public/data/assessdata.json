@@ -1,0 +1,30 @@
+{
+	"name": "Homework 1.1",
+  "totalPointsPossible": 10,
+  "questions": [
+    {
+      "qid": 1,
+      "seed": 23,
+      "status": 0,
+      "score": 0,
+      "possible": 5,
+      "html": null
+    },
+    {
+      "qid": 3,
+      "seed": 45,
+      "status": 0,
+      "score": 5,
+      "possible": 5,
+      "html": "<p>Hi <b>there</b></p>"
+    },
+    {
+      "qid": 7,
+      "seed": 72,
+      "status": 0,
+      "score": 0,
+      "possible": 5,
+      "html": null
+    }
+  ]
+}
