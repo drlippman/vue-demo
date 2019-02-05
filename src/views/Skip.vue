@@ -4,12 +4,17 @@
 
     <h3>Question {{ qn+1 }}</h3>
 
-    <question :qn="qn"></question>
+    <question
+      v-for="curqn in questionArray"
+      :qn="curqn"
+      :active="curqn == qn"
+      :key="curqn"
+      :class="{inactive: curqn != qn}"
+    ></question>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import QuestionNav from '@/components/QuestionNav.vue'
 import Question from '@/components/Question.vue'
 
@@ -22,7 +27,21 @@ export default {
   computed: {
     qn () {
       return parseInt(this.$route.params.qn)
+    },
+    questionArray () {
+      let qnArray = {}
+      for (let i = 0; i < this.$store.state.assessInfo.questions.length; i++) {
+        qnArray[i] = i
+      }
+      return qnArray
     }
   }
 }
 </script>
+
+<style>
+.inactive {
+  visibility: hidden;
+  position: absolute;
+}
+</style>

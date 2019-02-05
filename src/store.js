@@ -33,14 +33,14 @@ export default new Vuex.Store({
     },
     submitQuestion (context, qn) {
       Vue.http.get('/data/scoreq' + qn + '.json')
-      .then(response => {
-        return response.json()
-      }, error => {
-        console.log(error)
-      })
-      .then(json => {
-        context.commit('updateQuestionData', json)
-      })
+        .then(response => {
+          return response.json()
+        }, error => {
+          console.log(error)
+        })
+        .then(json => {
+          context.commit('updateQuestionData', json)
+        })
     }
   }
 })

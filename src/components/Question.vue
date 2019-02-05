@@ -14,18 +14,21 @@
 <script>
 export default {
   name: 'Question',
-  props: ['qn'],
+  props: ['qn', 'active'],
   computed: {
     questionData () {
       return this.$store.state.assessInfo.questions[this.qn]
     },
     questionContentLoaded () {
       return (this.questionData.html !== null)
+    },
+    questionCount () {
+      return (this.$store.state.assessInfo.questions.length)
     }
   },
   methods: {
     loadQuestionIfNeeded () {
-      if (!this.questionContentLoaded) {
+      if (!this.questionContentLoaded && this.active) {
         this.$store.dispatch('loadQuestion', this.qn)
       }
     },
@@ -35,14 +38,19 @@ export default {
   },
   updated () {
     if (this.questionContentLoaded) {
-      setTimeout("drawPics()",100);
-      rendermathnode(document.getElementById("questionwrap" + this.qn));
+      setTimeout(drawPics, 100)
+      rendermathnode(document.getElementById("questionwrap" + this.qn))
     } else {
-      this.loadQuestionIfNeeded();
+      this.loadQuestionIfNeeded()
     }
   },
   created () {
-    this.loadQuestionIfNeeded();
+    this.loadQuestionIfNeeded()
+  },
+  watch: {
+    active: function (newVal, oldVal) {
+      this.loadQuestionIfNeeded()
+    }
   }
 }
 </script>
