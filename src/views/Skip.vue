@@ -1,14 +1,16 @@
 <template>
   <div class="home">
     <skip-question-header :qn="qn"/>
-    <div class="questionpane">
-      <question
-        v-for="curqn in questionArray"
-        :qn="curqn"
-        :active="curqn == qn"
-        :key="curqn"
-        :class="{inactive: curqn != qn}"
-      ></question>
+    <div class="scrollpane">
+      <div class="questionpane">
+        <question
+          v-for="curqn in questionArray"
+          :qn="curqn"
+          :active="curqn == qn"
+          :key="curqn"
+          :class="{inactive: curqn != qn}"
+        ></question>
+      </div>
     </div>
   </div>
 </template>
@@ -48,5 +50,9 @@ export default {
   margin: 15px 15px;
   width: 700px;
   overflow: visible;
+}
+.scrollpane {
+  width: 100%;
+  overflow-x: auto;
 }
 </style>
