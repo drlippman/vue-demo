@@ -1,22 +1,20 @@
 <template>
   <div id="app">
-    <div id="header">
-      <p>Page Header</p>
-      <hr/>
-    </div>
     <div v-if="!assessInfoLoaded">
       Loading...
     </div>
-    <div v-if="assessInfoLoaded">
-      <h1>{{ assessName }}</h1>
-    </div>
+    <assess-header v-if="assessInfoLoaded"></assess-header>
     <router-view v-if="assessInfoLoaded"/>
   </div>
 </template>
 
 <script>
+import AssessHeader from '@/components/AssessHeader.vue'
 
 export default {
+  components: {
+    AssessHeader
+  },
   computed: {
     assessInfoLoaded () {
       return (this.$store.state.assessInfo !== null)
@@ -40,27 +38,35 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+input[type=submit],input[type=button], button, a.abutton {
+	color: #fff;
+	background-color: #1E74D1;
+	padding: 3px 12px;
+	height: auto;
 }
-#nav {
-  padding: 30px;
-}
+input {
+  border: 1px solid #999;
+  padding: 4px 6px;
+  border-radius: 4px;
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
+input[type=submit]:hover, button:hover,input[type=button]:hover, a.abutton:hover {
+	background-color: #175aa2;
 }
-/*
-<router-link to="/">Home</router-link> |
-<router-link to="/about">About</router-link>
-*/
+input[type=submit]:focus, button:focus,input[type=button]:focus, a.abutton:focus {
+	background-color: #175aa2;
+}
+input[type=submit].secondarybtn,input[type=button].secondarybtn, button.secondarybtn {
+	color: #000;
+	background-color: #eee;
+}
+input[type=submit].secondarybtn:hover,input[type=button].secondarybtn:hover, button.secondarybtn:hover {
+	background-color: #ddd;
+}
+input[type=submit].secondarybtn:focus,input[type=button].secondarybtn:focus, button.secondarybtn:focus {
+	background-color: #ddd;
+}
+.dropdown-menu a {
+  text-decoration: none;
+}
 </style>

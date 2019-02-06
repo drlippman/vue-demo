@@ -1,27 +1,27 @@
 <template>
   <div class="home">
-    <question-nav />
-
-    <h3>Question {{ qn+1 }}</h3>
-
-    <question
-      v-for="curqn in questionArray"
-      :qn="curqn"
-      :active="curqn == qn"
-      :key="curqn"
-      :class="{inactive: curqn != qn}"
-    ></question>
+    <skip-question-header :qn="qn"/>
+    <div class="questionpane">
+      <question
+        v-for="curqn in questionArray"
+        :qn="curqn"
+        :active="curqn == qn"
+        :key="curqn"
+        :class="{inactive: curqn != qn}"
+      ></question>
+    </div>
   </div>
 </template>
 
 <script>
+import SkipQuestionHeader from '@/components/SkipQuestionHeader.vue'
 import QuestionNav from '@/components/QuestionNav.vue'
 import Question from '@/components/Question.vue'
 
 export default {
   name: 'skip',
   components: {
-    QuestionNav,
+    SkipQuestionHeader,
     Question
   },
   computed: {
@@ -43,5 +43,10 @@ export default {
 .inactive {
   visibility: hidden;
   position: absolute;
+}
+.questionpane {
+  margin: 15px 15px;
+  width: 700px;
+  overflow: visible;
 }
 </style>

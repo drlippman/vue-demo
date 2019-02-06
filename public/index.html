@@ -11,14 +11,69 @@
     <script type="text/javascript">
       var noMathRender = false; var usingASCIIMath = true; var AMnoMathML = true; var MathJaxCompatible = true; var mathrenderer="MathJax";
       function rendermathnode(node) { MathJax.Hub.Queue(["Typeset", MathJax.Hub, node]); }
+      var imasroot = '';
     </script>
+    <script src="https://www.myopenmath.com/javascript/general.js?ver=102318" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="https://ohm.lumenlearning.com/imascore.css?v=110918">
+    <link rel="stylesheet" type="text/css" href="https://ohm.lumenlearning.com/themes/lumen.css?v=110918">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
     <title>vue-demo</title>
   </head>
   <body>
+    <div class="headerwrapper">
+      <div id="headercontent" style="font-size: 14px; font-family: &quot;Open Sans&quot;, &quot;Trebuchet MS&quot;, &quot;Arial&quot;, &quot;Helvetica&quot;, &quot;sans-serif&quot;">
+        <div class="headerbar-wrapper">
+		      <div id="headerbarlogo">
+			      <a href="/index.php">
+				      <img alt="Lumen OHM, Online Learning Manager, logo" title="Click to return home" src="https://ohm.lumenlearning.com/ohm/img/ohm-logo-800.png" height="60">
+			      </a>
+		      </div>
+		      <div id="headerbar-menu-toggle">
+			      <img class="menu-dropdown-btn" src="https://ohm.lumenlearning.com/ohm/img/menu-dropdown-btn.png" alt="header bar menu dropdown toggle button">
+		      </div>
+	     </div>
+	      <div class="linksgroup" id="headerrightlinksgroup">
+		        <span id="myname" class="header-menu-item">David Lippman<img id="avatar" src="https://ohm.lumenlearning.com/ohm/img/blank-avatar.png"></span>
+            <div id="headerrightlinks">
+              <a href="#" onclick="GB_show('Account Settings','/forms.php?action=chguserinfo&amp;greybox=true',800,'auto')" title="Account Settings">
+                <span class="header-menu-item">User Settings</span>
+              </a>
+              <a href="#" class="header-menu-item" onclick="jQuery('#homemenu').css({'left': jQuery(this).offset().left+'px', 'background-color':'#1E74D1', 'color':'#fff'});mopen('homemenu',0)" onmouseout="mclosetime()">
+                My Classes <img src="https://ohm.lumenlearning.com/img/smdownarrow.png" style="vertical-align:middle">
+              </a>
+              <div id="homemenu" class="ddmenu" onmouseover="mcancelclosetime()" onmouseout="mclosetime()"></div>
+              <a href="/actions.php?action=logout" class="header-menu-item">Log Out</a>
+            </div>
+            <a id="help-modal-open" href="#">
+              <span id="help-button">
+                <img src="https://ohm.lumenlearning.com/ohm/img/help-icon.png" id="help-icon"><span>Help</span>
+              </span>
+            </a>
+        </div>
+      </div>
+	</div>
+	<div id="navlistcont" role="navigation" aria-label="Course Navigation" style="font-family: &quot;Open Sans&quot;, &quot;Trebuchet MS&quot;, Arial, Helvetica, sans-serif; font-size: 14px;">
+    <ul id="navlist">
+      <li><a href="/course/course.php?cid=31867">Course</a></li>
+      <li><a href="/msgs/msglist.php?cid=31867">Messages</a></li>
+      <li><a href="/forums/forums.php?cid=31867">Forums</a></li>
+      <li><a href="/course/listusers.php?cid=31867">Roster</a></li>
+      <li><a href="/course/showcalendar.php?cid=31867">Calendar</a></li>
+      <li><a href="/course/gradebook.php?cid=31867">Gradebook</a></li>
+    </ul>
+    <div class="clear"></div>
+  </div>
+  <div class=midwrapper>
+    <div class=breadcrumb>
+    <a href="/">Home</a> &gt;
+    <a href="/">Demo Course</a> &gt;
+    Assessment
+  </div>
     <noscript>
       <strong>We're sorry but vue-demo doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+  </div>
   </body>
 </html>

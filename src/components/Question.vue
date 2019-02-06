@@ -1,12 +1,12 @@
 <template>
-  <div class="question">
+  <div class="questionwrap">
     <div v-if="!questionContentLoaded">
       Loading...
     </div>
     <div v-if="questionContentLoaded" v-html="questionData.html" :id="'questionwrap' + qn">
     </div>
-    <div v-if="questionData.status == 0">
-      <p><button @click="submitQuestion">Submit</button></p>
+    <div v-if="questionData.canreattempt">
+      <p><br/><button @click="submitQuestion">{{ submitLabel }}</button></p>
     </div>
   </div>
 </template>
@@ -24,6 +24,9 @@ export default {
     },
     questionCount () {
       return (this.$store.state.assessInfo.questions.length)
+    },
+    submitLabel () {
+      return 'Check Answer'
     }
   },
   methods: {
@@ -54,3 +57,18 @@ export default {
   }
 }
 </script>
+<style>
+.haseqneditor {
+  margin-right: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  height: 20px;
+}
+.eqneditortrigger {
+  margin-left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  height: 30px;
+  padding: 4px;
+}
+</style>
