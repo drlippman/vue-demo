@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <assess-header></assess-header>
     <skip-question-header :qn="qn"/>
     <div class="scrollpane">
       <div class="questionpane">
@@ -16,6 +17,7 @@
 </template>
 
 <script>
+import AssessHeader from '@/components/AssessHeader.vue'
 import SkipQuestionHeader from '@/components/SkipQuestionHeader.vue'
 import QuestionNav from '@/components/QuestionNav.vue'
 import Question from '@/components/Question.vue'
@@ -24,7 +26,8 @@ export default {
   name: 'skip',
   components: {
     SkipQuestionHeader,
-    Question
+    Question,
+    AssessHeader
   },
   computed: {
     qn () {

@@ -1,7 +1,8 @@
 <template>
   <div class="home">
-    <p>{{ assessInfo.intro }}</p>
-    <p>{{ totalPointsPossible }}</p>
+    <h1>{{ aInfo.name }}</h1>
+    <p>{{ aInfo.intro }}</p>
+    <p>{{ totalPointsPossibleString }}</p>
     <p><button @click="startAssess">Begin</button></p>
   </div>
 </template>
@@ -11,11 +12,18 @@
 export default {
   name: 'launch',
   computed: {
-    assessInfo () {
+    aInfo () {
       return this.$store.state.assessInfo
     },
     totalPointsPossible () {
-      return 'Assessment is worth ' + this.assessInfo.totalPointsPossible + ' points'
+      let pointsPossible = 0;
+      for (let i in this.aInfo.questions) {
+        pointsPossible += this.aInfo.questions[i].possible;
+      }
+      return pointsPossible
+    },
+    totalPointsPossibleString () {
+      return 'Assessment is worth ' + this.totalPointsPossible + ' points'
     }
   },
   methods: {

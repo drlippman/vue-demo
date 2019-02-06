@@ -3,18 +3,14 @@
     <div v-if="!assessInfoLoaded">
       Loading...
     </div>
-    <assess-header v-if="assessInfoLoaded"></assess-header>
     <router-view v-if="assessInfoLoaded"/>
   </div>
 </template>
 
 <script>
-import AssessHeader from '@/components/AssessHeader.vue'
+
 
 export default {
-  components: {
-    AssessHeader
-  },
   computed: {
     assessInfoLoaded () {
       return (this.$store.state.assessInfo !== null)
@@ -24,7 +20,7 @@ export default {
     }
   },
   created () {
-    this.$http.get('/data/assessdata.json')
+    this.$http.get(process.env.BASE_URL + 'data/assessdata.json')
       .then(response => {
         return response.json()
       }, error => {

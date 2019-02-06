@@ -21,7 +21,7 @@ export default new Vuex.Store({
   },
   actions: {
     loadQuestion (context, qn) {
-      Vue.http.get('/data/getq' + qn + '.json')
+      Vue.http.get(process.env.BASE_URL + 'data/getq' + qn + '.json')
         .then(response => {
           return response.json()
         }, error => {
@@ -32,7 +32,7 @@ export default new Vuex.Store({
         })
     },
     submitQuestion (context, qn) {
-      Vue.http.get('/data/scoreq' + qn + '.json')
+      Vue.http.get(process.env.BASE_URL + 'data/scoreq' + qn + '.json')
         .then(response => {
           return response.json()
         }, error => {
