@@ -20,15 +20,9 @@ export default {
     }
   },
   created () {
-    this.$http.get(process.env.BASE_URL + 'data/assessdata.json')
-      .then(response => {
-        return response.json()
-      }, error => {
-        console.log(error)
-      })
-      .then(json => {
-        this.$store.state.assessInfo = json
-      })
+    if (this.$store.state.assessInfo === null) {
+      this.$store.dispatch('loadAssessData')
+    }
   }
 }
 </script>

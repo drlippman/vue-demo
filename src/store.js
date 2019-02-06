@@ -10,6 +10,9 @@ export default new Vuex.Store({
     assessInfo: null
   },
   mutations: {
+    setAssessData (state, payload) {
+      state.assessInfo = payload;
+    },
     setQuestionHtml (state, payload) {
       state.assessInfo.questions[payload.qn].html = payload.html
     },
@@ -20,6 +23,17 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    loadAssessData (context) {
+      Vue.http.get(process.env.BASE_URL + 'data/assessdata.json')
+        .then(response => {
+          return response.json()
+        }, error => {
+          console.log(error)
+        })
+        .then(json => {
+          context.commit('setAssessData', json)
+        })
+    },
     loadQuestion (context, qn) {
       Vue.http.get(process.env.BASE_URL + 'data/getq' + qn + '.json')
         .then(response => {
