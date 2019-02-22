@@ -11,7 +11,15 @@
           <i class="fa fa-chevron-left" aria-label="Previous"></i>
         </router-link>
 
-        <question-nav :qn="qn" />
+        <menu-button id="qnav"
+          :options="navOptions"
+          :selected="qn"
+          @change="changeQuestion"
+        >
+          <template v-slot="{ option }">
+            <question-list-item :option="option" />
+          </template>
+        </menu-button>
 
         <router-link
           :to="'/skip/'+(qn+1)"
@@ -38,21 +46,34 @@
       </span>
     </div>
 
-    <question-details-menu :qn="qn" v-if="showDetails" />
+    <dropdown id="question-details" position="right" v-if="showDetails">
+      <template v-slot:button>
+        <i class="fa fa-info-circle bigicon"></i>
+        Details
+      </template>
+      <template v-slot:content>
+        <question-details-pane :qn="qn" />
+      </template>
+    </dropdown>
+
 
   </div>
 </template>
 
 <script>
-import QuestionNav from '@/components/QuestionNav.vue'
-import QuestionDetailsMenu from '@/components/QuestionDetailsMenu.vue'
+import QuestionDetailsPane from '@/components/QuestionDetailsPane.vue'
+import MenuButton from '@/components/MenuButton.vue'
+import Dropdown from '@/components/Dropdown.vue'
+import QuestionListItem from '@/components/QuestionListItem.vue'
 
 export default {
   name: 'SkipQuestionHeader',
   props: ['qn'],
   components: {
-    QuestionNav,
-    QuestionDetailsMenu
+    QuestionDetailsPane,
+    Dropdown,
+    MenuButton,
+    QuestionListItem
   },
   data: function() {
     return {
@@ -66,11 +87,25 @@ export default {
     curQData () {
       return this.$store.state.assessInfo.questions[this.qn]
     },
+    navOptions () {
+      var out = [];
+      for (let qn in this.ainfo.questions) {
+        out[qn] = this.ainfo.questions[qn];
+        out[qn].link = '/skip/'+qn;
+        out[qn].qn = qn;
+      }
+      return out;
+    },
     showDetails () {
       let curQData = this.$store.state.assessInfo.questions[this.qn];
       let hasParts = curQData.hasOwnProperty('parts');
       let hasCategory = curQData.hasOwnProperty('category');
       return (hasParts || hasCategory);
+    }
+  },
+  methods: {
+    changeQuestion (newqn) {
+      this.$router.push({path: '/skip/'+newqn})
     }
   }
 }

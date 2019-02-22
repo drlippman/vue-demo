@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <h1>{{ aInfo.name }}</h1>
-    <p>{{ aInfo.intro }}</p>
+    <div v-html="aInfo.intro"></div>
     <p>{{ totalPointsPossibleString }}</p>
     <p><button @click="startAssess">Begin</button></p>
   </div>

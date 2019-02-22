@@ -19,7 +19,6 @@
 <script>
 import AssessHeader from '@/components/AssessHeader.vue'
 import SkipQuestionHeader from '@/components/SkipQuestionHeader.vue'
-import QuestionNav from '@/components/QuestionNav.vue'
 import Question from '@/components/Question.vue'
 
 export default {

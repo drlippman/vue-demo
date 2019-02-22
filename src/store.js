@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import VueResource from 'vue-resource'
+//import VueResource from 'vue-resource'
 
 Vue.use(Vuex)
-Vue.use(VueResource)
+//Vue.use(VueResource)
 
 export default new Vuex.Store({
   state: {
@@ -24,7 +24,14 @@ export default new Vuex.Store({
   },
   actions: {
     loadAssessData (context) {
-      Vue.http.get(process.env.BASE_URL + 'data/assessdata.json')
+      window.$.ajax({
+        url: process.env.BASE_URL + 'data/assessdata.json',
+        dataType: 'json'
+      })
+      .done(response => {
+        context.commit('setAssessData', response);
+      })
+      /*Vue.http.get(process.env.BASE_URL + 'data/assessdata.json')
         .then(response => {
           return response.json()
         }, error => {
@@ -33,8 +40,17 @@ export default new Vuex.Store({
         .then(json => {
           context.commit('setAssessData', json)
         })
+        */
     },
     loadQuestion (context, qn) {
+      window.$.ajax({
+        url: process.env.BASE_URL + 'data/getq' + qn + '.json',
+        dataType: 'json'
+      })
+      .done(response => {
+        context.commit('setQuestionHtml', response);
+      })
+      /*
       Vue.http.get(process.env.BASE_URL + 'data/getq' + qn + '.json')
         .then(response => {
           return response.json()
@@ -44,9 +60,10 @@ export default new Vuex.Store({
         .then(json => {
           context.commit('setQuestionHtml', json)
         })
+        */
     },
     submitQuestion (context, qn) {
-      Vue.http.get(process.env.BASE_URL + 'data/scoreq' + qn + '.json')
+      /*Vue.http.get(process.env.BASE_URL + 'data/scoreq' + qn + '.json')
         .then(response => {
           return response.json()
         }, error => {
@@ -54,6 +71,14 @@ export default new Vuex.Store({
         })
         .then(json => {
           context.commit('updateQuestionData', json)
+        })
+        */
+        window.$.ajax({
+          url: process.env.BASE_URL + 'data/scoreq' + qn + '.json',
+          dataType: 'json'
+        })
+        .done(response => {
+          context.commit('setQuestionHtml', response);
         })
     }
   }

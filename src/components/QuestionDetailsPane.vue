@@ -1,20 +1,9 @@
 <template>
-  <div class="dropdown">
-   <div
-      tabindex=0
-      role=button
-      aria-haspopup=true
-      aria-expanded=false
-      aria-controls="qdetails-menu"
-      class="dropdown-toggle"
-      data-toggle="dropdown"
-    >
-      <i class="fa fa-info-circle bigicon"></i>
-      Details
+  <div id="qdetails-pane">
+    <div class="pane-header">
+      Question Details
     </div>
-    <div id="qdetails-menu" role="menu" class="dropdown-menu dropdown-menu-right">
-      <p class="menu-header"><strong>Question Details</strong></p>
-
+    <div class="pane-body">
       <table class="qdetails" v-if="hasParts">
         <thead>
           <tr>
@@ -42,7 +31,7 @@
 
 <script>
 export default {
-  name: 'QuestionDetailsMenu',
+  name: 'QuestionDetailPane',
   props: ['qn'],
   computed: {
     qInfo () {
@@ -61,18 +50,21 @@ export default {
 }
 </script>
 <style>
-#qdetails-menu {
-  padding: 10px 15px;
+#qdetails-pane {
+  padding: 0;
+  margin: 0;
 }
-.menu-header {
+.pane-header {
   border-bottom: 1px solid #ccc;
-  margin: 0 -15px;
-  padding: 5px 15px 15px;
+  padding: 16px 20px;
+  font-weight: bold;
+}
+.pane-body {
+  padding: 16px 20px;
 }
 table.qdetails {
   border-collapse: collapse;
-  margin-bottom: 15px;
-  margin-top: 10px;
+  margin-bottom: 20px;
 }
 table.qdetails tr {
   border-bottom: 1px solid #ccc;

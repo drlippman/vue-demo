@@ -15,8 +15,19 @@
 
     <button>{{ assessSubmitLabel }}</button>
 
-    <resource-menu v-if="ainfo.resources.length > 0"></resource-menu>
-
+    <menu-button
+      v-if="ainfo.resources.length > 0"
+      id="resource-dropdown" position="right"
+      header = "Resources"
+      nobutton = "true"
+      noarrow = "true"
+      :options = "ainfo.resources"
+    >
+      <template v-slot:button>
+        <i class="far fa-file-alt bigicon"></i>
+      </template>
+    </menu-button>
+    
     <div>
       <i class="fas fa-print bigicon"></i>
     </div>
@@ -25,13 +36,17 @@
 
 <script>
 import Timer from '@/components/Timer.vue'
-import ResourceMenu from '@/components/ResourceMenu.vue'
+import ResourcePane from '@/components/ResourcePane.vue'
+import Dropdown from '@/components/Dropdown.vue'
+import MenuButton from '@/components/MenuButton.vue'
 
 export default {
   name: 'AssessHeader',
   components: {
     Timer,
-    ResourceMenu
+    Dropdown,
+    MenuButton,
+    ResourcePane
   },
   data: function() {
     return {
