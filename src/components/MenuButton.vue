@@ -211,6 +211,7 @@ export default {
   background-color: #f0f0f0;
 }
 .menubutton ul {
+  z-index: 1000;
   background-color: #fff;
   display: block;
   position: absolute;
