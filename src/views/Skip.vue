@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     qn () {
-      return parseInt(this.$route.params.qn)
+      return parseInt(this.$route.params.qn)-1
     },
     questionArray () {
       let qnArray = {}

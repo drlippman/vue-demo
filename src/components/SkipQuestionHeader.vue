@@ -2,7 +2,7 @@
   <div id="skip-question-header">
     <div style="flex-grow: 1" id="skip-question-select">
         <router-link
-          :to="'/skip/'+(qn-1)"
+          :to="'/skip/'+(dispqn-1)"
           tag="button"
           :disabled="qn<1"
           class="secondarybtn"
@@ -22,7 +22,7 @@
         </menu-button>
 
         <router-link
-          :to="'/skip/'+(qn+1)"
+          :to="'/skip/'+(dispqn+1)"
           tag="button"
           :disabled="qn>=ainfo.questions.length-1"
           class="secondarybtn"
@@ -87,12 +87,16 @@ export default {
     curQData () {
       return this.$store.state.assessInfo.questions[this.qn]
     },
+    dispqn () {
+      return parseInt(this.qn)+1;
+    },
     navOptions () {
       var out = [];
       for (let qn in this.ainfo.questions) {
+        let qnval = parseInt(qn);
         out[qn] = this.ainfo.questions[qn];
-        out[qn].link = '/skip/'+qn;
-        out[qn].qn = qn;
+        out[qn].link = '/skip/'+(qnval+1);
+        out[qn].qn = qnval+1;
       }
       return out;
     },
