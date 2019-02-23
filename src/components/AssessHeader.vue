@@ -22,12 +22,13 @@
       nobutton = "true"
       noarrow = "true"
       :options = "ainfo.resources"
+      searchby = "title"
     >
       <template v-slot:button>
         <i class="far fa-file-alt bigicon"></i>
       </template>
     </menu-button>
-    
+
     <div>
       <i class="fas fa-print bigicon"></i>
     </div>

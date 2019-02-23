@@ -4,6 +4,8 @@
     @keydown.up.prevent = "handleUpDown(-1)"
     @keydown.down.prevent = "handleUpDown(1)"
     @keydown = "handleKeys"
+    @focusin = "handleFocus"
+    @focusout = "handleBlur"
   >
     <button
       :id = "id"
@@ -15,8 +17,6 @@
       :aria-expanded = "open?'true':'false'"
       @click = "toggleOpen"
       @keydown.space.prevent = "toggleOpen"
-      @blur = "handleBlur"
-      @focus = "handleFocus"
     >
       <slot v-if="!hasButton" :option="options[selected]"></slot>
       <slot v-if="hasButton" name=button></slot>
@@ -30,48 +30,23 @@
       :id = "id + '_wrap'"
       tabindex = "-1"
       :class = "{'menubutton-right': position=='right'}"
-      @focus = "handleFocus"
-      @blur = "handleBlur"
     >
       <li v-if="!!header" class="menubutton-header">
         {{ header }}
       </li>
-      <li v-for="(option,index) in options"
-        :key="index"
-      >
-        <router-link v-if="!!option.link"
-          :to = "option.link"
+      <li v-for="(option,index) in options" :key="index">
+        <component
+          v-bind = "getLinkProps(option,index)"
           :id = "id + '_' + index"
           :class="{'menubutton-focus': index==curSelected}"
-          @mouseover.native = "curSelected = index"
-          @click.native = "toggleOpen"
-          @blur.native = "handleBlur"
-          @focus.native = "handleFocus"
           role = "menuitem"
           tabindex = "-1"
         >
           <slot v-if="hasSlot" :option="option"></slot>
-          <template v-if="!hasSlot">
+          <template v-else>
             {{option.title}}
           </template>
-        </router-link>
-        <a v-if="!!option.url"
-          :href = "option.url"
-          target = "_blank"
-          :id = "id + '_' + index"
-          :class="{'menubutton-focus': index==curSelected}"
-          @mouseover = "curSelected = index"
-          @click = "toggleOpen"
-          @blur = "handleBlur"
-          @focus = "handleFocus"
-          role = "menuitem"
-          tabindex = "-1"
-        >
-          <slot v-if="hasSlot" :option="option"></slot>
-          <template v-if="!hasSlot">
-            {{option.title}}
-          </template>
-        </a>
+        </component>
       </li>
     </ul>
   </div>
@@ -88,7 +63,7 @@ export default {
     prop: 'selected',
     event: 'change'
   },
-  props: ['options', 'selected', 'id', 'header', 'nobutton', 'noarrow', 'position'],
+  props: ['options', 'selected', 'id', 'header', 'nobutton', 'noarrow', 'position', 'searchby'],
   data: function() {
     return {
       open: false,
@@ -106,6 +81,24 @@ export default {
     }
   },
   methods: {
+    getLinkProps (option,index) {
+      if (!!option.link) {
+        return {
+          is: 'router-link',
+          to: option.link,
+          'mouseover.native': ()=>(this.curSelected = index),
+          'click.native': this.toggleOpen
+        }
+      } else {
+        return {
+          is: 'a',
+          href: option.url,
+          target: "_blank",
+          'mouseover': ()=>(this.curSelected = index),
+          'click': this.toggleOpen
+        }
+      }
+    },
     toggleOpen (val) {
       if (typeof val == "Boolean") {
         this.open = val;
@@ -154,26 +147,33 @@ export default {
       }
       this.$nextTick(()=>{document.getElementById(this.id + "_" + this.curSelected).focus()});
     },
-    processKeyBuffer () {
+    processKeyBuffer (clear) {
       if (this.keybuffer != '') {
-        let val = parseInt(this.keybuffer);
-        if (val >= 0 && val < this.options.length) {
-          this.curSelected = val;
-          this.$nextTick(this.scrollToCurrent);
+        let regex = new RegExp('^' + this.keybuffer, 'i');
+        for (let i in this.options) {
+          let val = this.options[i][this.searchby].toString();
+          if (val.match(regex)) {
+            this.curSelected = i;
+            this.$nextTick(this.scrollToCurrent);
+            break;
+          }
         }
       }
-      this.keybuffer = '';
+      if (clear) {
+        this.keybuffer = '';
+      }
     },
     handleKeys (event) {
       if (this.open) {
-        let key = event.key;
-        if (key == 'Home') {
+        let key = event.key.toLowerCase();
+        if (key == 'home') {
           this.curSelected = 0;
-        } else if (key == 'End') {
+        } else if (key == 'end') {
           this.curSelected = this.options.length-1;
-        } else if (key >= '0' && key <= '9') {
+        } else if (!!this.searchby && this.options[0].hasOwnProperty(this.searchby) && ((key >= '0' && key <= '9') || (key >= 'a' && key <= 'z'))) {
           this.keybuffer += key;
-          setTimeout(this.processKeyBuffer, 300);
+          this.processKeyBuffer(false);
+          setTimeout(()=>this.processKeyBuffer(true), 300);
         }
       }
     },

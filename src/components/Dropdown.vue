@@ -1,5 +1,10 @@
 <template>
-  <span @keydown.esc = "triggerOpen" class="dropdown-wrap">
+  <span
+    @keydown.esc = "triggerOpen(false)"
+    class="dropdown-wrap"
+    @focusin = "handleFocusin"
+    @focusout = "handleFocusout"
+  >
     <span
       :id = "id"
       ref = "button"
@@ -32,17 +37,26 @@ export default {
   props: ['id', 'position'],
   data: function() {
     return {
-      open: false
+      open: false,
+      closetimer: null
     }
   },
   methods: {
-    triggerOpen (event) {
-      if (this.open || (event.type == 'keydown' && event.key == 'Escape')) {
-        this.open = false;
-        this.$refs.button.focus();
+    triggerOpen (val) {
+      if (typeof val == "Boolean") {
+        this.open = val;
       } else {
-        this.open = true;
+        this.open = !this.open;
       }
+      if (!this.open) {
+        this.$refs.button.focus();
+      }
+    },
+    handleFocusout () {
+      this.closetimer = setTimeout(() => {this.open = false;}, 50);
+    },
+    handleFocusin () {
+      clearTimeout(this.closetimer);
     }
   }
 }

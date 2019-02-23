@@ -12,9 +12,10 @@
         </router-link>
 
         <menu-button id="qnav"
-          :options="navOptions"
-          :selected="qn"
-          @change="changeQuestion"
+          :options = "navOptions"
+          :selected = "qn"
+          @change = "changeQuestion"
+          searchby = "qn"
         >
           <template v-slot="{ option }">
             <question-list-item :option="option" />
