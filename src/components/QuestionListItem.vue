@@ -1,8 +1,6 @@
 <template>
   <span>
-    <i :class="questionClass.class"
-      :title="questionClass.alt"
-    ></i>
+    <icons :name="questionClass.icon" class="qstatusicon" />
     Question {{ option.qn }}
     {{ scoreDisplay }}
     <span class="redoicon">
@@ -12,38 +10,48 @@
 </template>
 
 <script>
+import Icons from '@/components/Icons.vue'
+
 export default {
   name: 'QuestionListItem',
   props: ['option'],
+  components: {
+    Icons
+  },
   computed: {
     questionClass () {
       if (this.option.status == 0) {
         //unattempted
         return {
+          "icon": "circle-open",
           "class": "far fa-circle bluetext qstatusicon",
           "alt": "Unattempted"
         }
       } else if (!this.option.hasOwnProperty('score')) {
         //attempted, but no score info
         return  {
+          "icon": "circle-filled",
           "class": "fas fa-circle bluetext qstatusicon",
           "alt": "Attempted"
         }
       } else if (this.option.score == 0) {
         //wrong
         return  {
+          "icon": "circle-x",
           "class": "fas fa-times-circle redtext qstatusicon",
           "alt": "Incorrect"
         }
       } else if (this.option.score == this.option.possible) {
         //full score
         return  {
+          "icon": "circle-check",
           "class": "fas fa-check-circle greentext qstatusicon",
           "alt": "Correct"
         }
       } else {
         //partial score
         return  {
+          "icon": "circle-filled",
           "class": "fas fa-dot-circle orangetext qstatusicon",
           "alt": "Partially correct"
         }
@@ -84,7 +92,6 @@ export default {
 }
 .qstatusicon {
   margin-right: 4px;
-  font-size: 16px;
 }
 .redoicon {
   display: inline-block;

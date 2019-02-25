@@ -53,7 +53,6 @@
 </template>
 
 <script>
-//curSelected = index
 //This menu button follows the patterns recommended at
 // https://www.w3.org/TR/wai-aria-practices/examples/menu-button/menu-button-actions-active-descendant.html
 

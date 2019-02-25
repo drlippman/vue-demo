@@ -52,9 +52,7 @@
         <i class="fa fa-info-circle bigicon"></i>
         Details
       </template>
-      <template v-slot:content>
-        <question-details-pane :qn="qn" />
-      </template>
+      <question-details-pane :qn="qn" />
     </dropdown>
 
 

@@ -24,7 +24,7 @@
       :id = "id + '_pane'"
       v-if = "open"
     >
-      <slot name=content></slot>
+      <slot />
     </div>
   </span>
 </template>
