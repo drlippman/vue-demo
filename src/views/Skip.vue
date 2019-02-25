@@ -20,6 +20,7 @@
 import AssessHeader from '@/components/AssessHeader.vue'
 import SkipQuestionHeader from '@/components/SkipQuestionHeader.vue'
 import Question from '@/components/Question.vue'
+import { store, actions } from "../basicstore";
 
 export default {
   name: 'skip',
@@ -34,7 +35,7 @@ export default {
     },
     questionArray () {
       let qnArray = {}
-      for (let i = 0; i < this.$store.state.assessInfo.questions.length; i++) {
+      for (let i = 0; i < store.assessInfo.questions.length; i++) {
         qnArray[i] = i
       }
       return qnArray

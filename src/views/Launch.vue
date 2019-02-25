@@ -8,12 +8,13 @@
 </template>
 
 <script>
+import { store, actions } from "../basicstore";
 
 export default {
   name: 'launch',
   computed: {
     aInfo () {
-      return this.$store.state.assessInfo
+      return store.assessInfo
     },
     totalPointsPossible () {
       let pointsPossible = 0;

@@ -40,6 +40,7 @@ import Timer from '@/components/Timer.vue'
 import ResourcePane from '@/components/ResourcePane.vue'
 import Dropdown from '@/components/Dropdown.vue'
 import MenuButton from '@/components/MenuButton.vue'
+import { store, actions } from "../basicstore";
 
 export default {
   name: 'AssessHeader',
@@ -56,14 +57,14 @@ export default {
   },
   created () {
     //temporary for demo purposes
-    if (this.$store.state.assessInfo.timelimit > 0) {
+    if (store.assessInfo.timelimit > 0) {
       let now = new Date().getTime();
-      this.$store.state.assessInfo.timeExpires = now + 1000*60*this.$store.state.assessInfo.timelimit;
+      store.assessInfo.timeExpires = now + 1000*60*store.assessInfo.timelimit;
     }
   },
   computed: {
     ainfo () {
-      return this.$store.state.assessInfo
+      return store.assessInfo
     },
     curScore () {
       let pointsPossible = 0;

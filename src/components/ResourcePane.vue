@@ -16,11 +16,13 @@
 </template>
 
 <script>
+import { store, actions } from "../basicstore";
+
 export default {
   name: 'ResourcePane',
   computed: {
     assessResources () {
-      return this.$store.state.assessInfo.resources
+      return store.assessInfo.resources
     }
   },
 }

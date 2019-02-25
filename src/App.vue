@@ -8,20 +8,20 @@
 </template>
 
 <script>
-
+import { store, actions } from "./basicstore";
 
 export default {
   computed: {
     assessInfoLoaded () {
-      return (this.$store.state.assessInfo !== null)
+      return (store.assessInfo !== null)
     },
     assessName () {
-      return this.$store.state.assessInfo.name
+      return store.assessInfo.name
     }
   },
   created () {
-    if (this.$store.state.assessInfo === null) {
-      this.$store.dispatch('loadAssessData')
+    if (store.assessInfo === null) {
+      actions.loadAssessData();
     }
   }
 }

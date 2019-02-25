@@ -64,6 +64,7 @@ import QuestionDetailsPane from '@/components/QuestionDetailsPane.vue'
 import MenuButton from '@/components/MenuButton.vue'
 import Dropdown from '@/components/Dropdown.vue'
 import QuestionListItem from '@/components/QuestionListItem.vue'
+import { store, actions } from "../basicstore";
 
 export default {
   name: 'SkipQuestionHeader',
@@ -81,26 +82,26 @@ export default {
   },
   computed: {
     ainfo () {
-      return this.$store.state.assessInfo
+      return store.assessInfo
     },
     curQData () {
-      return this.$store.state.assessInfo.questions[this.qn]
+      return store.assessInfo.questions[this.qn]
     },
     dispqn () {
       return parseInt(this.qn)+1;
     },
     navOptions () {
       var out = [];
-      for (let qn in this.ainfo.questions) {
+      for (let qn in store.assessInfo.questions) {
         let qnval = parseInt(qn);
-        out[qn] = this.ainfo.questions[qn];
+        out[qn] = store.assessInfo.questions[qn];
         out[qn].link = '/skip/'+(qnval+1);
-        out[qn].qn = qnval+1;
+        out[qn].dispqn = qnval+1;
       }
       return out;
     },
     showDetails () {
-      let curQData = this.$store.state.assessInfo.questions[this.qn];
+      let curQData = store.assessInfo.questions[this.qn];
       let hasParts = curQData.hasOwnProperty('parts');
       let hasCategory = curQData.hasOwnProperty('category');
       return (hasParts || hasCategory);

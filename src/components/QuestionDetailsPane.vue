@@ -30,12 +30,14 @@
 </template>
 
 <script>
+import { store, actions } from "../basicstore";
+
 export default {
   name: 'QuestionDetailPane',
   props: ['qn'],
   computed: {
     qInfo () {
-      return this.$store.state.assessInfo.questions[this.qn]
+      return store.assessInfo.questions[this.qn]
     },
     showScore () {
       return this.qInfo.hasOwnProperty('score')

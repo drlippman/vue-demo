@@ -12,18 +12,17 @@
 </template>
 
 <script>
+import { store, actions } from "../basicstore";
+
 export default {
   name: 'Question',
   props: ['qn', 'active'],
   computed: {
     questionData () {
-      return this.$store.state.assessInfo.questions[this.qn]
+      return store.assessInfo.questions[this.qn]
     },
     questionContentLoaded () {
       return (this.questionData.html !== null)
-    },
-    questionCount () {
-      return (this.$store.state.assessInfo.questions.length)
     },
     submitLabel () {
       return 'Check Answer'
@@ -32,11 +31,11 @@ export default {
   methods: {
     loadQuestionIfNeeded () {
       if (!this.questionContentLoaded && this.active) {
-        this.$store.dispatch('loadQuestion', this.qn)
+        actions.loadQuestion(this.qn)
       }
     },
     submitQuestion () {
-      this.$store.dispatch('submitQuestion', this.qn)
+      actions.submitQuestion(this.qn)
     }
   },
   updated () {

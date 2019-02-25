@@ -1,7 +1,7 @@
 <template>
   <span>
     <icons :name="questionClass.icon" class="qstatusicon" />
-    Question {{ option.qn }}
+    Question {{ option.dispqn }}
     {{ scoreDisplay }}
     <span class="redoicon">
       <i class="fa fa-undo" v-if="option.canreattempt"></i>

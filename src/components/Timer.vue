@@ -21,7 +21,6 @@ export default {
     }
   },
   created () {
-    console.log(this.end)
     this.updateTimer()
     this.interval = setInterval(this.updateTimer, 1000)
   },
