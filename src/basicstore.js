@@ -1,14 +1,21 @@
 import Vue from 'vue'
 
 export const store = Vue.observable({
-  assessInfo: null
+  assessInfo: null,
+  APIbase: null,
+  aid: null,
+  cid: null
 })
 
 export const actions = {
   loadAssessData (context) {
     window.$.ajax({
-      url: process.env.BASE_URL + 'data/assessdata.json',
-      dataType: 'json'
+      url: store.APIbase + 'loadassess.php?cid='+store.cid+'&aid='+store.aid,
+      dataType: 'json',
+      xhrFields: {
+           withCredentials: true
+      },
+      crossDomain: true
     })
     .done(response => {
       store.assessInfo = response;
@@ -16,7 +23,7 @@ export const actions = {
   },
   loadQuestion (qn) {
     window.$.ajax({
-      url: process.env.BASE_URL + 'data/getq' + qn + '.json',
+      url: store.APIbase + 'data/getq' + qn + '.json',
       dataType: 'json'
     })
     .done(response => {
@@ -25,7 +32,7 @@ export const actions = {
   },
   submitQuestion (qn) {
       window.$.ajax({
-        url: process.env.BASE_URL + 'data/scoreq' + qn + '.json',
+        url: store.APIbase + 'data/scoreq' + qn + '.json',
         dataType: 'json'
       })
       .done(response => {

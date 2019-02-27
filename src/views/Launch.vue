@@ -1,35 +1,73 @@
 <template>
   <div class="home">
     <h1>{{ aInfo.name }}</h1>
-    <div v-html="aInfo.intro"></div>
-    <p>{{ totalPointsPossibleString }}</p>
-    <p><button @click="startAssess">Begin</button></p>
+
+    <settings-list />
+
+    <div v-html="aInfo.summary"></div>
+
+    <password-entry
+      v-if = "aInfo.has_password"
+      v-model = "password"
+    />
+
+    <group-entry
+      v-if="aInfo.isgroup > 0"
+      v-on:update-new-group = "updateNewGroup"
+    />
+
+    <p>
+      <button @click="startAssess" class="primary">
+        {{ startLabel }}
+      </button>
+    </p>
   </div>
 </template>
 
 <script>
+import SettingsList from '@/components/launch/SettingsList.vue'
+import PasswordEntry from '@/components/launch/PasswordEntry.vue'
+import GroupEntry from '@/components/launch/GroupEntry.vue'
+
 import { store, actions } from "../basicstore";
 
 export default {
   name: 'launch',
+  components: {
+    SettingsList,
+    PasswordEntry,
+    GroupEntry
+  },
+  data: function() {
+    return {
+      password: 'asdf',
+      new_group_members: []
+    }
+  },
   computed: {
     aInfo () {
       return store.assessInfo
     },
-    totalPointsPossible () {
-      let pointsPossible = 0;
-      for (let i in this.aInfo.questions) {
-        pointsPossible += this.aInfo.questions[i].possible;
+    startLabel () {
+      if (this.aInfo.has_active_take) {
+        return 'Continue Assessment'
+      } else if (this.aInfo.submitby == 'by_assessment' &&
+        this.aInfo.prev_takes.length > 0
+      ) {
+        return 'Retake Assessment'
+      } else {
+        return 'Start Assessment'
       }
-      return pointsPossible
-    },
-    totalPointsPossibleString () {
-      return 'Assessment is worth ' + this.totalPointsPossible + ' points'
     }
   },
   methods: {
     startAssess () {
-      this.$router.push('/skip/1')
+      console.log(this.password);
+      console.log(this.new_group_members.toString());
+      //this.$router.push('/skip/1')
+    },
+    updateNewGroup (new_members) {
+      this.new_group_members = new_members;
     }
   }
 }
