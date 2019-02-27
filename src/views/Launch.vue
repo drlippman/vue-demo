@@ -2,6 +2,8 @@
   <div class="home">
     <h1>{{ aInfo.name }}</h1>
 
+    <p>{{ $t("hello") }}</p>
+    
     <settings-list />
 
     <div v-html="aInfo.summary"></div>
@@ -23,6 +25,14 @@
     </p>
   </div>
 </template>
+
+<i18n>
+{
+  "en": {
+    "hello": "hello!"
+  }
+}
+</i18n>
 
 <script>
 import SettingsList from '@/components/launch/SettingsList.vue'
