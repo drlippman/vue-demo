@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>This assessment requires a password.</p>
-    <p>Password:
+    <p class="ind1">Password:
       <input
         :value="value"
         @input="handleInput"

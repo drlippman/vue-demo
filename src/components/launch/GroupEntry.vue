@@ -1,7 +1,7 @@
 <template>
   <div>
     <p>This is a group assessment</p>
-    <div v-if = "groupMembers.length > 0">
+    <div v-if = "groupMembers.length > 0" class="ind1">
       <p>Group Members
         <span v-if = "showMax">
           (max {{ groupMax }})
@@ -21,7 +21,7 @@
         </li>
       </ul>
     </div>
-    <div v-if = "canAddMembers">
+    <div v-if = "canAddMembers" class="ind1">
       <label for="addtogroup">
         Add:
       </label>

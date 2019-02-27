@@ -8,7 +8,7 @@ export const store = Vue.observable({
 })
 
 export const actions = {
-  loadAssessData (context) {
+  loadAssessData () {
     window.$.ajax({
       url: store.APIbase + 'loadassess.php?cid='+store.cid+'&aid='+store.aid,
       dataType: 'json',

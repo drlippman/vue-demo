@@ -11,6 +11,11 @@
 import { store, actions } from "./basicstore";
 
 export default {
+  data: function () {
+    return {
+      in_progress: false
+    }
+  },
   computed: {
     assessInfoLoaded () {
       return (store.assessInfo !== null)
@@ -19,13 +24,27 @@ export default {
       return store.assessInfo.name
     }
   },
+  beforeUpdate () {
+    if (store.assessInfo !== null) {
+      if (store.assessInfo.available == 2 ||
+        (store.assessInfo.available == 3 && store.assessInfo.in_practice)
+      ) {
+        //has a currently available assessment or practice session
+        if (!this.in_progress) {
+          this.$router.replace('/');
+        }
+      } else {
+        //currently closed
+        this.$router.replace('/closed');
+      }
+    }
+  },
   created () {
     if (typeof window.APIbase !== 'undefined') {
       store.APIbase = window.APIbase
     } else {
       store.APIbase = process.env.BASE_URL
     }
-    console.log(this.$route.query);
     store.cid = this.$route.query.cid;
     store.aid = this.$route.query.aid;
     if (store.assessInfo === null) {
@@ -83,5 +102,8 @@ input[type=submit].secondarybtn:focus,input[type=button].secondarybtn:focus, but
 }
 .no-margin-top {
   margin-top: 0;
+}
+.ind1 {
+  margin-left: 20px;
 }
 </style>
