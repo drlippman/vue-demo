@@ -1,12 +1,12 @@
 <template>
   <div>
-    <p>This assessment requires a password.</p>
-    <p class="ind1">Password:
-      <input
-        :value="value"
-        @input="handleInput"
-      >
-    </p>
+    <label for="password">
+      {{ $t('password.label') }}
+    </label>
+    <input
+      :value="value"
+      @input="handleInput"
+    >
   </div>
 </template>
 

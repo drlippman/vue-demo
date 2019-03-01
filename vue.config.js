@@ -8,10 +8,10 @@ module.exports = {
       locale: 'en',
       fallbackLocale: 'en',
       localeDir: 'locales',
-      enableInSFC: true
+      enableInSFC: false
     }
-  },
-  chainWebpack: config => {
+  }
+  /*chainWebpack: config => {
     config.module
       .rule('i18n')
       .resourceQuery(/blockType=i18n/)
@@ -23,4 +23,5 @@ module.exports = {
           character: 'utf-8',
         })
   }
+  */
 }

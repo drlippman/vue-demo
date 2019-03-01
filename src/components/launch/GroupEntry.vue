@@ -1,12 +1,12 @@
 <template>
   <div>
-    <p>This is a group assessment</p>
-    <div v-if = "groupMembers.length > 0" class="ind1">
-      <p>Group Members
+    <div v-if = "groupMembers.length > 0">
+      {{ $t('group.isgroup') }} <br/>
+      {{ $t('group.members') }}
         <span v-if = "showMax">
-          (max {{ groupMax }})
+          ({{ $t('group.max', {n: groupMax}) }})
         </span>
-      </p>
+
       <ul class="no-margin-top">
         <li v-for = "(member,index) in groupMembers">
           {{ member.name }}
@@ -16,17 +16,17 @@
             v-if = "member.new"
             @click = "removeMember(member.index)"
           >
-            Remove
+            {{ $t('group.remove') }}
           </button>
         </li>
       </ul>
     </div>
-    <div v-if = "canAddMembers" class="ind1">
+    <div v-if = "canAddMembers">
       <label for="addtogroup">
-        Add:
+        {{ $t('group.add') }}
       </label>
       <select v-model = "new_member" id="addtogroup">
-        <option value=0>Select...</option>
+        <option value="0">{{ $t('group.select') }}</option>
         <option
           v-for = "user in availableUsers"
           :value = "user.id"
@@ -38,7 +38,7 @@
         class="slim"
         @click = "addMember"
       >
-        Add
+        {{ $t('group.addbutton') }}
       </button>
     </div>
   </div>
@@ -103,9 +103,11 @@ export default {
       this.handleChange();
     },
     addMember () {
-      this.new_group_members.push(this.new_member);
-      this.new_member = 0;
-      this.handleChange();
+      if (this.new_member > 0) {
+        this.new_group_members.push(this.new_member);
+        this.new_member = 0;
+        this.handleChange();
+      }
     },
     handleChange () {
       this.$emit('update-new-group', this.new_group_members);

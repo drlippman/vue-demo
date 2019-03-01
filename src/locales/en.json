@@ -1,1 +1,59 @@
-{"message":"hello i18n !!","hello":"hello!"}
+{
+  "nth": "| first | second | third | fourth | {n}th",
+  "seconds": "1 second | {n} seconds",
+  "minutes": "1 minute | {n} minutes",
+  "hours": "1 hour | {n} hours",
+  "launch": {
+    "continue_assess": "Continue Assessment",
+    "retake_assess": "Retake Assessment",
+    "start_assess": "Start Assessment"
+  },
+  "closed": {
+    "hidden": "This assessment is not currently available.",
+    "notyet": "This assessment is not yet available.  It will be available {sd} until {ed}.",
+    "pastdue": "This assessment was due {ed}.",
+    "latepassn": "You have one LatePass available. | You have {n} LatePass available.",
+    "latepass_needed": "You can redeem one LatePass to reopen this assessment until {date} | You can redeem {n} LatePasses to reopen this assessment until {date}",
+    "practice_no_latepass": "It is now open for un-graded practice.",
+    "practice_w_latepass": "You can also open the assessment for un-graded practice.",
+    "will_block_latepass": "If you do so, you will not be able to later use a LatePass.",
+    "confirm": "Are you SURE you want to do this? If you do, you will not be able to later use a LatePass.",
+    "can_view_scored": "You can review your scored assessment.",
+    "view_scored": "View scored assessment",
+    "use_latepass": "Redeem LatePass | Redeem {n} LatePasses",
+    "do_practice": "Practice",
+    "exit": "Exit"
+  },
+  "setlist": {
+    "practice": "This assessment is in un-graded practice mode.",
+    "points_possible": "{pts} points possible.",
+    "due_at": "Due {date}.",
+    "originally_due": "Originally due {date}.",
+    "latepass_used": "You used one latepass. | You used {n} latepasses.",
+    "extension": "You were granted an extension.",
+    "penalty": "A penalty of {p}% will be applied.",
+    "take": "You can take this assessment one time. | You can take this assessment {n} times.",
+    "take_more": "You can take this assessment one more time. | You can take this assessment {n} more times.",
+    "cur_take": "You are currently taking this assessment for the {v} time.",
+    "keep_highest": "Highest score recorded as grade.",
+    "keep_average": "Average score recorded as grade.",
+    "keep_last": "Last score recorded as grade.",
+    "retake_penalty": "A penalty of {p}% will be applied on the next retake.",
+    "time_expires": "Your current assessment time limit expires at {date}.",
+    "timelimit": "Time limit: {time}.",
+    "timelimit_extend": "Extended from the original {time}."
+  },
+  "group": {
+    "isgroup": "This is a group assessment.",
+    "members": "Group Members",
+    "max": "max {n}",
+    "remove": "Remove",
+    "add": "Add to group:",
+    "select": "Select...",
+    "addbutton": "Add"
+  },
+  "password": {
+    "requires": "This assessment requires a password.",
+    "label": "Password: "
+  }
+}

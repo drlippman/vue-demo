@@ -2,21 +2,24 @@
   <div class="home">
     <h1>{{ aInfo.name }}</h1>
 
-    <p>{{ $t("hello") }}</p>
-    
+    <div class="med-below" v-html="aInfo.summary"></div>
+
     <settings-list />
 
-    <div v-html="aInfo.summary"></div>
-
-    <password-entry
-      v-if = "aInfo.has_password"
-      v-model = "password"
-    />
-
-    <group-entry
-      v-if="aInfo.isgroup > 0"
-      v-on:update-new-group = "updateNewGroup"
-    />
+    <div class="settings-list">
+      <div class="flexrow" v-if="aInfo.has_password">
+        <div>
+          <icons name="info" size="small"/>
+        </div>
+        <password-entry v-model="password"  />
+      </div>
+      <div class="flexrow" v-if="aInfo.isgroup > 0">
+        <div>
+          <icons name="info" size="small" />
+        </div>
+        <group-entry @update-new-group="updateNewGroup" />
+      </div>
+    </div>
 
     <p>
       <button @click="startAssess" class="primary">
@@ -26,31 +29,28 @@
   </div>
 </template>
 
-<i18n>
-{
-  "en": {
-    "hello": "hello!"
-  }
-}
-</i18n>
-
 <script>
+/* TODO
+  Pane for previous take scores
+*/
 import SettingsList from '@/components/launch/SettingsList.vue'
 import PasswordEntry from '@/components/launch/PasswordEntry.vue'
 import GroupEntry from '@/components/launch/GroupEntry.vue'
+import Icons from '@/components/Icons.vue'
 
 import { store, actions } from "../basicstore";
 
 export default {
-  name: 'launch',
+  name: 'Launch',
   components: {
     SettingsList,
     PasswordEntry,
-    GroupEntry
+    GroupEntry,
+    Icons
   },
   data: function() {
     return {
-      password: 'asdf',
+      password: '',
       new_group_members: []
     }
   },
@@ -60,13 +60,13 @@ export default {
     },
     startLabel () {
       if (this.aInfo.has_active_take) {
-        return 'Continue Assessment'
+        return this.$t('launch.continue_assess')
       } else if (this.aInfo.submitby == 'by_assessment' &&
         this.aInfo.prev_takes.length > 0
       ) {
-        return 'Retake Assessment'
+        return this.$t('launch.retake_assess')
       } else {
-        return 'Start Assessment'
+        return this.$t('launch.start_assess')
       }
     }
   },

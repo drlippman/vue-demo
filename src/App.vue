@@ -22,6 +22,9 @@ export default {
     },
     assessName () {
       return store.assessInfo.name
+    },
+    queryString () {
+      return '?cid='+store.cid+'&aid='+store.aid
     }
   },
   beforeUpdate () {
@@ -32,11 +35,11 @@ export default {
       ) {
         //has a currently available assessment or practice session
         if (!this.in_progress) {
-          this.$router.replace('/');
+          this.$router.replace('/'+this.queryString);
         }
       } else {
         //currently closed
-        this.$router.replace('/closed');
+        this.$router.replace('/closed'+this.queryString);
       }
     }
   },
@@ -106,5 +109,8 @@ input[type=submit].secondarybtn:focus,input[type=button].secondarybtn:focus, but
 }
 .ind1 {
   margin-left: 20px;
+}
+.med-below {
+  margin-bottom: 16px;
 }
 </style>
