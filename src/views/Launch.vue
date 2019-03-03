@@ -9,13 +9,13 @@
     <div class="settings-list">
       <div class="flexrow" v-if="aInfo.has_password">
         <div>
-          <icons name="info" size="small"/>
+          <icons name="lock" size="small"/>
         </div>
         <password-entry v-model="password"  />
       </div>
       <div class="flexrow" v-if="aInfo.isgroup > 0">
         <div>
-          <icons name="info" size="small" />
+          <icons name="group" size="small" />
         </div>
         <group-entry @update-new-group="updateNewGroup" />
       </div>

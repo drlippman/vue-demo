@@ -5,43 +5,60 @@
       class = "svgicon"
       role = "img"
       aria-hidden = "true"
-      viewBox="0 0 16 16"
+      viewBox="0 0 24 24"
       :width = "iconwidth"
       :height = "iconwidth"
+      fill="none"
+      stroke="#000"
+      :stroke-width="strokewidth"
+      stroke-linecap="round"
+      stroke-linejoin="round"
     >
-      <template v-if="name=='circle-filled'">
-        <circle cx="8" cy="8" r="8" :fill="neutral" stroke="none"/>
-      </template>
-      <template v-else-if="name=='circle-open'">
-        <circle cx="8" cy="8" r="7" fill="none" stroke-width="2" :stroke="neutral" />
-      </template>
-      <template v-else-if="name=='circle-half'">
-        <path d="M0,8 a1,1 0 0,0 16,0" stroke="none" :fill="neutral" />
-        <circle cx="8" cy="8" r="7" fill="none" stroke-width="2" :stroke="neutral" />
-      </template>
-      <template v-else-if="name=='circle-x'">
-        <circle cx="8" cy="8" r="8" :fill="wrong" stroke="none"/>
-        <path d="M4 4 L12 12 M4 12 L12 4" stroke-width="2" stroke="white" fill="none" />
-      </template>
-      <template v-else-if="name=='circle-check'">
-        <circle cx="8" cy="8" r="8" :fill="correct" stroke="none"/>
-        <path d="M4 8 L7 11 L12 4" stroke-width="2" fill="none" stroke="white" />
-      </template>
-      <template v-else-if="name=='retake'">
-        <path :fill="dark" fill-rule="evenodd"  d="M11.25 5.25a.75.75 0 0 1-.75-.75.75.75 0 0 0-.75-.75H2.56l.97.97a.75.75 0 1 1-1.06 1.06L.22 3.53a.75.75 0 0 1 0-1.06L2.47.22a.748.748 0 0 1 1.06 0 .75.75 0 0 1 0 1.06l-.97.97h7.19C10.99 2.25 12 3.26 12 4.5a.75.75 0 0 1-.75.75zM.75 6.75a.75.75 0 0 1 .75.75c0 .413.336.75.75.75h7.19l-.97-.97a.75.75 0 1 1 1.06-1.06l2.25 2.25a.75.75 0 0 1 0 1.06l-2.25 2.25a.75.75 0 1 1-1.06-1.06l.97-.97H2.25C1.01 9.75 0 8.74 0 7.5a.75.75 0 0 1 .75-.75z"/>
-      </template>
+      <template v-if="name=='retake'">
+        <polyline points="17 1 21 5 17 9"></polyline>
+        <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+        <polyline points="7 23 3 19 7 15"></polyline>
+        <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+        </template>
       <template v-else-if="name=='calendar'">
-        <path :fill="dark" fill-rule="evenodd" d="M19 2h-3V1a1 1 0 1 0-2 0v1H6V1a1 1 0 1 0-2 0v1H1a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zM2 18h16V8H2v10zM2 6h16V4H2v2zm4 4a1 1 0 1 0 0 2 1 1 0 1 0 0-2m0 4a1 1 0 1 0 0 2 1 1 0 1 0 0-2m4 0a1 1 0 1 0 0 2 1 1 0 1 0 0-2m0-4a1 1 0 1 0 0 2 1 1 0 1 0 0-2m4 0a1 1 0 1 0 0 2 1 1 0 1 0 0-2"/>
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </template>
+      <template v-else-if="name=='reattempt'">
+        <polyline points="1 4 1 10 7 10"></polyline>
+        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
       </template>
       <template v-else-if="name=='alert'">
-        <path :fill="dark" fill-rule="evenodd"  d="M10.894.508c-.339-.677-1.449-.677-1.789 0l-9 18A.999.999 0 0 0 1 19.957h18a.998.998 0 0 0 .894-1.447l-9-18zM2.618 17.956L10 3.193l7.382 14.764H2.618zm6.382-7a1 1 0 1 0 2 0v-2a1 1 0 1 0-2 0v2zm-.1 4a1.1 1.1 0 1 0 2.2 0 1.1 1.1 0 0 0-2.2 0z"/>
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12" y2="17"></line>
       </template>
       <template v-else-if="name=='info'">
-        <path :fill="dark" fill-rule="evenodd" d="M8 0C3.589 0 0 3.589 0 8s3.589 8 8 8 8-3.589 8-8-3.589-8-8-8m0 14.4A6.407 6.407 0 0 1 1.6 8c0-3.529 2.871-6.4 6.4-6.4 3.529 0 6.4 2.871 6.4 6.4 0 3.529-2.871 6.4-6.4 6.4m.8-4V8a.8.8 0 0 0-.8-.8h-.8a.8.8 0 1 0 0 1.6v2.4a.8.8 0 0 0 .8.8h.8a.8.8 0 1 0 0-1.6M8 5.68a.88.88 0 1 0 0-1.76.88.88 0 0 0 0 1.76"/>
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="16" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12" y2="8"></line>
       </template>
       <template v-else-if="name=='timer'">
-        <path :fill="dark" fill-rule="evenodd" d="M6 12c-3.308 0-6-2.692-6-6s2.692-6 6-6 6 2.692 6 6-2.692 6-6 6M6 1.5A4.505 4.505 0 0 0 1.5 6c0 2.482 2.018 4.5 4.5 4.5s4.5-2.018 4.5-4.5S8.482 1.5 6 1.5m1.5 6.75a.748.748 0 0 1-.53-.22l-1.5-1.5A.748.748 0 0 1 5.25 6V3.75a.75.75 0 1 1 1.5 0v1.94l1.28 1.28a.75.75 0 0 1-.53 1.28"/>
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
       </template>
+      <template v-else-if="name=='lock'">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+      </template>
+      <template v-else-if="name=='square-check'">
+        <polyline points="9 11 12 14 22 4"></polyline>
+        <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+      </template>
+      <template v-else-if="name=='group'">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+        <circle cx="9" cy="7" r="4"></circle>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+      </template>
+
     </svg>
     <span class="sronly" v-if="alttext.length > 0">
       {{ alttext }}
@@ -50,6 +67,8 @@
 </template>
 
 <script>
+// Icon SVG comes from https://feathericons.com/, MIT licensed
+
 export default {
   name: 'Icons',
   data: function() {
@@ -81,6 +100,14 @@ export default {
         case 'medium': return 20
       }
       return 16;
+    },
+    strokewidth () {
+      switch (this.size) {
+        case 'micro': return 2.5
+        case 'small': return 2
+        case 'medium': return 2
+      }
+      return 2;
     }
   }
 }

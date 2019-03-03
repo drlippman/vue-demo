@@ -5,6 +5,8 @@
     </label>
     <input
       :value="value"
+      type="password"
+      autocomplete="off"
       @input="handleInput"
     >
   </div>

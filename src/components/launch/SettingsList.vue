@@ -65,7 +65,7 @@ export default {
     getPointsObj () {
       var settings = store.assessInfo;
       var pointsobj = {
-        icon: 'info',
+        icon: 'square-check',
         str: this.$t('setlist.points_possible', {pts: settings.points_possible})
       }
       return pointsobj;
