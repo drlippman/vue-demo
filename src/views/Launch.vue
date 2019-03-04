@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <p>
+    <p v-if="okToLaunch">
       <button @click="startAssess" class="primary">
         {{ startLabel }}
       </button>
@@ -36,7 +36,7 @@
 import SettingsList from '@/components/launch/SettingsList.vue'
 import PasswordEntry from '@/components/launch/PasswordEntry.vue'
 import GroupEntry from '@/components/launch/GroupEntry.vue'
-import Icons from '@/components/Icons.vue'
+import Icons from '@/components/IconsFA.vue'
 
 import { store, actions } from "../basicstore";
 
@@ -68,6 +68,13 @@ export default {
       } else {
         return this.$t('launch.start_assess')
       }
+    },
+    okToLaunch () {
+      if (this.aInfo.isgroup === 3 && this.aInfo.group_members.length === 0) {
+        // If it's instructor-created groups and not in a group yet
+        return false;
+      }
+      return true;
     }
   },
   methods: {

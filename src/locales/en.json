@@ -45,6 +45,7 @@
   },
   "group": {
     "isgroup": "This is a group assessment.",
+    "needpreset": "You are not yet a member of a group.  Contact your instructor to be added to a group.",
     "members": "Group Members",
     "max": "max {n}",
     "remove": "Remove",

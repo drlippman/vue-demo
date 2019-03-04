@@ -1,7 +1,9 @@
 <template>
   <div>
+    <div>
+      {{ $t('group.isgroup') }}
+    </div>
     <div v-if = "groupMembers.length > 0">
-      {{ $t('group.isgroup') }} <br/>
       {{ $t('group.members') }}
         <span v-if = "showMax">
           ({{ $t('group.max', {n: groupMax}) }})
@@ -20,6 +22,9 @@
           </button>
         </li>
       </ul>
+    </div>
+    <div v-else-if = "isPresetGroups">
+      {{ $t('group.needpreset') }}
     </div>
     <div v-if = "canAddMembers">
       <label for="addtogroup">
@@ -95,6 +100,9 @@ export default {
       return (store.assessInfo.isgroup == 2 &&
         this.groupMembers.length < store.assessInfo.groupmax
       );
+    },
+    isPresetGroups () {
+      return (store.assessInfo.isgroup === 3);
     }
   },
   methods: {

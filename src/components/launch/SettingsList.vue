@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import Icons from '@/components/Icons.vue'
+import Icons from '@/components/IconsFA.vue'
 import { store } from "../../basicstore";
 
 export default {
