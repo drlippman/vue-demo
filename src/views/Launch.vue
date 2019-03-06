@@ -31,7 +31,7 @@
 
 <script>
 /* TODO
-  Pane for previous take scores
+  Pane for previous attempt scores
 */
 import SettingsList from '@/components/launch/SettingsList.vue'
 import PasswordEntry from '@/components/launch/PasswordEntry.vue'
@@ -59,10 +59,10 @@ export default {
       return store.assessInfo
     },
     startLabel () {
-      if (this.aInfo.has_active_take) {
+      if (this.aInfo.has_active_attempt) {
         return this.$t('launch.continue_assess')
       } else if (this.aInfo.submitby == 'by_assessment' &&
-        this.aInfo.prev_takes.length > 0
+        this.aInfo.prev_attempts.length > 0
       ) {
         return this.$t('launch.retake_assess')
       } else {

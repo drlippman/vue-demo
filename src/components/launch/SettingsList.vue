@@ -49,8 +49,8 @@ export default {
         }
 
         //retakes
-        if (settings.submitby == 'by_assessment' && settings.allowed_takes > 1) {
-          out.push(this.getTakeObj());
+        if (settings.submitby == 'by_assessment' && settings.allowed_attempts > 1) {
+          out.push(this.getAttemptsObj());
         }
 
         //time limit
@@ -91,20 +91,23 @@ export default {
       }
       return dateobj;
     },
-    getTakeObj () {
+    getAttemptsObj () {
       var settings = store.assessInfo;
       var mainstr, takesLeftStr, substr, alertstr;
 
-      var takes_left = settings.allowed_takes - settings.prev_takes.length;
-      if (settings.prev_takes.length == 0) {
+      var takes_left = settings.allowed_attempts - settings.prev_attempts.length;
+      if (settings.prev_attempts.length == 0) {
         takesLeftStr = this.$tc('setlist.take', takes_left)
       } else {
         takesLeftStr = this.$tc('setlist.take_more', takes_left)
       }
 
-      if (settings.has_active_take) {
-        mainstr = this.$t('setlist.cur_take', {v: this.$tc('nth', settings.prev_takes.length + 1 )});
-        substr = takesLeftStr + ' ';
+      if (settings.has_active_attempt) {
+        mainstr = this.$t('setlist.attempt_inprogress');
+        substr = this.$t('setlist.cur_attempt_n_of', {
+          n: settings.prev_attempts.length + 1
+          nmax: settings.allowed_attempts
+        }
       } else {
         mainstr = takesLeftStr;
         substr = '';
@@ -118,8 +121,8 @@ export default {
         substr += this.$t('setlist.keep_last')
       }
 
-      if (settings.prev_takes.length > 0 && settings.retake_penalty > 0) {
-        let penalty = settings.prev_takes.length * settings.retake_penalty;
+      if (settings.prev_attempts.length > 0 && settings.retake_penalty > 0) {
+        let penalty = settings.prev_attempts.length * settings.retake_penalty;
         alertstr = this.$t('retake_penalty', {p: penalty})
       }
 
@@ -140,7 +143,7 @@ export default {
       if (settings.timelimit_multiplier > 1) {
         timeobj.sub = this.$t("setlist.timelimit_extend", {time: this.formatTimeLimit(settings.timelimit)});
       }
-      if (settings.has_active_take) {
+      if (settings.has_active_attempt) {
         timeobj.alert = $t('setlistmsg.time_expires', {date: this.$d(new Date(settings.timelimit_expires*1000), 'long')})
       }
       return timeobj;
