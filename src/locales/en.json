@@ -12,6 +12,7 @@
     "hidden": "This assessment is not currently available.",
     "notyet": "This assessment is not yet available.  It will be available {sd} until {ed}.",
     "pastdue": "This assessment was due {ed}.",
+    "needprereq": "You have not yet met the prerequisite requirements to work on this assessment.",
     "latepassn": "You have one LatePass available. | You have {n} LatePass available.",
     "latepass_needed": "You can redeem one LatePass to reopen this assessment until {date} | You can redeem {n} LatePasses to reopen this assessment until {date}",
     "practice_no_latepass": "It is now open for un-graded practice.",

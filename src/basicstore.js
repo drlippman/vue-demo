@@ -33,7 +33,8 @@ export const actions = {
       dataType: 'json',
       data: {
         password: password,
-        new_group_members: new_group_members.join(',')
+        new_group_members: new_group_members.join(','),
+        cur_group: store.assessInfo.stugroupid
       },
       xhrFields: {
         withCredentials: true

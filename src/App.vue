@@ -30,8 +30,8 @@ export default {
   beforeUpdate () {
     //handle routing to launch or closed page if needed
     if (store.assessInfo !== null) {
-      if (store.assessInfo.available == 2 ||
-        (store.assessInfo.available == 3 && store.assessInfo.in_practice)
+      if (store.assessInfo.available == 'yes' ||
+        (store.assessInfo.available == 'practice' && store.assessInfo.in_practice)
       ) {
         //has a currently available assessment or practice session
         if (!this.in_progress) {
