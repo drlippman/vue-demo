@@ -43,7 +43,7 @@ export default {
   },
   methods: {
     triggerOpen (val) {
-      if (typeof val === 'Boolean') {
+      if (typeof val === 'boolean') {
         this.open = val;
       } else {
         this.open = !this.open;

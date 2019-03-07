@@ -63,7 +63,7 @@ import QuestionDetailsPane from '@/components/QuestionDetailsPane.vue';
 import MenuButton from '@/components/MenuButton.vue';
 import Dropdown from '@/components/Dropdown.vue';
 import QuestionListItem from '@/components/QuestionListItem.vue';
-import { store, actions } from '../basicstore';
+import { store } from '../basicstore';
 
 export default {
   name: 'SkipQuestionHeader',

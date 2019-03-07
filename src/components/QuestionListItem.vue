@@ -20,7 +20,7 @@ export default {
   },
   computed: {
     questionClass () {
-      if (this.option.status == 0) {
+      if (this.option.status === 0) {
         // unattempted
         return {
           'icon': 'circle-open',
@@ -34,14 +34,14 @@ export default {
           'class': 'fas fa-circle bluetext qstatusicon',
           'alt': 'Attempted'
         };
-      } else if (this.option.score == 0) {
+      } else if (this.option.score === 0) {
         // wrong
         return {
           'icon': 'circle-x',
           'class': 'fas fa-times-circle redtext qstatusicon',
           'alt': 'Incorrect'
         };
-      } else if (this.option.score == this.option.possible) {
+      } else if (this.option.score === this.option.possible) {
         // full score
         return {
           'icon': 'circle-check',

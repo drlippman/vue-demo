@@ -20,7 +20,7 @@
 import AssessHeader from '@/components/AssessHeader.vue';
 import SkipQuestionHeader from '@/components/SkipQuestionHeader.vue';
 import Question from '@/components/Question.vue';
-import { store, actions } from '../basicstore';
+import { store } from '../basicstore';
 
 export default {
   name: 'skip',

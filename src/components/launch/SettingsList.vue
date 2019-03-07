@@ -1,6 +1,6 @@
 <template>
   <div class="settings-list">
-    <div class="flexrow" v-for="row in settingRows">
+    <div class="flexrow" v-for="(row,index) in settingRows" :key="index">
       <div>
         <icons :name="row.icon" size="small"/>
       </div>
@@ -49,7 +49,7 @@ export default {
         }
 
         // retakes
-        if (settings.submitby == 'by_assessment' && settings.allowed_attempts > 1) {
+        if (settings.submitby === 'by_assessment' && settings.allowed_attempts > 1) {
           out.push(this.getAttemptsObj());
         }
 
@@ -80,7 +80,7 @@ export default {
       if (settings.hasOwnProperty('original_enddate')) {
         var origduedate = this.$d(new Date(settings.original_enddate * 1000), 'long');
         dateobj.sub = this.$t('setlist.originally_due', { date: origduedate });
-        if (settings.extended_with.type == 'latepass') {
+        if (settings.extended_with.type === 'latepass') {
           dateobj.sub += this.$tc('setlist.latepass_used', settings.extended_with.n);
         } else {
           dateobj.sub += this.$t('setlist.extension');
@@ -93,13 +93,13 @@ export default {
     },
     getAttemptsObj () {
       var settings = store.assessInfo;
-      var mainstr, takesLeftStr, substr, alertstr;
+      var mainstr, attemptsLeftStr, substr, alertstr;
 
-      var takes_left = settings.allowed_attempts - settings.prev_attempts.length;
-      if (settings.prev_attempts.length == 0) {
-        takesLeftStr = this.$tc('setlist.take', takes_left);
+      var attemptsLeft = settings.allowed_attempts - settings.prev_attempts.length;
+      if (settings.prev_attempts.length === 0) {
+        attemptsLeftStr = this.$tc('setlist.take', attemptsLeft);
       } else {
-        takesLeftStr = this.$tc('setlist.take_more', takes_left);
+        attemptsLeftStr = this.$tc('setlist.take_more', attemptsLeft);
       }
 
       if (settings.has_active_attempt) {
@@ -109,15 +109,15 @@ export default {
           nmax: settings.allowed_attempts
         });
       } else {
-        mainstr = takesLeftStr;
+        mainstr = attemptsLeftStr;
         substr = '';
       }
 
-      if (settings.keepscore == 'best') {
+      if (settings.keepscore === 'best') {
         substr += this.$t('setlist.keep_highest');
-      } else if (settings.keepscore == 'average') {
+      } else if (settings.keepscore === 'average') {
         substr += this.$t('setlist.keep_highest');
-      } else if (settings.keepscore == 'last') {
+      } else if (settings.keepscore === 'last') {
         substr += this.$t('setlist.keep_last');
       }
 
@@ -144,7 +144,9 @@ export default {
         timeobj.sub = this.$t('setlist.timelimit_extend', { time: this.formatTimeLimit(settings.timelimit) });
       }
       if (settings.has_active_attempt) {
-        timeobj.alert = $t('setlistmsg.time_expires', { date: this.$d(new Date(settings.timelimit_expires * 1000), 'long') });
+        timeobj.alert = this.$t('setlistmsg.time_expires', {
+          date: this.$d(new Date(settings.timelimit_expires * 1000), 'long')
+        });
       }
       return timeobj;
     },
@@ -157,11 +159,11 @@ export default {
         out += this.$tc('hours', hrs);
       }
       if (min > 0) {
-        if (out != '') { out += ' '; }
+        if (out !== '') { out += ' '; }
         out += this.$tc('minutes', min);
       }
       if (sec > 0) {
-        if (out != '') { out += ' '; }
+        if (out !== '') { out += ' '; }
         out += this.$tc('seconds', sec);
       }
       return out;

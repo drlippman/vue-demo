@@ -10,7 +10,7 @@
         </span>
 
       <ul class="no-margin-top">
-        <li v-for = "(member,index) in groupMembers">
+        <li v-for = "(member,index) in groupMembers" :key="index">
           {{ member.name }}
           <button
             class="plain slim subdued"
@@ -30,11 +30,12 @@
       <label for="addtogroup">
         {{ $t('group.add') }}
       </label>
-      <select v-model = "new_member" id="addtogroup">
+      <select v-model = "newMember" id="addtogroup">
         <option value="0">{{ $t('group.select') }}</option>
         <option
           v-for = "user in availableUsers"
           :value = "user.id"
+          :key = "user.id"
         >
           {{ user.name }}
         </option>
@@ -56,8 +57,8 @@ export default {
   name: 'GroupEntry',
   data: function () {
     return {
-      new_member: 0,
-      new_group_members: [] // array of user IDs
+      newMember: 0,
+      newGroupMembers: [] // array of user IDs
     };
   },
   computed: {
@@ -72,9 +73,9 @@ export default {
           new: false
         });
       }
-      for (let i = 0; i < this.new_group_members.length; i++) {
+      for (let i = 0; i < this.newGroupMembers.length; i++) {
         out.push({
-          name: store.assessInfo.group_avail[this.new_group_members[i]],
+          name: store.assessInfo.group_avail[this.newGroupMembers[i]],
           new: true,
           index: i
         });
@@ -84,7 +85,7 @@ export default {
     availableUsers () {
       var out = [];
       for (let userid in store.assessInfo.group_avail) {
-        if (this.new_group_members.indexOf(userid) === -1) {
+        if (this.newGroupMembers.indexOf(userid) === -1) {
           out.push({
             id: userid,
             name: store.assessInfo.group_avail[userid]
@@ -94,10 +95,10 @@ export default {
       return out;
     },
     showMax () {
-      return (store.assessInfo.isgroup == 2);
+      return (store.assessInfo.isgroup === 2);
     },
     canAddMembers () {
-      return (store.assessInfo.isgroup == 2 &&
+      return (store.assessInfo.isgroup === 2 &&
         this.groupMembers.length < store.assessInfo.groupmax
       );
     },
@@ -107,18 +108,18 @@ export default {
   },
   methods: {
     removeMember (index) {
-      this.new_group_members.splice(index, 1);
+      this.newGroupMembers.splice(index, 1);
       this.handleChange();
     },
     addMember () {
-      if (this.new_member > 0) {
-        this.new_group_members.push(this.new_member);
-        this.new_member = 0;
+      if (this.newMember > 0) {
+        this.newGroupMembers.push(this.newMember);
+        this.newMember = 0;
         this.handleChange();
       }
     },
     handleChange () {
-      this.$emit('update-new-group', this.new_group_members);
+      this.$emit('update-new-group', this.newGroupMembers);
     }
   }
 };

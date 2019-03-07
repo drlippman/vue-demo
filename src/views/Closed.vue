@@ -10,10 +10,10 @@
       {{ latepassExtendMsg }}
     </p>
 
-    <p v-if="settings.available == 'practice' && settings.can_use_latepass == 0">
+    <p v-if="settings.available === 'practice' && settings.can_use_latepass === 0">
       {{ $t('closed.practice_no_latepass') }}
     </p>
-    <p v-else-if="settings.available == 'practice' && settings.can_use_latepass > 0">
+    <p v-else-if="settings.available === 'practice' && settings.can_use_latepass > 0">
       {{ $t('closed.practice_w_latepass') }}
       <br/>
       <icons name="alert" size="micro" />
@@ -53,7 +53,7 @@
 // TODO: list previous attempts and scores when appropriate
 
 import Icons from '@/components/Icons.vue';
-import { store, actions } from '../basicstore';
+import { store } from '../basicstore';
 
 export default {
   name: 'Closed',
@@ -65,21 +65,22 @@ export default {
       return store.assessInfo;
     },
     closedMessage () {
-      if (this.settings.available == 'hidden') {
+      if (this.settings.available === 'hidden') {
         // hard hidden
         return this.$t('closed.hidden');
-      } else if (this.settings.available == 'notyet') {
+      } else if (this.settings.available === 'notyet') {
         // not yet available
         return this.$t('closed.notyet', {
           sd: this.$d(new Date(this.settings.startdate * 1000), 'long'),
-          sd: this.$d(new Date(this.settings.enddate * 1000), 'long')
+          ed: this.$d(new Date(this.settings.enddate * 1000), 'long')
         });
-      } else if (this.settings.available == 'practice' || this.settings.available == 'pastdue') {
+      } else if (this.settings.available === 'practice' || this.settings.available === 'pastdue') {
         // past due
         return this.$t('closed.pastdue', { ed: this.$d(new Date(this.settings.enddate * 1000), 'long') });
-      } else if (this.settings.available == 'needprereq') {
+      } else if (this.settings.available === 'needprereq') {
         return this.$t('closed.needprereq');
       }
+      return '';
     },
     latepassExtendMsg () {
       return this.$tc('closed.latepass_needed', this.settings.can_use_latepass, {
@@ -90,7 +91,7 @@ export default {
     primaryButton () {
       if (this.settings.can_use_latepass > 0) {
         return this.$tc('closed.use_latepass', this.settings.can_use_latepass);
-      } else if (this.settings.available == 'practice') {
+      } else if (this.settings.available === 'practice') {
         return this.$t('closed.do_practice');
       } else if (this.canViewScored) {
         return this.$t('closed.view_scored');
@@ -100,7 +101,7 @@ export default {
     },
     secondaryButton () {
       // Practice is secondary if we can use latepass
-      if (this.settings.can_use_latepass > 0 && this.settings.available == 'practice') {
+      if (this.settings.can_use_latepass > 0 && this.settings.available === 'practice') {
         return this.$t('closed.do_practice');
       } else {
         return '';
@@ -108,8 +109,8 @@ export default {
     },
     canViewScored () {
       return (this.settings.is_lti &&
-        this.settings.viewingb != 'never' &&
-        (this.settings.available == 'practice' || this.settings.available == 'pastdue')
+        this.settings.viewingb !== 'never' &&
+        (this.settings.available === 'practice' || this.settings.available === 'pastdue')
       );
     }
   },
@@ -117,7 +118,7 @@ export default {
     handlePrimary () {
       if (this.settings.can_use_latepass > 0) {
         // redeem latepass
-      } else if (this.settings.available == 'practice') {
+      } else if (this.settings.available === 'practice') {
         // start practice mode
       } else if (this.canViewScored) {
 
@@ -126,10 +127,10 @@ export default {
       }
     },
     handleSecondary () {
-      if (this.settings.can_use_latepass == 0 ||
+      if (this.settings.can_use_latepass === 0 ||
         window.confirm(this.$t('closed.confirm'))
       ) {
-        if (this.settings.available == 'practice') {
+        if (this.settings.available === 'practice') {
           // start practice mode
         }
       }

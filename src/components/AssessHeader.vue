@@ -37,18 +37,14 @@
 
 <script>
 import Timer from '@/components/Timer.vue';
-import ResourcePane from '@/components/ResourcePane.vue';
-import Dropdown from '@/components/Dropdown.vue';
 import MenuButton from '@/components/MenuButton.vue';
-import { store, actions } from '../basicstore';
+import { store } from '../basicstore';
 
 export default {
   name: 'AssessHeader',
   components: {
     Timer,
-    Dropdown,
-    MenuButton,
-    ResourcePane
+    MenuButton
   },
   data: function () {
     return {

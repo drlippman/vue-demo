@@ -13,7 +13,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(part,index) in qInfo.parts">
+          <tr v-for="(part,index) in qInfo.parts" :key="index">
             <td>{{ index + 1 }}</td>
             <td v-if="showScore">{{ part.score }}/{{ part.possible }}</td>
             <td>{{ part.attempt }}/{{ part.totattempts }}</td>
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { store, actions } from '../basicstore';
+import { store } from '../basicstore';
 
 export default {
   name: 'QuestionDetailPane',

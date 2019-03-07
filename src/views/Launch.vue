@@ -38,7 +38,7 @@ import PasswordEntry from '@/components/launch/PasswordEntry.vue';
 import GroupEntry from '@/components/launch/GroupEntry.vue';
 import Icons from '@/components/Icons.vue';
 
-import { store, actions } from '../basicstore';
+import { store } from '../basicstore';
 
 export default {
   name: 'Launch',
@@ -51,7 +51,7 @@ export default {
   data: function () {
     return {
       password: '',
-      new_group_members: []
+      newGroupMembers: []
     };
   },
   computed: {
@@ -61,7 +61,7 @@ export default {
     startLabel () {
       if (this.aInfo.has_active_attempt) {
         return this.$t('launch.continue_assess');
-      } else if (this.aInfo.submitby == 'by_assessment' &&
+      } else if (this.aInfo.submitby === 'by_assessment' &&
         this.aInfo.prev_attempts.length > 0
       ) {
         return this.$t('launch.retake_assess');
@@ -80,11 +80,11 @@ export default {
   methods: {
     startAssess () {
       console.log(this.password);
-      console.log(this.new_group_members.toString());
+      console.log(this.newGroupMembers.toString());
       // this.$router.push('/skip/1')
     },
-    updateNewGroup (new_members) {
-      this.new_group_members = new_members;
+    updateNewGroup (newMembers) {
+      this.newGroupMembers = newMembers;
     }
   }
 };

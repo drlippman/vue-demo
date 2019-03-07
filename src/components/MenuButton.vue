@@ -99,7 +99,7 @@ export default {
       }
     },
     toggleOpen (val) {
-      if (typeof val === 'Boolean') {
+      if (typeof val === 'boolean') {
         this.open = val;
       } else {
         this.open = !this.open;
@@ -136,9 +136,9 @@ export default {
     handleUpDown (val) {
       if (!this.open) {
         this.toggleOpen();
-        if (val == 1) {
+        if (val === 1) {
           this.curSelected = 0;
-        } else if (val == -1) {
+        } else if (val === -1) {
           this.curSelected = this.options.length - 1;
         }
       } else {
@@ -147,7 +147,7 @@ export default {
       this.$nextTick(() => { document.getElementById(this.id + '_' + this.curSelected).focus(); });
     },
     processKeyBuffer (clear) {
-      if (this.keybuffer != '') {
+      if (this.keybuffer !== '') {
         let regex = new RegExp('^' + this.keybuffer, 'i');
         for (let i in this.options) {
           let val = this.options[i][this.searchby].toString();
@@ -165,9 +165,9 @@ export default {
     handleKeys (event) {
       if (this.open) {
         let key = event.key.toLowerCase();
-        if (key == 'home') {
+        if (key === 'home') {
           this.curSelected = 0;
-        } else if (key == 'end') {
+        } else if (key === 'end') {
           this.curSelected = this.options.length - 1;
         } else if (!!this.searchby && this.options[0].hasOwnProperty(this.searchby) && ((key >= '0' && key <= '9') || (key >= 'a' && key <= 'z'))) {
           this.keybuffer += key;

@@ -40,8 +40,8 @@ export default {
   },
   updated () {
     if (this.questionContentLoaded) {
-      setTimeout(drawPics, 100);
-      rendermathnode(document.getElementById('questionwrap' + this.qn));
+      setTimeout(window.drawPics, 100);
+      window.rendermathnode(document.getElementById('questionwrap' + this.qn));
     } else {
       this.loadQuestionIfNeeded();
     }

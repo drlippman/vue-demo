@@ -5,7 +5,7 @@
     </div>
     <div class="pane-body">
       <ul id="resource-list">
-        <li v-for="curResource in assessResources">
+        <li v-for="(curResource,index) in assessResources" :key="index">
           <a :href="curResource.url" target="_blank">
             {{ curResource.title }}
           </a>
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { store, actions } from '../basicstore';
+import { store } from '../basicstore';
 
 export default {
   name: 'ResourcePane',

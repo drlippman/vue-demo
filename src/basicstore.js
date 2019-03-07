@@ -25,7 +25,7 @@ export const actions = {
         store.inTransit = false;
       });
   },
-  startAssess (password, new_group_members) {
+  startAssess (password, newGroupMembers) {
     store.inTransit = true;
     window.$.ajax({
       url: store.APIbase + 'startassess.php?cid=' + store.cid + '&aid=' + store.aid,
@@ -33,7 +33,7 @@ export const actions = {
       dataType: 'json',
       data: {
         password: password,
-        new_group_members: new_group_members.join(','),
+        new_group_members: newGroupMembers.join(','),
         cur_group: store.assessInfo.stugroupid
       },
       xhrFields: {
@@ -47,10 +47,10 @@ export const actions = {
         // route to correct display
         if (response.has_active_attempt) {
           let queryString = '?cid=' + store.cid + '&aid=' + store.aid;
-          if (response.displaymethod == 'skip') {
-            this.$router.history.push('/skip/0' + this.queryString);
-          } else if (response.displaymethod == 'full') {
-            this.$router.history.push('/full' + this.queryString);
+          if (response.displaymethod === 'skip') {
+            this.$router.history.push('/skip/0' + queryString);
+          } else if (response.displaymethod === 'full') {
+            this.$router.history.push('/full' + queryString);
           }
         }
       })
