@@ -11,7 +11,7 @@ module.exports = {
       enableInSFC: false
     }
   }
-  /*chainWebpack: config => {
+  /* chainWebpack: config => {
     config.module
       .rule('i18n')
       .resourceQuery(/blockType=i18n/)
@@ -24,4 +24,4 @@ module.exports = {
         })
   }
   */
-}
+};

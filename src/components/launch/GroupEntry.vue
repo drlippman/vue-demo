@@ -50,15 +50,15 @@
 </template>
 
 <script>
-import { store } from "../../basicstore";
+import { store } from '../../basicstore';
 
 export default {
   name: 'GroupEntry',
-  data: function() {
+  data: function () {
     return {
       new_member: 0,
-      new_group_members: [] //array of user IDs
-    }
+      new_group_members: [] // array of user IDs
+    };
   },
   computed: {
     groupMax () {
@@ -66,18 +66,18 @@ export default {
     },
     groupMembers () {
       var out = [];
-      for (let i=0; i < store.assessInfo.group_members.length; i++) {
+      for (let i = 0; i < store.assessInfo.group_members.length; i++) {
         out.push({
           name: store.assessInfo.group_members[i],
           new: false
-        })
+        });
       }
-      for (let i=0; i < this.new_group_members.length; i++) {
+      for (let i = 0; i < this.new_group_members.length; i++) {
         out.push({
           name: store.assessInfo.group_avail[this.new_group_members[i]],
           new: true,
           index: i
-        })
+        });
       }
       return out;
     },
@@ -94,7 +94,7 @@ export default {
       return out;
     },
     showMax () {
-      return (store.assessInfo.isgroup == 2)
+      return (store.assessInfo.isgroup == 2);
     },
     canAddMembers () {
       return (store.assessInfo.isgroup == 2 &&
@@ -121,5 +121,5 @@ export default {
       this.$emit('update-new-group', this.new_group_members);
     }
   }
-}
+};
 </script>

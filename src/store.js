@@ -1,9 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-//import VueResource from 'vue-resource'
+import Vue from 'vue';
+import Vuex from 'vuex';
+// import VueResource from 'vue-resource'
 
-Vue.use(Vuex)
-//Vue.use(VueResource)
+Vue.use(Vuex);
+// Vue.use(VueResource)
 
 export default new Vuex.Store({
   state: {
@@ -14,11 +14,11 @@ export default new Vuex.Store({
       state.assessInfo = payload;
     },
     setQuestionHtml (state, payload) {
-      state.assessInfo.questions[payload.qn].html = payload.html
+      state.assessInfo.questions[payload.qn].html = payload.html;
     },
     updateQuestionData (state, payload) {
       for (let key in payload) {
-        state.assessInfo.questions[payload.qn][key] = payload[key]
+        state.assessInfo.questions[payload.qn][key] = payload[key];
       }
     }
   },
@@ -28,10 +28,10 @@ export default new Vuex.Store({
         url: process.env.BASE_URL + 'data/assessdata.json',
         dataType: 'json'
       })
-      .done(response => {
-        context.commit('setAssessData', response);
-      })
-      /*Vue.http.get(process.env.BASE_URL + 'data/assessdata.json')
+        .done(response => {
+          context.commit('setAssessData', response);
+        });
+      /* Vue.http.get(process.env.BASE_URL + 'data/assessdata.json')
         .then(response => {
           return response.json()
         }, error => {
@@ -47,9 +47,9 @@ export default new Vuex.Store({
         url: process.env.BASE_URL + 'data/getq' + qn + '.json',
         dataType: 'json'
       })
-      .done(response => {
-        context.commit('setQuestionHtml', response);
-      })
+        .done(response => {
+          context.commit('setQuestionHtml', response);
+        });
       /*
       Vue.http.get(process.env.BASE_URL + 'data/getq' + qn + '.json')
         .then(response => {
@@ -63,7 +63,7 @@ export default new Vuex.Store({
         */
     },
     submitQuestion (context, qn) {
-      /*Vue.http.get(process.env.BASE_URL + 'data/scoreq' + qn + '.json')
+      /* Vue.http.get(process.env.BASE_URL + 'data/scoreq' + qn + '.json')
         .then(response => {
           return response.json()
         }, error => {
@@ -73,13 +73,13 @@ export default new Vuex.Store({
           context.commit('updateQuestionData', json)
         })
         */
-        window.$.ajax({
-          url: process.env.BASE_URL + 'data/scoreq' + qn + '.json',
-          dataType: 'json'
-        })
+      window.$.ajax({
+        url: process.env.BASE_URL + 'data/scoreq' + qn + '.json',
+        dataType: 'json'
+      })
         .done(response => {
           context.commit('setQuestionHtml', response);
-        })
+        });
     }
   }
-})
+});

@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import Icons from '@/components/IconsFA.vue'
-import { store } from "../../basicstore";
+import Icons from '@/components/Icons.vue';
+import { store } from '../../basicstore';
 
 export default {
   name: 'SettingsList',
@@ -30,7 +30,7 @@ export default {
     Icons
   },
   computed: {
-    settingRows() {
+    settingRows () {
       var out = [];
       var settings = store.assessInfo;
 
@@ -38,22 +38,22 @@ export default {
         out.push({
           icon: 'alert',
           str: this.$t('setlist.practice')
-        })
+        });
       } else {
-        //points possible
+        // points possible
         out.push(this.getPointsObj());
 
-        //due date
+        // due date
         if (settings.enddate < 2000000000) {
           out.push(this.getDateObj());
         }
 
-        //retakes
+        // retakes
         if (settings.submitby == 'by_assessment' && settings.allowed_attempts > 1) {
           out.push(this.getAttemptsObj());
         }
 
-        //time limit
+        // time limit
         if (settings.timelimit > 0) {
           out.push(this.getTimelimitObj());
         }
@@ -66,27 +66,27 @@ export default {
       var settings = store.assessInfo;
       var pointsobj = {
         icon: 'square-check',
-        str: this.$t('setlist.points_possible', {pts: settings.points_possible})
-      }
+        str: this.$t('setlist.points_possible', { pts: settings.points_possible })
+      };
       return pointsobj;
     },
     getDateObj () {
       var settings = store.assessInfo;
-      var duedate = this.$d(new Date(settings.enddate*1000), 'long');
+      var duedate = this.$d(new Date(settings.enddate * 1000), 'long');
       var dateobj = {
         icon: 'calendar',
-        str: this.$t('setlist.due_at', {date: duedate})
-      }
+        str: this.$t('setlist.due_at', { date: duedate })
+      };
       if (settings.hasOwnProperty('original_enddate')) {
-        var origduedate = this.$d(new Date(settings.original_enddate*1000), 'long');
-        dateobj.sub = this.$t('setlist.originally_due', {date: origduedate});
+        var origduedate = this.$d(new Date(settings.original_enddate * 1000), 'long');
+        dateobj.sub = this.$t('setlist.originally_due', { date: origduedate });
         if (settings.extended_with.type == 'latepass') {
           dateobj.sub += this.$tc('setlist.latepass_used', settings.extended_with.n);
         } else {
           dateobj.sub += this.$t('setlist.extension');
         }
         if (settings.exceptionpenalty > 0) {
-          dateobj.alert = this.$t('setlist.penalty', {p: settings.exceptionpenalty})
+          dateobj.alert = this.$t('setlist.penalty', { p: settings.exceptionpenalty });
         }
       }
       return dateobj;
@@ -97,33 +97,33 @@ export default {
 
       var takes_left = settings.allowed_attempts - settings.prev_attempts.length;
       if (settings.prev_attempts.length == 0) {
-        takesLeftStr = this.$tc('setlist.take', takes_left)
+        takesLeftStr = this.$tc('setlist.take', takes_left);
       } else {
-        takesLeftStr = this.$tc('setlist.take_more', takes_left)
+        takesLeftStr = this.$tc('setlist.take_more', takes_left);
       }
 
       if (settings.has_active_attempt) {
         mainstr = this.$t('setlist.attempt_inprogress');
         substr = this.$t('setlist.cur_attempt_n_of', {
-          n: settings.prev_attempts.length + 1
+          n: settings.prev_attempts.length + 1,
           nmax: settings.allowed_attempts
-        }
+        });
       } else {
         mainstr = takesLeftStr;
         substr = '';
       }
 
       if (settings.keepscore == 'best') {
-        substr += this.$t('setlist.keep_highest')
+        substr += this.$t('setlist.keep_highest');
       } else if (settings.keepscore == 'average') {
-        substr += this.$t('setlist.keep_highest')
+        substr += this.$t('setlist.keep_highest');
       } else if (settings.keepscore == 'last') {
-        substr += this.$t('setlist.keep_last')
+        substr += this.$t('setlist.keep_last');
       }
 
       if (settings.prev_attempts.length > 0 && settings.retake_penalty > 0) {
         let penalty = settings.prev_attempts.length * settings.retake_penalty;
-        alertstr = this.$t('retake_penalty', {p: penalty})
+        alertstr = this.$t('retake_penalty', { p: penalty });
       }
 
       return {
@@ -131,7 +131,7 @@ export default {
         str: mainstr,
         sub: substr,
         alert: alertstr
-      }
+      };
     },
     getTimelimitObj () {
       var settings = store.assessInfo;
@@ -139,35 +139,35 @@ export default {
         icon: 'timer'
       };
       var mytime = settings.timelimit * settings.timelimit_multiplier;
-      timeobj.str = this.$t("setlist.timelimit", {time: this.formatTimeLimit(mytime)});
+      timeobj.str = this.$t('setlist.timelimit', { time: this.formatTimeLimit(mytime) });
       if (settings.timelimit_multiplier > 1) {
-        timeobj.sub = this.$t("setlist.timelimit_extend", {time: this.formatTimeLimit(settings.timelimit)});
+        timeobj.sub = this.$t('setlist.timelimit_extend', { time: this.formatTimeLimit(settings.timelimit) });
       }
       if (settings.has_active_attempt) {
-        timeobj.alert = $t('setlistmsg.time_expires', {date: this.$d(new Date(settings.timelimit_expires*1000), 'long')})
+        timeobj.alert = $t('setlistmsg.time_expires', { date: this.$d(new Date(settings.timelimit_expires * 1000), 'long') });
       }
       return timeobj;
     },
     formatTimeLimit (time) {
-      let hrs = Math.floor(time/3600);
-      let min = Math.floor(time/60) - hrs*60;
-      let sec = time - 60*min - 3600*hrs;
+      let hrs = Math.floor(time / 3600);
+      let min = Math.floor(time / 60) - hrs * 60;
+      let sec = time - 60 * min - 3600 * hrs;
       let out = '';
       if (hrs > 0) {
-        out += this.$tc("hours", hrs);
+        out += this.$tc('hours', hrs);
       }
       if (min > 0) {
-        if (out != '') { out += ' '}
-        out += this.$tc("minutes", min);
+        if (out != '') { out += ' '; }
+        out += this.$tc('minutes', min);
       }
       if (sec > 0) {
-        if (out != '') { out += ' '}
-        out += this.$tc("seconds", sec);
+        if (out != '') { out += ' '; }
+        out += this.$tc('seconds', sec);
       }
       return out;
     }
   }
-}
+};
 </script>
 
 <style>

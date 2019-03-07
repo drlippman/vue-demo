@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import Icons from '@/components/Icons.vue'
+import Icons from '@/components/Icons.vue';
 
 export default {
   name: 'QuestionListItem',
@@ -21,54 +21,54 @@ export default {
   computed: {
     questionClass () {
       if (this.option.status == 0) {
-        //unattempted
+        // unattempted
         return {
-          "icon": "circle-open",
-          "class": "far fa-circle bluetext qstatusicon",
-          "alt": "Unattempted"
-        }
+          'icon': 'circle-open',
+          'class': 'far fa-circle bluetext qstatusicon',
+          'alt': 'Unattempted'
+        };
       } else if (!this.option.hasOwnProperty('score')) {
-        //attempted, but no score info
-        return  {
-          "icon": "circle-filled",
-          "class": "fas fa-circle bluetext qstatusicon",
-          "alt": "Attempted"
-        }
+        // attempted, but no score info
+        return {
+          'icon': 'circle-filled',
+          'class': 'fas fa-circle bluetext qstatusicon',
+          'alt': 'Attempted'
+        };
       } else if (this.option.score == 0) {
-        //wrong
-        return  {
-          "icon": "circle-x",
-          "class": "fas fa-times-circle redtext qstatusicon",
-          "alt": "Incorrect"
-        }
+        // wrong
+        return {
+          'icon': 'circle-x',
+          'class': 'fas fa-times-circle redtext qstatusicon',
+          'alt': 'Incorrect'
+        };
       } else if (this.option.score == this.option.possible) {
-        //full score
-        return  {
-          "icon": "circle-check",
-          "class": "fas fa-check-circle greentext qstatusicon",
-          "alt": "Correct"
-        }
+        // full score
+        return {
+          'icon': 'circle-check',
+          'class': 'fas fa-check-circle greentext qstatusicon',
+          'alt': 'Correct'
+        };
       } else {
-        //partial score
-        return  {
-          "icon": "circle-filled",
-          "class": "fas fa-dot-circle orangetext qstatusicon",
-          "alt": "Partially correct"
-        }
+        // partial score
+        return {
+          'icon': 'circle-filled',
+          'class': 'fas fa-dot-circle orangetext qstatusicon',
+          'alt': 'Partially correct'
+        };
       }
     },
     scoreDisplay () {
       if (!this.option.hasOwnProperty('score')) {
         return '';
       } else {
-        let str = this.option.canreattempt ? '(':'[';
+        let str = this.option.canreattempt ? '(' : '[';
         str += this.option.score + '/' + this.option.possible;
-        str += this.option.canreattempt ? ')':']';
+        str += this.option.canreattempt ? ')' : ']';
         return str;
       }
     }
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

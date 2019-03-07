@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Launch from './views/Launch.vue'
-import Closed from './views/Closed.vue'
-import Skip from './views/Skip.vue'
+import Vue from 'vue';
+import Router from 'vue-router';
+import Launch from './views/Launch.vue';
+import Closed from './views/Closed.vue';
+import Skip from './views/Skip.vue';
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
   routes: [
@@ -24,4 +24,4 @@ export default new Router({
       component: Skip
     }
   ]
-})
+});

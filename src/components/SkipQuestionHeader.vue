@@ -55,16 +55,15 @@
       <question-details-pane :qn="qn" />
     </dropdown>
 
-
   </div>
 </template>
 
 <script>
-import QuestionDetailsPane from '@/components/QuestionDetailsPane.vue'
-import MenuButton from '@/components/MenuButton.vue'
-import Dropdown from '@/components/Dropdown.vue'
-import QuestionListItem from '@/components/QuestionListItem.vue'
-import { store, actions } from "../basicstore";
+import QuestionDetailsPane from '@/components/QuestionDetailsPane.vue';
+import MenuButton from '@/components/MenuButton.vue';
+import Dropdown from '@/components/Dropdown.vue';
+import QuestionListItem from '@/components/QuestionListItem.vue';
+import { store, actions } from '../basicstore';
 
 export default {
   name: 'SkipQuestionHeader',
@@ -75,28 +74,28 @@ export default {
     MenuButton,
     QuestionListItem
   },
-  data: function() {
+  data: function () {
     return {
 
-    }
+    };
   },
   computed: {
     ainfo () {
-      return store.assessInfo
+      return store.assessInfo;
     },
     curQData () {
-      return store.assessInfo.questions[this.qn]
+      return store.assessInfo.questions[this.qn];
     },
     dispqn () {
-      return parseInt(this.qn)+1;
+      return parseInt(this.qn) + 1;
     },
     navOptions () {
       var out = [];
       for (let qn in store.assessInfo.questions) {
         let qnval = parseInt(qn);
         out[qn] = store.assessInfo.questions[qn];
-        out[qn].link = '/skip/'+(qnval+1);
-        out[qn].dispqn = qnval+1;
+        out[qn].link = '/skip/' + (qnval + 1);
+        out[qn].dispqn = qnval + 1;
       }
       return out;
     },
@@ -109,10 +108,10 @@ export default {
   },
   methods: {
     changeQuestion (newqn) {
-      this.$router.push({path: '/skip/'+newqn})
+      this.$router.push({ path: '/skip/' + newqn });
     }
   }
-}
+};
 </script>
 
 <style>

@@ -33,12 +33,12 @@
 /* TODO
   Pane for previous attempt scores
 */
-import SettingsList from '@/components/launch/SettingsList.vue'
-import PasswordEntry from '@/components/launch/PasswordEntry.vue'
-import GroupEntry from '@/components/launch/GroupEntry.vue'
-import Icons from '@/components/IconsFA.vue'
+import SettingsList from '@/components/launch/SettingsList.vue';
+import PasswordEntry from '@/components/launch/PasswordEntry.vue';
+import GroupEntry from '@/components/launch/GroupEntry.vue';
+import Icons from '@/components/Icons.vue';
 
-import { store, actions } from "../basicstore";
+import { store, actions } from '../basicstore';
 
 export default {
   name: 'Launch',
@@ -48,25 +48,25 @@ export default {
     GroupEntry,
     Icons
   },
-  data: function() {
+  data: function () {
     return {
       password: '',
       new_group_members: []
-    }
+    };
   },
   computed: {
     aInfo () {
-      return store.assessInfo
+      return store.assessInfo;
     },
     startLabel () {
       if (this.aInfo.has_active_attempt) {
-        return this.$t('launch.continue_assess')
+        return this.$t('launch.continue_assess');
       } else if (this.aInfo.submitby == 'by_assessment' &&
         this.aInfo.prev_attempts.length > 0
       ) {
-        return this.$t('launch.retake_assess')
+        return this.$t('launch.retake_assess');
       } else {
-        return this.$t('launch.start_assess')
+        return this.$t('launch.start_assess');
       }
     },
     okToLaunch () {
@@ -81,11 +81,11 @@ export default {
     startAssess () {
       console.log(this.password);
       console.log(this.new_group_members.toString());
-      //this.$router.push('/skip/1')
+      // this.$router.push('/skip/1')
     },
     updateNewGroup (new_members) {
       this.new_group_members = new_members;
     }
   }
-}
+};
 </script>

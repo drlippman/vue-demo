@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import AssessHeader from '@/components/AssessHeader.vue'
-import SkipQuestionHeader from '@/components/SkipQuestionHeader.vue'
-import Question from '@/components/Question.vue'
-import { store, actions } from "../basicstore";
+import AssessHeader from '@/components/AssessHeader.vue';
+import SkipQuestionHeader from '@/components/SkipQuestionHeader.vue';
+import Question from '@/components/Question.vue';
+import { store, actions } from '../basicstore';
 
 export default {
   name: 'skip',
@@ -31,17 +31,17 @@ export default {
   },
   computed: {
     qn () {
-      return parseInt(this.$route.params.qn)-1
+      return parseInt(this.$route.params.qn) - 1;
     },
     questionArray () {
-      let qnArray = {}
+      let qnArray = {};
       for (let i = 0; i < store.assessInfo.questions.length; i++) {
-        qnArray[i] = i
+        qnArray[i] = i;
       }
-      return qnArray
+      return qnArray;
     }
   }
-}
+};
 </script>
 
 <style>

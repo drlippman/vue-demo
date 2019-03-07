@@ -12,49 +12,49 @@
 </template>
 
 <script>
-import { store, actions } from "../basicstore";
+import { store, actions } from '../basicstore';
 
 export default {
   name: 'Question',
   props: ['qn', 'active'],
   computed: {
     questionData () {
-      return store.assessInfo.questions[this.qn]
+      return store.assessInfo.questions[this.qn];
     },
     questionContentLoaded () {
-      return (this.questionData.html !== null)
+      return (this.questionData.html !== null);
     },
     submitLabel () {
-      return 'Check Answer'
+      return 'Check Answer';
     }
   },
   methods: {
     loadQuestionIfNeeded () {
       if (!this.questionContentLoaded && this.active) {
-        actions.loadQuestion(this.qn)
+        actions.loadQuestion(this.qn);
       }
     },
     submitQuestion () {
-      actions.submitQuestion(this.qn)
+      actions.submitQuestion(this.qn);
     }
   },
   updated () {
     if (this.questionContentLoaded) {
-      setTimeout(drawPics, 100)
-      rendermathnode(document.getElementById("questionwrap" + this.qn))
+      setTimeout(drawPics, 100);
+      rendermathnode(document.getElementById('questionwrap' + this.qn));
     } else {
-      this.loadQuestionIfNeeded()
+      this.loadQuestionIfNeeded();
     }
   },
   created () {
-    this.loadQuestionIfNeeded()
+    this.loadQuestionIfNeeded();
   },
   watch: {
     active: function (newVal, oldVal) {
-      this.loadQuestionIfNeeded()
+      this.loadQuestionIfNeeded();
     }
   }
-}
+};
 </script>
 <style>
 input[type=text] {

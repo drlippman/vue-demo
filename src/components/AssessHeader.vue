@@ -36,11 +36,11 @@
 </template>
 
 <script>
-import Timer from '@/components/Timer.vue'
-import ResourcePane from '@/components/ResourcePane.vue'
-import Dropdown from '@/components/Dropdown.vue'
-import MenuButton from '@/components/MenuButton.vue'
-import { store, actions } from "../basicstore";
+import Timer from '@/components/Timer.vue';
+import ResourcePane from '@/components/ResourcePane.vue';
+import Dropdown from '@/components/Dropdown.vue';
+import MenuButton from '@/components/MenuButton.vue';
+import { store, actions } from '../basicstore';
 
 export default {
   name: 'AssessHeader',
@@ -50,21 +50,21 @@ export default {
     MenuButton,
     ResourcePane
   },
-  data: function() {
+  data: function () {
     return {
       resourceMenuShowing: false
-    }
+    };
   },
   created () {
-    //temporary for demo purposes
+    // temporary for demo purposes
     if (store.assessInfo.timelimit > 0) {
       let now = new Date().getTime();
-      store.assessInfo.timeExpires = now + 1000*60*store.assessInfo.timelimit;
+      store.assessInfo.timeExpires = now + 1000 * 60 * store.assessInfo.timelimit;
     }
   },
   computed: {
     ainfo () {
-      return store.assessInfo
+      return store.assessInfo;
     },
     curScore () {
       let pointsPossible = 0;
@@ -73,23 +73,23 @@ export default {
         pointsPossible += this.ainfo.questions[i].possible;
         pointsEarned += this.ainfo.questions[i].score;
       }
-      return 'Score: ' + pointsEarned + '/' + pointsPossible
+      return 'Score: ' + pointsEarned + '/' + pointsPossible;
     },
     curAnswered () {
       let qAnswered = 0;
       let nQuestions = this.ainfo.questions.length;
       for (let i in this.ainfo.questions) {
-        if (this.ainfo.questions[i].status>0) {
+        if (this.ainfo.questions[i].status > 0) {
           qAnswered++;
         }
       }
-      return qAnswered + '/' + nQuestions + ' answered'
+      return qAnswered + '/' + nQuestions + ' answered';
     },
     assessSubmitLabel () {
-      return 'Submit Assessment'
+      return 'Submit Assessment';
     }
   }
-}
+};
 </script>
 
 <style>

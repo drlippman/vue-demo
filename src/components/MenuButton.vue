@@ -53,7 +53,7 @@
 </template>
 
 <script>
-//This menu button follows the patterns recommended at
+// This menu button follows the patterns recommended at
 // https://www.w3.org/TR/wai-aria-practices/examples/menu-button/menu-button-actions-active-descendant.html
 
 export default {
@@ -63,88 +63,88 @@ export default {
     event: 'change'
   },
   props: ['options', 'selected', 'id', 'header', 'nobutton', 'noarrow', 'position', 'searchby'],
-  data: function() {
+  data: function () {
     return {
       open: false,
       curSelected: 0,
       keybuffer: '',
       closetimer: null
-    }
+    };
   },
   computed: {
     hasButton () {
-      return !!this.$scopedSlots['button']
+      return !!this.$scopedSlots['button'];
     },
     hasSlot () {
-      return !!this.$scopedSlots['default']
+      return !!this.$scopedSlots['default'];
     }
   },
   methods: {
-    getLinkProps (option,index) {
-      if (!!option.link) {
+    getLinkProps (option, index) {
+      if (option.link) {
         return {
           is: 'router-link',
           to: option.link,
-          'mouseover.native': ()=>(this.curSelected = index),
+          'mouseover.native': () => (this.curSelected = index),
           'click.native': this.toggleOpen
-        }
+        };
       } else {
         return {
           is: 'a',
           href: option.url,
-          target: "_blank",
-          'mouseover': ()=>(this.curSelected = index),
+          target: '_blank',
+          'mouseover': () => (this.curSelected = index),
           'click': this.toggleOpen
-        }
+        };
       }
     },
     toggleOpen (val) {
-      if (typeof val == "Boolean") {
+      if (typeof val === 'Boolean') {
         this.open = val;
       } else {
         this.open = !this.open;
       }
-      if (this.open) { //now open
-        this.curSelected = !!this.selected?this.selected:0;
+      if (this.open) { // now open
+        this.curSelected = this.selected ? this.selected : 0;
         this.$nextTick(this.setMenuHeight);
         this.$nextTick(this.scrollToCurrent);
-        this.$nextTick(()=>{document.getElementById(this.id + "_" + this.curSelected).focus()});
+        this.$nextTick(() => { document.getElementById(this.id + '_' + this.curSelected).focus(); });
       } else {
-        this.$nextTick(()=>{document.getElementById(this.id).focus()});
+        this.$nextTick(() => { document.getElementById(this.id).focus(); });
       }
     },
     setMenuHeight () {
-      let wrapper = document.getElementById(this.id + "_wrap");
+      let wrapper = document.getElementById(this.id + '_wrap');
       let wrapperHeight = wrapper.clientHeight;
       let wrapperTop = wrapper.getBoundingClientRect().top;
       let windowHeight = window.innerHeight;
       if (wrapperTop + wrapperHeight > windowHeight - 30) {
-        wrapper.style.height = (windowHeight - wrapperTop - 30) + "px";
+        wrapper.style.height = (windowHeight - wrapperTop - 30) + 'px';
       } else {
-        wrapper.style.height = "auto";
+        wrapper.style.height = 'auto';
       }
     },
     scrollToCurrent () {
-      let selectedEl = document.getElementById(this.id + "_" + this.curSelected);
+      let selectedEl = document.getElementById(this.id + '_' + this.curSelected);
       let selectedPos = selectedEl.offsetTop;
       let selectedHeight = selectedEl.clientHeight;
-      let wrapper = document.getElementById(this.id + "_wrap");
+      let wrapper = document.getElementById(this.id + '_wrap');
       let wrapperHeight = wrapper.clientHeight;
-      let offset = selectedPos - (wrapperHeight/2 - selectedHeight/2);
+      let offset = selectedPos - (wrapperHeight / 2 - selectedHeight / 2);
       wrapper.scrollTop = offset;
     },
     handleUpDown (val) {
       if (!this.open) {
         this.toggleOpen();
-        if (val==1) {
-          this.curSelected = 0
-        } else if (val==-1) {
-          this.curSelected = this.options.length-1;
+        if (val == 1) {
+          this.curSelected = 0;
+        } else if (val == -1) {
+          this.curSelected = this.options.length - 1;
         }
       } else {
-        this.curSelected = (this.curSelected + val + this.options.length)%this.options.length;
+        this.curSelected = (this.curSelected + val + this.options.length) % this.options.length;
       }
-      this.$nextTick(()=>{document.getElementById(this.id + "_" + this.curSelected).focus()});
+      this.$nextTick(() => { document.getElementById(this.id + '_' + this.curSelected).focus(); });
     },
     processKeyBuffer (clear) {
       if (this.keybuffer != '') {
@@ -168,24 +168,23 @@ export default {
         if (key == 'home') {
           this.curSelected = 0;
         } else if (key == 'end') {
-          this.curSelected = this.options.length-1;
+          this.curSelected = this.options.length - 1;
         } else if (!!this.searchby && this.options[0].hasOwnProperty(this.searchby) && ((key >= '0' && key <= '9') || (key >= 'a' && key <= 'z'))) {
           this.keybuffer += key;
           this.processKeyBuffer(false);
-          setTimeout(()=>this.processKeyBuffer(true), 300);
+          setTimeout(() => this.processKeyBuffer(true), 300);
         }
       }
     },
     handleBlur () {
-      this.closetimer = setTimeout(() => {this.open = false;}, 50);
+      this.closetimer = setTimeout(() => { this.open = false; }, 50);
     },
     handleFocus () {
       clearTimeout(this.closetimer);
     }
   }
-}
+};
 </script>
-
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>

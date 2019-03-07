@@ -8,46 +8,46 @@
 </template>
 
 <script>
-import { store, actions } from "./basicstore";
+import { store, actions } from './basicstore';
 
 export default {
   data: function () {
     return {
       in_progress: false
-    }
+    };
   },
   computed: {
     assessInfoLoaded () {
-      return (store.assessInfo !== null)
+      return (store.assessInfo !== null);
     },
     assessName () {
-      return store.assessInfo.name
+      return store.assessInfo.name;
     },
     queryString () {
-      return '?cid='+store.cid+'&aid='+store.aid
+      return '?cid=' + store.cid + '&aid=' + store.aid;
     }
   },
   beforeUpdate () {
-    //handle routing to launch or closed page if needed
+    // handle routing to launch or closed page if needed
     if (store.assessInfo !== null) {
       if (store.assessInfo.available == 'yes' ||
         (store.assessInfo.available == 'practice' && store.assessInfo.in_practice)
       ) {
-        //has a currently available assessment or practice session
+        // has a currently available assessment or practice session
         if (!this.in_progress) {
-          this.$router.replace('/'+this.queryString);
+          this.$router.replace('/' + this.queryString);
         }
       } else {
-        //currently closed
-        this.$router.replace('/closed'+this.queryString);
+        // currently closed
+        this.$router.replace('/closed' + this.queryString);
       }
     }
   },
   created () {
     if (typeof window.APIbase !== 'undefined') {
-      store.APIbase = window.APIbase
+      store.APIbase = window.APIbase;
     } else {
-      store.APIbase = process.env.BASE_URL
+      store.APIbase = process.env.BASE_URL;
     }
     store.cid = this.$route.query.cid;
     store.aid = this.$route.query.aid;
@@ -55,7 +55,7 @@ export default {
       actions.loadAssessData();
     }
   }
-}
+};
 </script>
 
 <style>

@@ -50,10 +50,10 @@
 </template>
 
 <script>
-//TODO: list previous attempts and scores when appropriate
+// TODO: list previous attempts and scores when appropriate
 
-import Icons from '@/components/Icons.vue'
-import { store, actions } from "../basicstore";
+import Icons from '@/components/Icons.vue';
+import { store, actions } from '../basicstore';
 
 export default {
   name: 'Closed',
@@ -67,16 +67,16 @@ export default {
     closedMessage () {
       if (this.settings.available == 'hidden') {
         // hard hidden
-        return this.$t('closed.hidden')
+        return this.$t('closed.hidden');
       } else if (this.settings.available == 'notyet') {
         // not yet available
         return this.$t('closed.notyet', {
-          sd: this.$d(new Date(this.settings.startdate*1000), 'long'),
-          sd: this.$d(new Date(this.settings.enddate*1000), 'long')
-        })
+          sd: this.$d(new Date(this.settings.startdate * 1000), 'long'),
+          sd: this.$d(new Date(this.settings.enddate * 1000), 'long')
+        });
       } else if (this.settings.available == 'practice' || this.settings.available == 'pastdue') {
         // past due
-        return this.$t('closed.pastdue', {ed: this.$d(new Date(this.settings.enddate*1000), 'long')})
+        return this.$t('closed.pastdue', { ed: this.$d(new Date(this.settings.enddate * 1000), 'long') });
       } else if (this.settings.available == 'needprereq') {
         return this.$t('closed.needprereq');
       }
@@ -84,33 +84,33 @@ export default {
     latepassExtendMsg () {
       return this.$tc('closed.latepass_needed', this.settings.can_use_latepass, {
         n: this.settings.can_use_latepass,
-        date: this.$d(new Date(this.settings.latepass_extendto*1000), 'long')
-      })
+        date: this.$d(new Date(this.settings.latepass_extendto * 1000), 'long')
+      });
     },
     primaryButton () {
       if (this.settings.can_use_latepass > 0) {
-        return this.$tc('closed.use_latepass', this.settings.can_use_latepass)
+        return this.$tc('closed.use_latepass', this.settings.can_use_latepass);
       } else if (this.settings.available == 'practice') {
-        return this.$t('closed.do_practice')
+        return this.$t('closed.do_practice');
       } else if (this.canViewScored) {
-        return this.$t('closed.view_scored')
+        return this.$t('closed.view_scored');
       } else {
-        return this.$t('closed.exit')
+        return this.$t('closed.exit');
       }
     },
     secondaryButton () {
       // Practice is secondary if we can use latepass
       if (this.settings.can_use_latepass > 0 && this.settings.available == 'practice') {
-        return this.$t('closed.do_practice')
+        return this.$t('closed.do_practice');
       } else {
-        return ''
+        return '';
       }
     },
     canViewScored () {
       return (this.settings.is_lti &&
         this.settings.viewingb != 'never' &&
         (this.settings.available == 'practice' || this.settings.available == 'pastdue')
-      )
+      );
     }
   },
   methods: {
@@ -135,5 +135,5 @@ export default {
       }
     }
   }
-}
+};
 </script>

@@ -30,26 +30,26 @@
 </template>
 
 <script>
-import { store, actions } from "../basicstore";
+import { store, actions } from '../basicstore';
 
 export default {
   name: 'QuestionDetailPane',
   props: ['qn'],
   computed: {
     qInfo () {
-      return store.assessInfo.questions[this.qn]
+      return store.assessInfo.questions[this.qn];
     },
     showScore () {
-      return this.qInfo.hasOwnProperty('score')
+      return this.qInfo.hasOwnProperty('score');
     },
     hasParts () {
-      return this.qInfo.hasOwnProperty('parts')
+      return this.qInfo.hasOwnProperty('parts');
     },
     hasCategory () {
-      return this.qInfo.hasOwnProperty('category')
+      return this.qInfo.hasOwnProperty('category');
     }
   }
-}
+};
 </script>
 <style>
 #qdetails-pane {

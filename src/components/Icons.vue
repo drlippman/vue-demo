@@ -71,46 +71,46 @@
 
 export default {
   name: 'Icons',
-  data: function() {
+  data: function () {
     return {
       id: null,
-      dark: "#000",
-      neutral: "#00a",
-      wrong: "#a00",
-      correct: "#0a0",
-      partial: "#aa0"
-    }
+      dark: '#000',
+      neutral: '#00a',
+      wrong: '#a00',
+      correct: '#0a0',
+      partial: '#aa0'
+    };
   },
   props: ['name', 'size'],
   computed: {
     alttext () {
       switch (this.name) {
-        case 'circle-filled': return 'Attempted'
-        case 'circle-open': return 'Unattempted'
-        case 'circle-half': return 'Partially attempted'
-        case 'circle-x': return 'Incorrect'
-        case 'circle-check': return 'Correct'
+        case 'circle-filled': return 'Attempted';
+        case 'circle-open': return 'Unattempted';
+        case 'circle-half': return 'Partially attempted';
+        case 'circle-x': return 'Incorrect';
+        case 'circle-check': return 'Correct';
       }
-      return ''
+      return '';
     },
     iconwidth () {
       switch (this.size) {
-        case 'micro': return 12
-        case 'small': return 16
-        case 'medium': return 20
+        case 'micro': return 12;
+        case 'small': return 16;
+        case 'medium': return 20;
       }
       return 16;
     },
     strokewidth () {
       switch (this.size) {
-        case 'micro': return 2.5
-        case 'small': return 2
-        case 'medium': return 2
+        case 'micro': return 2.5;
+        case 'small': return 2;
+        case 'medium': return 2;
       }
       return 2;
     }
   }
-}
+};
 </script>
 
 <style>

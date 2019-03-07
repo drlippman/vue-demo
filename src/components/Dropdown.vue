@@ -30,20 +30,20 @@
 </template>
 
 <script>
-//based on https://www.w3.org/TR/wai-aria-practices/#disclosure
+// based on https://www.w3.org/TR/wai-aria-practices/#disclosure
 
 export default {
   name: 'Dropdown',
   props: ['id', 'position'],
-  data: function() {
+  data: function () {
     return {
       open: false,
       closetimer: null
-    }
+    };
   },
   methods: {
     triggerOpen (val) {
-      if (typeof val == "Boolean") {
+      if (typeof val === 'Boolean') {
         this.open = val;
       } else {
         this.open = !this.open;
@@ -53,13 +53,13 @@ export default {
       }
     },
     handleFocusout () {
-      this.closetimer = setTimeout(() => {this.open = false;}, 50);
+      this.closetimer = setTimeout(() => { this.open = false; }, 50);
     },
     handleFocusin () {
       clearTimeout(this.closetimer);
     }
   }
-}
+};
 </script>
 
 <style>
