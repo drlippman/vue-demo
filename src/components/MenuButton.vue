@@ -85,8 +85,8 @@ export default {
         return {
           is: 'router-link',
           to: option.link,
-          'mouseover.native': () => (this.curSelected = index),
-          'click.native': this.toggleOpen
+          "mouseover.native": () => (this.curSelected = index),
+          "click.native": this.toggleOpen
         };
       } else {
         return {
@@ -99,6 +99,7 @@ export default {
       }
     },
     toggleOpen (val) {
+      console.log("called");
       if (typeof val === 'boolean') {
         this.open = val;
       } else {
@@ -177,7 +178,7 @@ export default {
       }
     },
     handleBlur () {
-      this.closetimer = setTimeout(() => { this.open = false; }, 50);
+      //this.closetimer = setTimeout(() => { this.open = false; }, 50);
     },
     handleFocus () {
       clearTimeout(this.closetimer);

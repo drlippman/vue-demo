@@ -26,8 +26,8 @@
         <tbody>
           <tr v-for="(part,index) in qInfo.parts">
             <td>{{ index + 1 }}</td>
-            <td v-if="showScore">{{ part.score }}/{{ part.possible }}</td>
-            <td>{{ part.attempt }}/{{ part.totattempts }}</td>
+            <td v-if="showScore">{{ part.score }}/{{ part.points }}</td>
+            <td>{{ part.try }}/{{ part.tries_max }}</td>
           </tr>
         </tbody>
       </table>
@@ -54,7 +54,7 @@ export default {
       return this.qInfo.hasOwnProperty('score');
     },
     hasParts () {
-      return this.qInfo.hasOwnProperty('parts');
+      return (this.qInfo.hasOwnProperty('parts') && this.qInfo.parts.length > 1);
     },
     hasCategory () {
       return this.qInfo.hasOwnProperty('category');

@@ -1,10 +1,10 @@
 <template>
   <span>
-    <icons :name="questionClass.icon" class="qstatusicon" />
-    Question {{ option.dispqn }}
+    <icons :name="statusIcon" class="qstatusicon" />
+    {{ nameDisp }}
     {{ scoreDisplay }}
-    <span class="redoicon">
-      <i class="fa fa-undo" v-if="option.canreattempt"></i>
+    <span class="redoicon" v-if="option.dispqn > 0">
+      <i class="fa fa-undo" v-if="option.canretry"></i>
     </span>
   </span>
 </template>
@@ -19,51 +19,37 @@ export default {
     Icons
   },
   computed: {
-    questionClass () {
-      if (this.option.status === 0) {
-        // unattempted
-        return {
-          'icon': 'circle-open',
-          'class': 'far fa-circle bluetext qstatusicon',
-          'alt': 'Unattempted'
-        };
+    statusIcon () {
+      if (this.option.dispqn === 0) {
+        return 'none';
+      } else if (this.option.status === 0) {
+        return 'unattempted';
       } else if (!this.option.hasOwnProperty('score')) {
-        // attempted, but no score info
-        return {
-          'icon': 'circle-filled',
-          'class': 'fas fa-circle bluetext qstatusicon',
-          'alt': 'Attempted'
-        };
+        return 'attempted';
       } else if (this.option.score === 0) {
-        // wrong
-        return {
-          'icon': 'circle-x',
-          'class': 'fas fa-times-circle redtext qstatusicon',
-          'alt': 'Incorrect'
-        };
-      } else if (this.option.score === this.option.possible) {
-        // full score
-        return {
-          'icon': 'circle-check',
-          'class': 'fas fa-check-circle greentext qstatusicon',
-          'alt': 'Correct'
-        };
+        return 'incorrect';
+      } else if (this.option.score === this.option.points) {
+        return 'correct';
       } else {
-        // partial score
-        return {
-          'icon': 'circle-filled',
-          'class': 'fas fa-dot-circle orangetext qstatusicon',
-          'alt': 'Partially correct'
-        };
+        return 'partialcorrect';
+      }
+    },
+    nameDisp () {
+      if (this.option.dispqn === 0) {
+        return this.$t('intro');
+      } else {
+        return this.$t('question_n', {n: this.option.dispqn});
       }
     },
     scoreDisplay () {
-      if (!this.option.hasOwnProperty('score')) {
+      if (this.option.dispqn === 0) {
         return '';
+      } else if (!this.option.hasOwnProperty('score')) {
+        return this.$tc('header.pts', this.option.points_possible);
       } else {
-        let str = this.option.canreattempt ? '(' : '[';
-        str += this.option.score + '/' + this.option.possible;
-        str += this.option.canreattempt ? ')' : ']';
+        let str = this.option.canretry ? '(' : '[';
+        str += this.option.score + '/' + this.option.points_possible;
+        str += this.option.canretry ? ')' : ']';
         return str;
       }
     }

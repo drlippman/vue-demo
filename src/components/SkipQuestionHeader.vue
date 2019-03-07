@@ -2,7 +2,7 @@
   <div id="skip-question-header">
     <div style="flex-grow: 1" id="skip-question-select">
         <router-link
-          :to="'/skip/'+(dispqn-1)"
+          :to="'/skip/'+ (dispqn-1) + queryString"
           tag="button"
           :disabled="qn<1"
           class="secondarybtn"
@@ -13,9 +13,9 @@
 
         <menu-button id="qnav"
           :options = "navOptions"
-          :selected = "qn"
+          :selected = "dispqn"
           @change = "changeQuestion"
-          searchby = "qn"
+          searchby = "dispqn"
         >
           <template v-slot="{ option }">
             <question-list-item :option="option" />
@@ -23,7 +23,7 @@
         </menu-button>
 
         <router-link
-          :to="'/skip/'+(dispqn+1)"
+          :to="'/skip/' + (dispqn+1) + queryString"
           tag="button"
           :disabled="qn>=ainfo.questions.length-1"
           class="secondarybtn"
@@ -34,16 +34,16 @@
     </div>
     <div>
       <span
-        v-if="curQData.canreattempt"
-        :title="'Attempt ' + curQData.attempt + ' of ' + curQData.totattempts">
+        v-if="qn >= 0 && curQData.canretry"
+        :title="'Try ' + (curQData.try + 1) + ' of ' + curQData.tries_max">
         <i class="fa fa-undo" aria-label="attempt"></i>
-        {{ curQData.attempt }}/{{ curQData.totattempts}}
+        {{ curQData.try + 1 }}/{{ curQData.tries_max}}
       </span>
       <span
-        v-if="curQData.canregen"
-        :title="'Version ' + curQData.regen + ' of ' + curQData.totregens">
+        v-if="qn >= 0 && curQData.canregen"
+        :title="'Version ' + (curQData.regen + 1) + ' of ' + curQData.regens_max">
         <i class="fa fa-retweet" aria-label="version"></i>
-        {{ curQData.regen }}/{{ curQData.totregens}}
+        {{ curQData.regen + 1 }}/{{ curQData.regens_max}}
       </span>
     </div>
 
@@ -89,26 +89,36 @@ export default {
     dispqn () {
       return parseInt(this.qn) + 1;
     },
+    queryString () {
+      return store.queryString;
+    },
     navOptions () {
-      var out = [];
+      var out = [{
+        link: '/skip/0' + this.queryString,
+        dispqn: 0
+      }];
       for (let qn in store.assessInfo.questions) {
-        let qnval = parseInt(qn);
-        out[qn] = store.assessInfo.questions[qn];
-        out[qn].link = '/skip/' + (qnval + 1);
-        out[qn].dispqn = qnval + 1;
+        let dispqn = parseInt(qn)+1;
+        out[dispqn] = store.assessInfo.questions[qn];
+        out[dispqn].link = '/skip/' + dispqn + this.queryString;
+        out[dispqn].dispqn = dispqn;
       }
       return out;
     },
     showDetails () {
+      if (this.qn < 0) {
+        return false;
+      }
       let curQData = store.assessInfo.questions[this.qn];
-      let hasParts = curQData.hasOwnProperty('parts');
+      let hasParts = (curQData.hasOwnProperty('parts') && curQData.parts.length > 1);
       let hasCategory = curQData.hasOwnProperty('category');
       return (hasParts || hasCategory);
     }
   },
   methods: {
     changeQuestion (newqn) {
-      this.$router.push({ path: '/skip/' + newqn });
+      console.log("here");
+      //this.$router.push({ path: '/skip/' + newqn + store.queryString});
     }
   }
 };

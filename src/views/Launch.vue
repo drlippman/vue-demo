@@ -11,7 +11,7 @@
         <div>
           <icons name="lock" size="small"/>
         </div>
-        <password-entry v-model="password"  />
+        <password-entry v-model="password"/>
       </div>
       <div class="flexrow" v-if="aInfo.isgroup > 0">
         <div>
@@ -21,8 +21,19 @@
       </div>
     </div>
 
+    <p
+      class = "noticetext"
+      v-if = "errorMsg !== null"
+    >
+      {{ errorMsg }}
+    <p>
+
     <p v-if="okToLaunch">
-      <button @click="startAssess" class="primary">
+      <button
+        type="button"
+        class="primary"
+        @click="startAssess"
+      >
         {{ startLabel }}
       </button>
     </p>
@@ -38,7 +49,7 @@ import PasswordEntry from '@/components/launch/PasswordEntry.vue';
 import GroupEntry from '@/components/launch/GroupEntry.vue';
 import Icons from '@/components/Icons.vue';
 
-import { store } from '../basicstore';
+import { store, actions } from '../basicstore';
 
 export default {
   name: 'Launch',
@@ -57,6 +68,12 @@ export default {
   computed: {
     aInfo () {
       return store.assessInfo;
+    },
+    errorMsg () {
+      if (store.errorMsg === null) {
+        return null;
+      }
+      return this.$t('error.'+store.errorMsg);
     },
     startLabel () {
       if (this.aInfo.has_active_attempt) {
@@ -79,9 +96,9 @@ export default {
   },
   methods: {
     startAssess () {
-      console.log(this.password);
-      console.log(this.newGroupMembers.toString());
-      // this.$router.push('/skip/1')
+      let pwval = this.password;
+      this.password = '';
+      actions.startAssess(false, pwval, this.newGroupMembers);
     },
     updateNewGroup (newMembers) {
       this.newGroupMembers = newMembers;

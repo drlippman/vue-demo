@@ -3,6 +3,8 @@
   "seconds": "1 second | {n} seconds",
   "minutes": "1 minute | {n} minutes",
   "hours": "1 hour | {n} hours",
+  "intro": "Intro / Instructions",
+  "question_n": "Question {n}",
   "launch": {
     "continue_assess": "Continue Assessment",
     "retake_assess": "Retake Assessment",
@@ -58,5 +60,16 @@
   "password": {
     "requires": "This assessment requires a password.",
     "label": "Password: "
+  },
+  "header": {
+    "score": "Score: {pts}/{poss}",
+    "possible": "{poss} points possible",
+    "answered": "{n}/{tot} answered",
+    "assess_submit": "Submit Assessment",
+    "resources_header": "Resources",
+    "pts": "1 pt | {n} pts"
+  },
+  "error": {
+    "invalid_password": "The password you entered was invalid"
   }
 }

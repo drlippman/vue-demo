@@ -3,7 +3,7 @@
     <div style="flex-grow: 1">
       <h1>{{ ainfo.name }}</h1>
       <div>
-        <span v-if="ainfo.showscores">{{ curScore }}</span>
+        <span>{{ curScorePoints }}</span>
         <span class="answeredinfo">{{ curAnswered }}</span>
       </div>
     </div>
@@ -18,7 +18,7 @@
     <menu-button
       v-if="ainfo.resources.length > 0"
       id="resource-dropdown" position="right"
-      header = "Resources"
+      :header = "$t('header.resources_header')"
       nobutton = "true"
       noarrow = "true"
       :options = "ainfo.resources"
@@ -62,14 +62,20 @@ export default {
     ainfo () {
       return store.assessInfo;
     },
-    curScore () {
+    curScorePoints () {
       let pointsPossible = 0;
       let pointsEarned = 0;
       for (let i in this.ainfo.questions) {
-        pointsPossible += this.ainfo.questions[i].possible;
-        pointsEarned += this.ainfo.questions[i].score;
+        pointsPossible += this.ainfo.questions[i].points_possible*1;
+        if (this.ainfo.show_scores_during) {
+          pointsEarned += this.ainfo.questions[i].score*1;
+        }
       }
-      return 'Score: ' + pointsEarned + '/' + pointsPossible;
+      if (this.ainfo.show_scores_during) {
+        return this.$t('header.score', {pts: pointsEarned, poss: pointsPossible});
+      } else {
+        return this.$t('header.possible', {poss: pointsPossible});
+      }
     },
     curAnswered () {
       let qAnswered = 0;
@@ -79,10 +85,10 @@ export default {
           qAnswered++;
         }
       }
-      return qAnswered + '/' + nQuestions + ' answered';
+      return this.$t('header.answered', {n: qAnswered, tot: nQuestions});
     },
     assessSubmitLabel () {
-      return 'Submit Assessment';
+      return this.$t('header.assess_submit');
     }
   }
 };

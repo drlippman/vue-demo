@@ -5,7 +5,7 @@
     </div>
     <div v-if="questionContentLoaded" v-html="questionData.html" :id="'questionwrap' + qn">
     </div>
-    <div v-if="questionData.canreattempt">
+    <div v-if="questionData.canretry">
       <p><br/><button @click="submitQuestion">{{ submitLabel }}</button></p>
     </div>
   </div>

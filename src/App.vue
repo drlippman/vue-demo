@@ -11,11 +11,6 @@
 import { store, actions } from './basicstore';
 
 export default {
-  data: function () {
-    return {
-      in_progress: false
-    };
-  },
   computed: {
     assessInfoLoaded () {
       return (store.assessInfo !== null);
@@ -34,7 +29,7 @@ export default {
         (store.assessInfo.available === 'practice' && store.assessInfo.in_practice)
       ) {
         // has a currently available assessment or practice session
-        if (!this.in_progress) {
+        if (!store.inProgress) {
           this.$router.replace('/' + this.queryString);
         }
       } else {
@@ -51,6 +46,7 @@ export default {
     }
     store.cid = this.$route.query.cid;
     store.aid = this.$route.query.aid;
+    store.queryString = '?cid='+store.cid+'&aid='+store.aid;
     if (store.assessInfo === null) {
       actions.loadAssessData();
     }
