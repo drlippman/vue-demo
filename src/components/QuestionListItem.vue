@@ -4,7 +4,7 @@
     {{ nameDisp }}
     {{ scoreDisplay }}
     <span class="redoicon" v-if="option.dispqn > 0">
-      <i class="fa fa-undo" v-if="option.canretry"></i>
+      <icons name="retry" v-if="option.canretry" />
     </span>
   </span>
 </template>
@@ -22,8 +22,8 @@ export default {
     statusIcon () {
       if (this.option.dispqn === 0) {
         return 'none';
-      } else if (this.option.status === 0) {
-        return 'unattempted';
+      } else if (this.option.try === 0) {
+        return 'partial';
       } else if (!this.option.hasOwnProperty('score')) {
         return 'attempted';
       } else if (this.option.score === 0) {

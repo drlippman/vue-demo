@@ -9,7 +9,7 @@
       class="dropdown-toggle"
       data-toggle="dropdown"
     >
-      <i class="fa fa-info-circle bigicon"></i>
+      <icons name="info" size="medium" />
       Details
     </div>
     <div id="qdetails-menu" role="menu" class="dropdown-menu dropdown-menu-right">
@@ -42,10 +42,14 @@
 
 <script>
 import { store, actions } from '../basicstore';
+import Icons from '@/components/Icons.vue';
 
 export default {
   name: 'QuestionDetailsMenu',
   props: ['qn'],
+  components: {
+    Icons
+  },
   computed: {
     qInfo () {
       return store.assessInfo.questions[this.qn];

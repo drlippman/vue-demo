@@ -20,7 +20,7 @@
     >
       <slot v-if="!hasButton" :option="options[selected]"></slot>
       <slot v-if="hasButton" name=button></slot>
-      <i v-if="!noarrow" class="fa fa-caret-down" style="margin-left: 10px" ></i>
+      <icons class="mb_downarrow" v-if="!noarrow" name="downarrow" size="micro"/>
     </button>
     <ul
       v-if="open"
@@ -60,6 +60,8 @@
 // This menu button follows the patterns recommended at
 // https://www.w3.org/TR/wai-aria-practices/examples/menu-button/menu-button-actions-active-descendant.html
 
+import Icons from '@/components/Icons.vue';
+
 export default {
   name: 'MenuButton',
   model: {
@@ -67,6 +69,9 @@ export default {
     event: 'change'
   },
   props: ['options', 'selected', 'id', 'header', 'nobutton', 'noarrow', 'position', 'searchby'],
+  components: {
+    Icons
+  },
   data: function () {
     return {
       open: false,
@@ -196,7 +201,7 @@ export default {
 }
 .menubutton button {
   margin: 0;
-  padding: 8px 20px;
+  padding: 8px 16px;
   background-color: #fff;
   color: #000;
   border-radius: 0;
@@ -243,6 +248,9 @@ li.menubutton-header {
 }
 .menubutton ul::-webkit-scrollbar {
     width: 12px;
+}
+.mb_downarrow {
+  margin-left: 10px;
 }
 
 .menubutton ul::-webkit-scrollbar-track {

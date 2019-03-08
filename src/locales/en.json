@@ -5,6 +5,8 @@
   "hours": "1 hour | {n} hours",
   "loading": "Loading...",
   "intro": "Intro / Instructions",
+  "next": "Next",
+  "prev": "Previous",
   "question_n": "Question {n}",
   "launch": {
     "continue_assess": "Continue Assessment",
@@ -75,6 +77,7 @@
     "possible": "{poss} points possible",
     "answered": "{n}/{tot} answered",
     "assess_submit": "Submit Assessment",
+    "done": "Done",
     "resources_header": "Resources",
     "pts": "1 pt | {n} pts"
   },

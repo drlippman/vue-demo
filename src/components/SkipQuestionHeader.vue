@@ -7,8 +7,9 @@
           :disabled="qn<1"
           class="secondarybtn"
           id="qprev"
+          :aria-label="$t('prev')"
         >
-          <i class="fa fa-chevron-left" aria-label="Previous"></i>
+          <icons name="left"/>
         </router-link>
 
         <menu-button id="qnav"
@@ -28,28 +29,29 @@
           :disabled="qn>=ainfo.questions.length-1"
           class="secondarybtn"
           id="qnext"
+          :aria-label="$t('next')"
         >
-          <i class="fa fa-chevron-right" aria-label="Next"></i>
+          <icons name="right" />
         </router-link>
     </div>
     <div>
       <span
         v-if="qn >= 0 && curQData.canretry"
         :title="$t('qinfo.tryn', {n: curQData.try + 1, nmax: curQData.tries_max})">
-        <i class="fa fa-undo" aria-label="attempt"></i>
+        <icons name="retry"/>
         {{ curQData.try + 1 }}/{{ curQData.tries_max}}
       </span>
       <span
         v-if="qn >= 0 && curQData.canregen"
         :title="$t('qinfo.regenn', {n: curQData.regen, nmax: curQData.regens_max})">
-        <i class="fa fa-retweet" aria-label="version"></i>
+        <icons name="retake"/>
         {{ curQData.regen }}/{{ curQData.regens_max}}
       </span>
     </div>
 
     <dropdown id="question-details" position="right" v-if="showDetails">
       <template v-slot:button>
-        <i class="fa fa-info-circle bigicon"></i>
+        <icons name="info" size="medium"/>
         Details
       </template>
       <question-details-pane :qn="qn" />
@@ -63,6 +65,7 @@ import QuestionDetailsPane from '@/components/QuestionDetailsPane.vue';
 import MenuButton from '@/components/MenuButton.vue';
 import Dropdown from '@/components/Dropdown.vue';
 import QuestionListItem from '@/components/QuestionListItem.vue';
+import Icons from '@/components/Icons.vue';
 import { store } from '../basicstore';
 
 export default {
@@ -71,6 +74,7 @@ export default {
   components: {
     QuestionDetailsPane,
     Dropdown,
+    Icons,
     MenuButton,
     QuestionListItem
   },
@@ -94,7 +98,7 @@ export default {
     },
     navOptions () {
       var out = [{
-        link: '/skip/0' + this.queryString,
+        internallink: '/skip/0' + this.queryString,
         dispqn: 0
       }];
       for (let qn in store.assessInfo.questions) {

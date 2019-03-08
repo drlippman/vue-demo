@@ -13,7 +13,11 @@
       :end="ainfo.timeExpires">
     </timer>
 
-    <button>{{ assessSubmitLabel }}</button>
+    <button
+      :class="{primary: ainfo.submitby === 'by_assessment' }"
+    >
+      {{ assessSubmitLabel }}
+    </button>
 
     <menu-button
       v-if="ainfo.resources.length > 0"
@@ -25,12 +29,12 @@
       searchby = "title"
     >
       <template v-slot:button>
-        <i class="far fa-file-alt bigicon"></i>
+        <icons name="file" size="medium"/>
       </template>
     </menu-button>
 
     <div>
-      <i class="fas fa-print bigicon"></i>
+      <icons name="print" size="medium"/>
     </div>
   </div>
 </template>
@@ -38,13 +42,15 @@
 <script>
 import Timer from '@/components/Timer.vue';
 import MenuButton from '@/components/MenuButton.vue';
+import Icons from '@/components/Icons.vue';
 import { store } from '../basicstore';
 
 export default {
   name: 'AssessHeader',
   components: {
     Timer,
-    MenuButton
+    MenuButton,
+    Icons
   },
   data: function () {
     return {
@@ -88,7 +94,11 @@ export default {
       return this.$t('header.answered', { n: qAnswered, tot: nQuestions });
     },
     assessSubmitLabel () {
-      return this.$t('header.assess_submit');
+      if (this.ainfo.submitby === 'by_assessment') {
+        return this.$t('header.assess_submit');
+      } else {
+        return this.$t('header.done');
+      }
     }
   }
 };
