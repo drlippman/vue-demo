@@ -46,7 +46,7 @@ export default {
     }
     store.cid = this.$route.query.cid;
     store.aid = this.$route.query.aid;
-    store.queryString = '?cid='+store.cid+'&aid='+store.aid;
+    store.queryString = '?cid=' + store.cid + '&aid=' + store.aid;
     if (store.assessInfo === null) {
       actions.loadAssessData();
     }

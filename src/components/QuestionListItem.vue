@@ -38,7 +38,7 @@ export default {
       if (this.option.dispqn === 0) {
         return this.$t('intro');
       } else {
-        return this.$t('question_n', {n: this.option.dispqn});
+        return this.$t('question_n', { n: this.option.dispqn });
       }
     },
     scoreDisplay () {

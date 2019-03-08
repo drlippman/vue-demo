@@ -98,7 +98,7 @@ export default {
         dispqn: 0
       }];
       for (let qn in store.assessInfo.questions) {
-        let dispqn = parseInt(qn)+1;
+        let dispqn = parseInt(qn) + 1;
         out[dispqn] = store.assessInfo.questions[qn];
         out[dispqn].internallink = '/skip/' + dispqn + this.queryString;
         out[dispqn].dispqn = dispqn;
@@ -117,7 +117,7 @@ export default {
   },
   methods: {
     changeQuestion (newqn) {
-      //this.$router.push({ path: '/skip/' + newqn + store.queryString});
+      // this.$router.push({ path: '/skip/' + newqn + store.queryString});
     }
   }
 };

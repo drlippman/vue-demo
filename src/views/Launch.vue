@@ -73,7 +73,7 @@ export default {
       if (store.errorMsg === null) {
         return null;
       }
-      return this.$t('error.'+store.errorMsg);
+      return this.$t('error.' + store.errorMsg);
     },
     startLabel () {
       if (this.aInfo.has_active_attempt) {

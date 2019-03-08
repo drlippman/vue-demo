@@ -92,7 +92,7 @@ export const actions = {
   },
   processSettings (data) {
     if (data.hasOwnProperty('questions')) {
-      for (let i=0; i < data.questions.length; i++) {
+      for (let i = 0; i < data.questions.length; i++) {
         let thisq = data.questions[i];
 
         data.questions[i].canretry = (thisq.try < thisq.tries_max);

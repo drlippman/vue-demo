@@ -1,6 +1,6 @@
 <template>
-  <div class="questionwrap">
-    <div v-if="!questionContentLoaded">
+  <div class = "questionwrap">
+    <div v-if = "!questionContentLoaded">
       {{ $t('loading') }}
     </div>
     <div
@@ -11,7 +11,7 @@
     <div v-if="showSubmit">
       <p><br/>
         <button
-          @click="submitQuestion"
+          @click = "submitQuestion"
           class = "primary"
         >
           {{ submitLabel }}
@@ -37,16 +37,16 @@ export default {
     showSubmit () {
       return (this.questionContentLoaded &&
         this.questionData.canretry && (
-          store.assessInfo.submitby == 'by_question' ||
+        store.assessInfo.submitby === 'by_question' ||
           this.questionData.tries_max > 1
-        )
+      )
       );
     },
     submitLabel () {
-      if (store.assessInfo.submitby == 'by_question') {
+      if (store.assessInfo.submitby === 'by_question') {
         return this.$t('question.submit');
       } else {
-        return this.$t('question.checkans');;
+        return this.$t('question.checkans'); ;
       }
     }
   },

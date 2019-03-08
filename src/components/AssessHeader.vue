@@ -66,15 +66,15 @@ export default {
       let pointsPossible = 0;
       let pointsEarned = 0;
       for (let i in this.ainfo.questions) {
-        pointsPossible += this.ainfo.questions[i].points_possible*1;
+        pointsPossible += this.ainfo.questions[i].points_possible * 1;
         if (this.ainfo.show_scores_during) {
-          pointsEarned += this.ainfo.questions[i].score*1;
+          pointsEarned += this.ainfo.questions[i].score * 1;
         }
       }
       if (this.ainfo.show_scores_during) {
-        return this.$t('header.score', {pts: pointsEarned, poss: pointsPossible});
+        return this.$t('header.score', { pts: pointsEarned, poss: pointsPossible });
       } else {
-        return this.$t('header.possible', {poss: pointsPossible});
+        return this.$t('header.possible', { poss: pointsPossible });
       }
     },
     curAnswered () {
@@ -85,7 +85,7 @@ export default {
           qAnswered++;
         }
       }
-      return this.$t('header.answered', {n: qAnswered, tot: nQuestions});
+      return this.$t('header.answered', { n: qAnswered, tot: nQuestions });
     },
     assessSubmitLabel () {
       return this.$t('header.assess_submit');
