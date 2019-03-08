@@ -94,7 +94,7 @@ export const actions = {
     if (data.hasOwnProperty('questions')) {
       for (let i=0; i < data.questions.length; i++) {
         let thisq = data.questions[i];
-        console.log(thisq);
+
         data.questions[i].canretry = (thisq.try < thisq.tries_max);
         if (typeof thisq.regens_max !== 'undefined' && thisq.regen < thisq.regens_max) {
           data.questions[i].canregen = true;
@@ -106,7 +106,7 @@ export const actions = {
     data['show_scores_during'] = (data.showscores === 'during');
     data['tries_remaining'] = (data.tries_max - data.try);
     if (data.hasOwnProperty('regen')) {
-      data['regens_remaining'] = (data.regens_max - data.regen - 1);
+      data['regens_remaining'] = (data.regens_max - data.regen);
     }
     return data;
   }

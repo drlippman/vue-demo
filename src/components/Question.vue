@@ -1,12 +1,22 @@
 <template>
   <div class="questionwrap">
     <div v-if="!questionContentLoaded">
-      Loading...
+      {{ $t('loading') }}
     </div>
-    <div v-if="questionContentLoaded" v-html="questionData.html" :id="'questionwrap' + qn">
-    </div>
-    <div v-if="questionData.canretry">
-      <p><br/><button @click="submitQuestion">{{ submitLabel }}</button></p>
+    <div
+      v-else
+      v-html="questionData.html"
+      :id="'questionwrap' + qn"
+    />
+    <div v-if="showSubmit">
+      <p><br/>
+        <button
+          @click="submitQuestion"
+          class = "primary"
+        >
+          {{ submitLabel }}
+        </button>
+      </p>
     </div>
   </div>
 </template>
@@ -24,8 +34,20 @@ export default {
     questionContentLoaded () {
       return (this.questionData.html !== null);
     },
+    showSubmit () {
+      return (this.questionContentLoaded &&
+        this.questionData.canretry && (
+          store.assessInfo.submitby == 'by_question' ||
+          this.questionData.tries_max > 1
+        )
+      );
+    },
     submitLabel () {
-      return 'Check Answer';
+      if (store.assessInfo.submitby == 'by_question') {
+        return this.$t('question.submit');
+      } else {
+        return this.$t('question.checkans');;
+      }
     }
   },
   methods: {

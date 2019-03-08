@@ -37,6 +37,10 @@
       <li v-for="(option,index) in options" :key="index">
         <component
           v-bind = "getLinkProps(option,index)"
+          @click = "toggleOpen"
+          @mouseover = "curSelected = index"
+          @click.native = "toggleOpen"
+          @mouseover.native = "curSelected = index"
           :id = "id + '_' + index"
           :class="{'menubutton-focus': index==curSelected}"
           role = "menuitem"
@@ -44,7 +48,7 @@
         >
           <slot v-if="hasSlot" :option="option"></slot>
           <template v-else>
-            {{option.title}}
+            {{option.label}}
           </template>
         </component>
       </li>
@@ -81,25 +85,20 @@ export default {
   },
   methods: {
     getLinkProps (option, index) {
-      if (option.link) {
+      if (option.internallink) {
         return {
           is: 'router-link',
-          to: option.link,
-          "mouseover.native": () => (this.curSelected = index),
-          "click.native": this.toggleOpen
+          to: option.internallink
         };
       } else {
         return {
           is: 'a',
-          href: option.url,
-          target: '_blank',
-          'mouseover': () => (this.curSelected = index),
-          'click': this.toggleOpen
+          href: option.link,
+          target: '_blank'
         };
       }
     },
     toggleOpen (val) {
-      console.log("called");
       if (typeof val === 'boolean') {
         this.open = val;
       } else {
@@ -178,7 +177,7 @@ export default {
       }
     },
     handleBlur () {
-      //this.closetimer = setTimeout(() => { this.open = false; }, 50);
+      this.closetimer = setTimeout(() => { this.open = false; }, 50);
     },
     handleFocus () {
       clearTimeout(this.closetimer);

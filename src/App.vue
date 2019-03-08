@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div v-if="!assessInfoLoaded">
-      Loading...
+      {{ $t('loading') }}
     </div>
     <router-view v-if="assessInfoLoaded"/>
   </div>

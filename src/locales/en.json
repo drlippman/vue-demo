@@ -3,6 +3,7 @@
   "seconds": "1 second | {n} seconds",
   "minutes": "1 minute | {n} minutes",
   "hours": "1 hour | {n} hours",
+  "loading": "Loading...",
   "intro": "Intro / Instructions",
   "question_n": "Question {n}",
   "launch": {
@@ -60,6 +61,14 @@
   "password": {
     "requires": "This assessment requires a password.",
     "label": "Password: "
+  },
+  "qinfo": {
+    "tryn": "Try {n} of {nmax}",
+    "regenn": "Version {n} of {nmax}"
+  },
+  "question": {
+    "submit": "Submit Question",
+    "checkans": "Check Answer"
   },
   "header": {
     "score": "Score: {pts}/{poss}",

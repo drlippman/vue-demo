@@ -35,15 +35,15 @@
     <div>
       <span
         v-if="qn >= 0 && curQData.canretry"
-        :title="'Try ' + (curQData.try + 1) + ' of ' + curQData.tries_max">
+        :title="$t('qinfo.tryn', {n: curQData.try + 1, nmax: curQData.tries_max})">
         <i class="fa fa-undo" aria-label="attempt"></i>
         {{ curQData.try + 1 }}/{{ curQData.tries_max}}
       </span>
       <span
         v-if="qn >= 0 && curQData.canregen"
-        :title="'Version ' + (curQData.regen + 1) + ' of ' + curQData.regens_max">
+        :title="$t('qinfo.regenn', {n: curQData.regen, nmax: curQData.regens_max})">
         <i class="fa fa-retweet" aria-label="version"></i>
-        {{ curQData.regen + 1 }}/{{ curQData.regens_max}}
+        {{ curQData.regen }}/{{ curQData.regens_max}}
       </span>
     </div>
 
@@ -100,7 +100,7 @@ export default {
       for (let qn in store.assessInfo.questions) {
         let dispqn = parseInt(qn)+1;
         out[dispqn] = store.assessInfo.questions[qn];
-        out[dispqn].link = '/skip/' + dispqn + this.queryString;
+        out[dispqn].internallink = '/skip/' + dispqn + this.queryString;
         out[dispqn].dispqn = dispqn;
       }
       return out;
@@ -117,7 +117,6 @@ export default {
   },
   methods: {
     changeQuestion (newqn) {
-      console.log("here");
       //this.$router.push({ path: '/skip/' + newqn + store.queryString});
     }
   }

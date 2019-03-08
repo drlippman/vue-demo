@@ -6,8 +6,8 @@
     <div class="pane-body">
       <ul id="resource-list">
         <li v-for="(curResource,index) in assessResources" :key="index">
-          <a :href="curResource.url" target="_blank">
-            {{ curResource.title }}
+          <a :href="curResource.link" target="_blank">
+            {{ curResource.label }}
           </a>
         </li>
       </ul>
