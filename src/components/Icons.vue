@@ -91,6 +91,9 @@
         <line x1="16" y1="17" x2="8" y2="17"></line>
         <polyline points="10 9 9 9 8 9"></polyline>
       </template>
+      <template v-else-if="name=='close'">
+        <path d="M18 6 L6 18 M6 6 L18 18" />
+      </template>
     </svg>
     <span class="sronly" v-if="alttext.length > 0">
       {{ alttext }}

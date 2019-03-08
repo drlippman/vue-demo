@@ -3,9 +3,16 @@
     <div v-if = "!questionContentLoaded">
       {{ $t('loading') }}
     </div>
+    <inter-question-text
+      v-if = "questionContentLoaded"
+      v-for = "(textitem,index) in preText"
+      :textobj = "textitem"
+      :key = "index"
+    />
     <div
-      v-else
+      v-if = "questionContentLoaded"
       v-html="questionData.html"
+      class = "question"
       :id="'questionwrap' + qn"
     />
     <div v-if="showSubmit">
@@ -18,18 +25,60 @@
         </button>
       </p>
     </div>
+    <inter-question-text
+      v-if = "questionContentLoaded"
+      v-for = "(textitem,index) in postText"
+      :textobj = "textitem"
+      :key = "index"
+    />
   </div>
 </template>
 
 <script>
 import { store, actions } from '../basicstore';
+import InterQuestionText from '@/components/InterQuestionText.vue';
 
 export default {
   name: 'Question',
   props: ['qn', 'active'],
+  components: {
+    InterQuestionText
+  },
   computed: {
     questionData () {
       return store.assessInfo.questions[this.qn];
+    },
+    preText () {
+      let out = [];
+      for (let  i in store.assessInfo.interquestion_text) {
+        let textObj = store.assessInfo.interquestion_text[i];
+        textObj.displayBefore = parseInt(textObj.displayBefore);
+        textObj.displayUntil = parseInt(textObj.displayUntil);
+        textObj.forntype = !!textObj.forntype;  // convert 1 to true
+        if (this.qn >= textObj.displayBefore && this.qn <= textObj.displayUntil) {
+          out.push({
+            html: textObj.text,
+            expanded: (textObj.forntype === true || this.qn === textObj.displayBefore)
+          });
+        }
+      }
+      return out;
+    },
+    postText () {
+      let out = [];
+      if (this.qn === store.assessInfo.questions.length - 1) {
+        // only show post text if last question
+        for (let i in store.assessInfo.interquestion_text) {
+          let textObj = store.assessInfo.interquestion_text[i];
+          if (this.qn < textObj.displayBefore) {
+            out.push({
+              html: textObj.text,
+              expanded: (textObj.forntype == 1 || this.qn == textObj.displayBefore)
+            });
+          }
+        }
+      }
+      return out;
     },
     questionContentLoaded () {
       return (this.questionData.html !== null);

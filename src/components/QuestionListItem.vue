@@ -23,7 +23,7 @@ export default {
       if (this.option.dispqn === 0) {
         return 'none';
       } else if (this.option.try === 0) {
-        return 'partial';
+        return 'dot';
       } else if (!this.option.hasOwnProperty('score')) {
         return 'attempted';
       } else if (this.option.score === 0) {

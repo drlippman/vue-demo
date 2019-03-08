@@ -3,6 +3,7 @@
   "seconds": "1 second | {n} seconds",
   "minutes": "1 minute | {n} minutes",
   "hours": "1 hour | {n} hours",
+  "close": "Close",
   "loading": "Loading...",
   "intro": "Intro / Instructions",
   "next": "Next",
@@ -80,6 +81,10 @@
     "done": "Done",
     "resources_header": "Resources",
     "pts": "1 pt | {n} pts"
+  },
+  "text": {
+    "hide": "Hide text",
+    "show": "Show question text"
   },
   "error": {
     "invalid_password": "The password you entered was invalid"
