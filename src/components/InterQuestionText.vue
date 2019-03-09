@@ -1,7 +1,7 @@
 <template>
-  <div class = "interqtext">
+  <div :class="{'interqtext': true, 'right': !expanded}">
     <button
-      :class = "{plain: true, floatright: !expanded}"
+      :class = "{plain: true, floatright: expanded}"
       :aria-label = "expanded ? $t('text.hide') : $t('text.show')"
       :aria-expanded = "expanded ? 'true' : 'false'"
       @click = "expanded = !expanded"
@@ -28,7 +28,7 @@ export default {
     };
   },
   mounted () {
-    this.expanded = textobj.expanded;
+    this.expanded = this.textobj.expanded;
   }
 }
 </script>
