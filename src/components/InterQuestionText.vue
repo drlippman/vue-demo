@@ -3,7 +3,7 @@
     <button
       :class = "{plain: true, floatright: !expanded}"
       :aria-label = "expanded ? $t('text.hide') : $t('text.show')"
-      :aria-expanded = "expanded"
+      :aria-expanded = "expanded ? 'true' : 'false'"
       @click = "expanded = !expanded"
     >
       <icons v-if="expanded" name="close" />

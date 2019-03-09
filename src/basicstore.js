@@ -72,11 +72,26 @@ export const actions = {
   },
   loadQuestion (qn) {
     window.$.ajax({
-      url: store.APIbase + 'data/getq' + qn + '.json',
-      dataType: 'json'
+      url: store.APIbase + 'loadquestion.php' + store.queryString,
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        qn: qn,
+      },
+      xhrFields: {
+        withCredentials: true
+      },
+      crossDomain: true
     })
       .done(response => {
-        store.assessInfo.questions[qn].html = response.html;
+        response = this.processSettings(response);
+        // overwrite existing questions with new data
+        for (let i in response.questions) {
+          store.assessInfo.questions[parseInt(i)] = response.questions[i];
+        }
+        delete response.questions;
+        // copy other settings from response to store
+        store.assessInfo = Object.assign({}, store.assessInfo, response);
       });
   },
   submitQuestion (qn) {
@@ -92,7 +107,7 @@ export const actions = {
   },
   processSettings (data) {
     if (data.hasOwnProperty('questions')) {
-      for (let i = 0; i < data.questions.length; i++) {
+      for (let i in data.questions) {
         let thisq = data.questions[i];
 
         data.questions[i].canretry = (thisq.try < thisq.tries_max);
@@ -107,6 +122,15 @@ export const actions = {
     data['tries_remaining'] = (data.tries_max - data.try);
     if (data.hasOwnProperty('regen')) {
       data['regens_remaining'] = (data.regens_max - data.regen);
+    }
+    if (data.hasOwnProperty('interquestion_text')) {
+      // ensure proper data type on these
+      for (let i in data.interquestion_text) {
+        data.interquestion_text[i].displayBefore = parseInt(data.interquestion_text[i].displayBefore);
+        data.interquestion_text[i].displayUntil = parseInt(data.interquestion_text[i].displayUntil);
+        data.interquestion_text[i].forntype = !!data.interquestion_text[i].forntype;
+        data.interquestion_text[i].ispage = !!data.interquestion_text[i].ispage;
+      }
     }
     return data;
   }

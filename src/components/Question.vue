@@ -52,9 +52,6 @@ export default {
       let out = [];
       for (let  i in store.assessInfo.interquestion_text) {
         let textObj = store.assessInfo.interquestion_text[i];
-        textObj.displayBefore = parseInt(textObj.displayBefore);
-        textObj.displayUntil = parseInt(textObj.displayUntil);
-        textObj.forntype = !!textObj.forntype;  // convert 1 to true
         if (this.qn >= textObj.displayBefore && this.qn <= textObj.displayUntil) {
           out.push({
             html: textObj.text,

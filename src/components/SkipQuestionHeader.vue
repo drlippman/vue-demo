@@ -4,7 +4,7 @@
         <router-link
           :to="'/skip/'+ (dispqn-1) + queryString"
           tag="button"
-          :disabled="qn<1"
+          :disabled="qn<0"
           class="secondarybtn"
           id="qprev"
           :aria-label="$t('prev')"
