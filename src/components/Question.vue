@@ -9,6 +9,10 @@
       :textobj = "textitem"
       :key = "index"
     />
+    <score-result
+      v-if = "showScore"
+      :data = "questionData"
+    />
     <div
       v-if = "questionContentLoaded"
       v-html="questionData.html"
@@ -38,12 +42,14 @@
 <script>
 import { store, actions } from '../basicstore';
 import InterQuestionText from '@/components/InterQuestionText.vue';
+import ScoreResult from '@/components/ScoreResult.vue';
 
 export default {
   name: 'Question',
   props: ['qn', 'active'],
   components: {
-    InterQuestionText
+    InterQuestionText,
+    ScoreResult
   },
   computed: {
     questionData () {
@@ -88,6 +94,9 @@ export default {
           this.questionData.tries_max > 1
       )
       );
+    },
+    showScore () {
+      return this.questionData.hasOwnProperty('score');
     },
     submitLabel () {
       if (store.assessInfo.submitby === 'by_question') {

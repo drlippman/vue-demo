@@ -89,5 +89,12 @@
   },
   "error": {
     "invalid_password": "The password you entered was invalid"
+  },
+  "scoreresult": {
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "partial": "Partially correct",
+    "retry": "Retry this question",
+    "trysimilar": "Try a similar question"
   }
 }

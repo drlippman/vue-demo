@@ -3,9 +3,7 @@
     <div v-if="!assessInfoLoaded">
       {{ $t('loading') }}
     </div>
-    <form id="mainform">
-      <router-view v-if="assessInfoLoaded"/>
-    </form>
+    <router-view v-if="assessInfoLoaded"/>
   </div>
 </template>
 
@@ -110,6 +108,12 @@ input[type=submit].secondarybtn:focus,input[type=button].secondarybtn:focus, but
 }
 .med-below {
   margin-bottom: 16px;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
 
 </style>

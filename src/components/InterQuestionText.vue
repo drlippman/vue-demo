@@ -1,6 +1,7 @@
 <template>
   <div :class="{'interqtext': true, 'right': !expanded}">
     <button
+      type = "button"
       :class = "{plain: true, floatright: expanded}"
       :aria-label = "expanded ? $t('text.hide') : $t('text.show')"
       :aria-expanded = "expanded ? 'true' : 'false'"
