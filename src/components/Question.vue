@@ -18,6 +18,7 @@
     <div v-if="showSubmit">
       <p><br/>
         <button
+          type = "button"
           @click = "submitQuestion"
           class = "primary"
         >
@@ -90,9 +91,14 @@ export default {
     },
     submitLabel () {
       if (store.assessInfo.submitby === 'by_question') {
+        // by question submission
         return this.$t('question.submit');
+      } else if (this.questionData.try === this.questionData.tries_max - 1) {
+        // by assessment, on last try
+        return this.$t('question.saveans');
       } else {
-        return this.$t('question.checkans'); ;
+        // by assessment, can retry
+        return this.$t('question.checkans');
       }
     }
   },
@@ -103,7 +109,7 @@ export default {
       }
     },
     submitQuestion () {
-      actions.submitQuestion(this.qn);
+      actions.submitQuestion(this.qn, false);
     }
   },
   updated () {
@@ -174,5 +180,9 @@ input.red {
 .scoremark.green {
   border-color: #090;
   color: #090;
+}
+.questionwrap .question {
+  border: 0;
+  background-color: #fff;
 }
 </style>

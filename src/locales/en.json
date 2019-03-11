@@ -71,7 +71,8 @@
   },
   "question": {
     "submit": "Submit Question",
-    "checkans": "Check Answer"
+    "checkans": "Check Answer",
+    "saveans": "Save Answer"
   },
   "header": {
     "score": "Score: {pts}/{poss}",

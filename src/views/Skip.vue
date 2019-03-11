@@ -51,7 +51,7 @@ export default {
 }
 .questionpane {
   margin: 15px 15px;
-  width: 700px;
+  max-width: 700px;
   overflow: visible;
 }
 .scrollpane {

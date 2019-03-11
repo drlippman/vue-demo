@@ -3,7 +3,9 @@
     <div v-if="!assessInfoLoaded">
       {{ $t('loading') }}
     </div>
-    <router-view v-if="assessInfoLoaded"/>
+    <form id="mainform">
+      <router-view v-if="assessInfoLoaded"/>
+    </form>
   </div>
 </template>
 
