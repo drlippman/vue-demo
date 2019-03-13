@@ -22,16 +22,8 @@ export default {
     statusIcon () {
       if (this.option.dispqn === 0) {
         return 'none';
-      } else if (this.option.try === 0) {
-        return 'dot';
-      } else if (!this.option.hasOwnProperty('score')) {
-        return 'attempted';
-      } else if (this.option.score === 0) {
-        return 'incorrect';
-      } else if (this.option.score === this.option.points) {
-        return 'correct';
       } else {
-        return 'partialcorrect';
+        return this.option.status;
       }
     },
     nameDisp () {
@@ -44,11 +36,11 @@ export default {
     scoreDisplay () {
       if (this.option.dispqn === 0) {
         return '';
-      } else if (!this.option.hasOwnProperty('score')) {
+      } else if (!this.option.hasOwnProperty('gbscore')) {
         return this.$tc('header.pts', this.option.points_possible);
       } else {
         let str = this.option.canretry ? '(' : '[';
-        str += this.option.score + '/' + this.option.points_possible;
+        str += this.option.gbscore + '/' + this.option.points_possible;
         str += this.option.canretry ? ')' : ']';
         return str;
       }

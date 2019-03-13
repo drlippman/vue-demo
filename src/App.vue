@@ -100,6 +100,14 @@ input[type=submit].secondarybtn:focus,input[type=button].secondarybtn:focus, but
 .subdued {
   color: #aaa;
 }
+.flexrow {
+  display: flex;
+  flex-flow: row nowrap;
+}
+.headerpane {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+}
 .no-margin-top {
   margin-top: 0;
 }

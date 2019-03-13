@@ -11,7 +11,7 @@
     />
     <score-result
       v-if = "showScore"
-      :data = "questionData"
+      :qdata = "questionData"
     />
     <div
       v-if = "questionContentLoaded"
@@ -96,7 +96,7 @@ export default {
       );
     },
     showScore () {
-      return this.questionData.hasOwnProperty('score');
+      return this.questionData.hasOwnProperty('score') && this.questionData.hasOwnProperty('parts');
     },
     submitLabel () {
       if (store.assessInfo.submitby === 'by_question') {

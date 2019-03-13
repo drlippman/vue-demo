@@ -1,16 +1,6 @@
 <template>
   <div id="skip-question-header">
     <div style="flex-grow: 1" id="skip-question-select">
-        <router-link
-          :to="'/skip/'+ (dispqn-1) + queryString"
-          tag="button"
-          :disabled="qn<0"
-          class="secondarybtn"
-          id="qprev"
-          :aria-label="$t('prev')"
-        >
-          <icons name="left"/>
-        </router-link>
 
         <menu-button id="qnav"
           :options = "navOptions"
@@ -23,6 +13,16 @@
           </template>
         </menu-button>
 
+        <router-link
+          :to="'/skip/'+ (dispqn-1) + queryString"
+          tag="button"
+          :disabled="qn<0"
+          class="secondarybtn"
+          id="qprev"
+          :aria-label="$t('prev')"
+        >
+          <icons name="left"/>
+        </router-link>
         <router-link
           :to="'/skip/' + (dispqn+1) + queryString"
           tag="button"
@@ -115,7 +115,7 @@ export default {
       }
       let curQData = store.assessInfo.questions[this.qn];
       let hasParts = (curQData.hasOwnProperty('parts') && curQData.parts.length > 1);
-      let hasCategory = curQData.hasOwnProperty('category');
+      let hasCategory = curQData.hasOwnProperty('category') && curQData.category !== '';
       return (hasParts || hasCategory);
     }
   },
@@ -147,16 +147,18 @@ export default {
 .bigicon {
   font-size: 130%;
 }
+#qprev, #qnext {
+  margin: 0;
+  padding: 0px 8px;
+}
 #qprev {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
+  margin-left: 8px;
 }
 #qnext {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-#qprev, #qnext {
-  margin: 0;
-  padding: 3px 8px;
-}
+
 </style>

@@ -95,6 +95,29 @@
     "incorrect": "Incorrect",
     "partial": "Partially correct",
     "retry": "Retry this question",
-    "trysimilar": "Try a similar question"
+    "trysimilar": "Try a similar question",
+    "scorepts": "{pts} of {poss} pts | {pts} of {poss} pts",
+    "scorelast": "Score on last try:",
+    "submitted": "Question submitted."
+  },
+  "summary": {
+    "no_total": "Your assessment has been submitted.",
+    "viewwork_immediately": "You can view your work and scores in the gradebook",
+    "viewwork_after_take": "You can view your work and scores in the gradebook",
+    "viewwork_after_due": "You can view your work and scores in the gradebook after the due date",
+    "viewwork_never": "",
+    "score": "Score",
+    "scorepts": "{pts} of {poss} pt | {pts} of {poss} pts",
+    "retake_penalty": "{n}% retake penalty applied"
+  },
+  "scorelist": {
+    "question": "Question",
+    "score": "Score",
+    "pts": "{pts} of {poss} pt | {pts} of {poss} pts"
+  },
+  "catlist": {
+    "category": "Category",
+    "score": "Score",
+    "pts": "{pts} of {poss} pt | {pts} of {poss} pts"
   }
 }

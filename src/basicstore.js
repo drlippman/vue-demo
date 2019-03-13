@@ -71,6 +71,7 @@ export const actions = {
       });
   },
   loadQuestion (qn) {
+    store.inTransit = true;
     window.$.ajax({
       url: store.APIbase + 'loadquestion.php' + store.queryString,
       type: 'POST',
@@ -92,9 +93,13 @@ export const actions = {
         delete response.questions;
         // copy other settings from response to store
         store.assessInfo = Object.assign({}, store.assessInfo, response);
+      })
+      .always(response => {
+        store.inTransit = false;
       });
   },
   submitQuestion (qn, autosave) {
+    store.inTransit = true;
     if (typeof window.tinyMCE != "undefined") {window.tinyMCE.triggerSave();}
     let data = new FormData();
     var regex = new RegExp("^(qn|tc|qs)("+qn+"\\b|"+(qn+1)+"\\d{3})");
@@ -133,6 +138,9 @@ export const actions = {
         delete response.questions;
         // copy other settings from response to store
         store.assessInfo = Object.assign({}, store.assessInfo, response);
+      })
+      .always(response => {
+        store.inTransit = false;
       });
   },
   processSettings (data) {

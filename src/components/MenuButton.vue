@@ -201,10 +201,9 @@ export default {
 }
 .menubutton button {
   margin: 0;
-  padding: 8px 16px;
+  padding: 8px 12px;
   background-color: #fff;
   color: #000;
-  border-radius: 0;
 }
 .menubutton button.nobutton {
   border: 0;

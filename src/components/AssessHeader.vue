@@ -1,5 +1,5 @@
 <template>
-  <div id="assess-header">
+  <div id="assess-header" class="headerpane">
     <div style="flex-grow: 1">
       <h1>{{ ainfo.name }}</h1>
       <div>
@@ -74,7 +74,7 @@ export default {
       for (let i in this.ainfo.questions) {
         pointsPossible += this.ainfo.questions[i].points_possible * 1;
         if (this.ainfo.show_scores_during) {
-          pointsEarned += this.ainfo.questions[i].score * 1;
+          pointsEarned += this.ainfo.questions[i].gbscore * 1;
         }
       }
       if (this.ainfo.show_scores_during) {
@@ -110,8 +110,6 @@ export default {
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #ccc;
-  padding-bottom: 10px;
 }
 #assess-header > * {
   margin-right: 10px;

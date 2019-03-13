@@ -182,10 +182,6 @@ export default {
 .settings-list .small svg {
   padding: 0 10px 0 0;
 }
-.flexrow {
-  display: flex;
-  flex-flow: row nowrap;
-}
 .subdued {
   color: #637381;
 }
