@@ -14,9 +14,12 @@
         </thead>
         <tbody>
           <tr v-for="(part,index) in qInfo.parts" :key="index">
-            <td>{{ index + 1 }}</td>
-            <td v-if="showScore">{{ part.score }}/{{ part.possible }}</td>
-            <td>{{ part.try }}/{{ part.tries_max }}</td>
+            <td>
+              <icons :name="partIcons[index]" />
+              {{ index + 1 }}
+            </td>
+            <td v-if="showScore">{{ part.score }}/{{ part.points_possible }}</td>
+            <td>{{ part.try }}/{{ qInfo.tries_max }}</td>
           </tr>
         </tbody>
       </table>
@@ -31,10 +34,14 @@
 
 <script>
 import { store } from '../basicstore';
+import Icons from '@/components/Icons.vue';
 
 export default {
   name: 'QuestionDetailPane',
   props: ['qn'],
+  components: {
+    Icons
+  },
   computed: {
     qInfo () {
       return store.assessInfo.questions[this.qn];
@@ -46,7 +53,26 @@ export default {
       return this.qInfo.hasOwnProperty('parts');
     },
     hasCategory () {
-      return this.qInfo.hasOwnProperty('category');
+      return (this.qInfo.hasOwnProperty('category') && this.qInfo.category != '');
+    },
+    partIcons () {
+      let out = [];
+      if (this.qInfo.hasOwnProperty('parts')) {
+        for (let i=0; i < this.qInfo.parts.length; i++) {
+          if (this.qInfo.parts[i].try == 0) {
+            out[i] = 'unattempted';
+          } else if (!this.qInfo.parts[i].hasOwnProperty('rawscore')) {
+            out[i] = 'attempted';
+          } else if (this.qInfo.parts[i].rawscore > .99) {
+            out[i] = 'correct';
+          } else if (this.qInfo.parts[i].rawscore < .01) {
+            out[i] = 'incorrect';
+          } else {
+            out[i] = 'partial';
+          }
+        }
+      }
+      return out;
     }
   }
 };
