@@ -113,12 +113,12 @@ export default {
   },
   methods: {
     loadQuestionIfNeeded () {
-      if (!this.questionContentLoaded && this.active) {
+      if (!this.questionContentLoaded && this.active && store.errorMsg===null) {
         actions.loadQuestion(this.qn);
       }
     },
     submitQuestion () {
-      actions.submitQuestion(this.qn, false);
+      actions.submitQuestion(this.qn, false, false);
     }
   },
   updated () {

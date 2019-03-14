@@ -19,6 +19,7 @@
     "notyet": "This assessment is not yet available.  It will be available {sd} until {ed}.",
     "pastdue": "This assessment was due {ed}.",
     "needprereq": "You have not yet met the prerequisite requirements to work on this assessment.",
+    "no_attempts": "You have used all your attempts at this assessment.",
     "latepassn": "You have one LatePass available. | You have {n} LatePass available.",
     "latepass_needed": "You can redeem one LatePass to reopen this assessment until {date} | You can redeem {n} LatePasses to reopen this assessment until {date}",
     "practice_no_latepass": "It is now open for un-graded practice.",
@@ -108,12 +109,14 @@
     "viewwork_never": "",
     "score": "Score",
     "scorepts": "{pts} of {poss} pt | {pts} of {poss} pts",
-    "retake_penalty": "{n}% retake penalty applied"
+    "retake_penalty": "{n}% retake penalty applied",
+    "late_penalty": "{n}% late work penalty applied"
   },
   "scorelist": {
     "question": "Question",
     "score": "Score",
-    "pts": "{pts} of {poss} pt | {pts} of {poss} pts"
+    "pts": "{pts} of {poss} pt | {pts} of {poss} pts",
+    "unattempted": "Unattempted"
   },
   "catlist": {
     "category": "Category",

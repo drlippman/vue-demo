@@ -9,17 +9,20 @@
         <icons :name="question.status" />
         {{ $t('question_n', {n: index+1}) }}
       </td>
-      <td>
+      <td v-if="question.try === 0">
+        {{ $t('scorelist.unattempted') }}
+      </td>
+      <td v-else>
         {{ $tc('scorelist.pts', question.points_possible,
-              {pts: question.score, poss: question.points_possible}) }}
+              {pts: question.gbscore, poss: question.points_possible}) }}
         <!-- TODO: display penalty note? -->
-      <td>
+      </td>
     </tr>
   </table>
 </template>
 
 <script>
-import { store } from '../basicstore';
+import { store } from '../../basicstore';
 import Icons from '@/components/Icons.vue';
 
 export default {
@@ -36,7 +39,17 @@ export default {
 </script>
 
 <style>
-.scorelist tr {
+.scorelist {
+  border-collapse: collapse;
+}
+.scorelist td, .scorelist th {
+  padding: 8px 12px;
+}
+.scorelist td {
   border-bottom: 1px solid #ddd;
+}
+.scorelist th {
+  text-align: left;
+  border-bottom: 2px solid #ddd;
 }
 </style>

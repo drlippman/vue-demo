@@ -25,12 +25,17 @@ export default {
   beforeUpdate () {
     // handle routing to launch or closed page if needed
     if (store.assessInfo !== null) {
-      if (store.assessInfo.available === 'yes' ||
-        (store.assessInfo.available === 'practice' && store.assessInfo.in_practice)
+      if ((store.assessInfo.available === 'yes' ||
+        (store.assessInfo.available === 'practice' && store.assessInfo.in_practice))
+        && (store.assessInfo.has_active_attempt || store.assessInfo.can_retake)
       ) {
         // has a currently available assessment or practice session
         if (!store.inProgress) {
-          this.$router.replace('/' + this.queryString);
+          if (store.assessInfo.hasOwnProperty('score')) {
+            this.$router.replace('/summary' + this.queryString);
+          } else {
+            this.$router.replace('/' + this.queryString);
+          }
         }
       } else {
         // currently closed

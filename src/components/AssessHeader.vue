@@ -1,5 +1,5 @@
 <template>
-  <div id="assess-header" class="headerpane">
+  <div class="assess-header headerpane">
     <div style="flex-grow: 1">
       <h1>{{ ainfo.name }}</h1>
       <div>
@@ -15,6 +15,7 @@
 
     <button
       :class="{primary: ainfo.submitby === 'by_assessment' }"
+      @click="handleSubmit"
     >
       {{ assessSubmitLabel }}
     </button>
@@ -43,7 +44,7 @@
 import Timer from '@/components/Timer.vue';
 import MenuButton from '@/components/MenuButton.vue';
 import Icons from '@/components/Icons.vue';
-import { store } from '../basicstore';
+import { store, actions } from '../basicstore';
 
 export default {
   name: 'AssessHeader',
@@ -100,21 +101,30 @@ export default {
         return this.$t('header.done');
       }
     }
+  },
+  methods: {
+    handleSubmit () {
+      if (this.ainfo.submitby === 'by_assessment') {
+
+      } else {
+        actions.submitQuestion(-1, false, true);
+      }
+    }
   }
 };
 </script>
 
 <style>
-#assess-header {
+.assess-header {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
   align-items: center;
 }
-#assess-header > * {
+.assess-header > * {
   margin-right: 10px;
 }
-#assess-header h1 {
+.assess-header h1 {
   margin: .4em 0 .2em;
 }
 .answeredinfo {

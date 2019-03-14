@@ -79,6 +79,8 @@ export default {
         return this.$t('closed.pastdue', { ed: this.$d(new Date(this.settings.enddate * 1000), 'long') });
       } else if (this.settings.available === 'needprereq') {
         return this.$t('closed.needprereq');
+      } else if (this.settings.has_active_attempt === false && this.settings.can_retake === false) {
+        return this.$t('closed.no_attempts');
       }
       return '';
     },

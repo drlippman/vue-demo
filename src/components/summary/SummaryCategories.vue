@@ -13,13 +13,13 @@
         <span class="subdued">
           {{ $tc('catlist.pts', cat.poss, {pts: cat.pts, poss: cat.poss}) }}
         </span>
-      <td>
+      </td>
     </tr>
   </table>
 </template>
 
 <script>
-import { store } from '../basicstore';
+import { store } from '../../basicstore';
 import Icons from '@/components/Icons.vue';
 
 export default {

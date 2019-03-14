@@ -3,23 +3,7 @@
     <summary-header class="headerpane" />
     <div class="flexpanes">
       <div>
-        <p v-if="showTotal">
-          <span class="larger">
-            {{ $t("summary.score") }}:
-            {{ scoreTotalPercent }}%
-          </span>
-          <br/>
-          {{ $t("summary.scorepts", {pts: scoreTotal, poss: ainfo.points_possible}) }}
-          <span v-if="retakePenalty > 0">
-            <br/>
-            {{ $t("summary.retake_penalty", {n: retakePenalty}) }}
-            <!-- TODO: late work penalty -->
-          </span>
-        </p>
-        <p v-else>
-          {{ $t("summary.no_total") }}
-          {{ $t("summary.viewwork_" + ainfo.viewingb) }}
-        </p>
+        <summary-score-total />
 
         <div
           v-if="ainfo.hasOwnProperty('endmsg') && ainfo.endmsg != ''"
@@ -40,12 +24,16 @@
 
 <script>
 import { store, actions } from '../basicstore';
-import SummaryScoreList from '@/components/SummaryScoreList.vue';
-import SummaryCategories from '@/components/SummaryCategories.vue';
+import SummaryHeader from '@/components/summary/SummaryHeader.vue';
+import SummaryScoreTotal from '@/components/summary/SummaryScoreTotal.vue';
+import SummaryScoreList from '@/components/summary/SummaryScoreList.vue';
+import SummaryCategories from '@/components/summary/SummaryCategories.vue';
 
 export default {
   name: 'Summary',
   components: {
+    SummaryHeader,
+    SummaryScoreTotal,
     SummaryScoreList,
     SummaryCategories
   },
@@ -58,30 +46,6 @@ export default {
     },
     showScores () {
       return (this.ainfo.showscores === 'during' || this.ainfo.showscores === 'at_end');
-    }
-    scoreTotal () {
-      if (this.ainfo.hasOwnProperty('score')) {
-        return this.ainfo.score;
-      } else {
-        let score = 0;
-        for (let i in this.ainfo.questions) {
-          score += this.ainfo.questions[i].score;
-        }
-        return score;
-      }
-    },
-    retakePenalty () {
-      if (this.ainfo.submitby === 'by_question') {
-        return 0;
-      }
-      let curAttempt = this.ainfo.prev_attempts.length+1;
-      if (curAttempt > this.ainfo.retake_penalty.n) {
-        return this.ainfo.retake_penalty.penalty*(curAttempt - this.ainfo.retake_penalty.n);
-      }
-      return 0;
-    },
-    scoreTotalPercent () {
-      return Math.round(1000*this.scoreTotal / this.ainfo.points_possible)/10;
     },
     hasCategories () {
       let hascat = false;

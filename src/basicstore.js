@@ -24,6 +24,10 @@ export const actions = {
       crossDomain: true
     })
       .done(response => {
+        if (response.hasOwnProperty('error')) {
+          store.errorMsg = data.error;
+          return;
+        }
         response = this.processSettings(response);
         store.assessInfo = response;
       })
@@ -50,6 +54,10 @@ export const actions = {
       crossDomain: true
     })
       .done(response => {
+        if (response.hasOwnProperty('error')) {
+          store.errorMsg = data.error;
+          return;
+        }
       // overwrite properties with those from response
         response = this.processSettings(response);
         store.assessInfo = Object.assign({}, store.assessInfo, response);
@@ -85,6 +93,10 @@ export const actions = {
       crossDomain: true
     })
       .done(response => {
+        if (response.hasOwnProperty('error')) {
+          store.errorMsg = data.error;
+          return;
+        }
         response = this.processSettings(response);
         // overwrite existing questions with new data
         for (let i in response.questions) {
@@ -98,25 +110,30 @@ export const actions = {
         store.inTransit = false;
       });
   },
-  submitQuestion (qn, autosave) {
+  submitQuestion (qn, autosave, endattempt) {
     store.inTransit = true;
     if (typeof window.tinyMCE != "undefined") {window.tinyMCE.triggerSave();}
     let data = new FormData();
     var regex = new RegExp("^(qn|tc|qs)("+qn+"\\b|"+(qn+1)+"\\d{3})");
-		window.$("#questionwrap" + qn).find("input,select,textarea").each(function(i,el) {
-			if (el.name.match(regex)) {
-				if ((el.type!=='radio' && el.type!=='checkbox') || el.checked) {
-					if (el.type==='file') {
-						data.append(el.name, el.files[0]);
-					} else {
-						data.append(el.name, el.value);
-					}
-				}
-			}
-		});
+    window.$("#questionwrap" + qn).find("input,select,textarea").each(function(i,el) {
+      if (el.name.match(regex)) {
+        if ((el.type!=='radio' && el.type!=='checkbox') || el.checked) {
+          if (el.type==='file') {
+            data.append(el.name, el.files[0]);
+          } else {
+            data.append(el.name, el.value);
+          }
+        }
+      }
+    });
     data.append('toscoreqn', qn);
     data.append('lastloaded', 0);   // TODO
-    data.append('autosave', autosave);
+    if (autosave) {
+      data.append('autosave', autosave);
+    }
+    if (endattempt) {
+      data.append('endattempt', endattempt);
+    }
     window.$.ajax({
       url: store.APIbase + 'scorequestion.php' + store.queryString,
       type: 'POST',
@@ -130,6 +147,10 @@ export const actions = {
       crossDomain: true
     })
       .done(response => {
+        if (response.hasOwnProperty('error')) {
+          store.errorMsg = data.error;
+          return;
+        }
         response = this.processSettings(response);
         // overwrite existing questions with new data
         for (let i in response.questions) {
@@ -138,6 +159,10 @@ export const actions = {
         delete response.questions;
         // copy other settings from response to store
         store.assessInfo = Object.assign({}, store.assessInfo, response);
+        if (endattempt) {
+          store.inProgress = false;
+          Router.push('/summary' + store.queryString);
+        }
       })
       .always(response => {
         store.inTransit = false;
@@ -149,15 +174,19 @@ export const actions = {
         let thisq = data.questions[i];
 
         data.questions[i].canretry = (thisq.try < thisq.tries_max);
-        if (typeof thisq.regens_max !== 'undefined' && thisq.regen < thisq.regens_max) {
+        data.questions[i].tries_remaining = thisq.tries_max - thisq.try;
+        if (thisq.hasOwnProperty('regens_max') !== 'undefined' && thisq.regen < thisq.regens_max) {
           data.questions[i].canregen = true;
+          data.questions[i].regens_remaining = thisq.regens_max - thisq.regen;
         } else {
           data.questions[i].canregen = false;
+          data.questions[i].regens_remaining = 0;
         }
       }
     }
-    data['show_scores_during'] = (data.showscores === 'during');
-    data['tries_remaining'] = (data.tries_max - data.try);
+    if (data.hasOwnProperty('showscores')) {
+      data['show_scores_during'] = (data.showscores === 'during');
+    }
     if (data.hasOwnProperty('regen')) {
       data['regens_remaining'] = (data.regens_max - data.regen);
     }
