@@ -2,7 +2,7 @@
   <div class="home">
     <summary-header class="headerpane" />
     <div class="flexpanes">
-      <div>
+      <div style="flex-grow: 1">
         <summary-score-total />
 
         <div
@@ -12,6 +12,8 @@
 
         <summary-score-list v-if="showScores" />
 
+        <p>&nbsp;</p>
+        
         <summary-categories v-if="hasCategories" />
       </div>
 
@@ -28,6 +30,7 @@ import SummaryHeader from '@/components/summary/SummaryHeader.vue';
 import SummaryScoreTotal from '@/components/summary/SummaryScoreTotal.vue';
 import SummaryScoreList from '@/components/summary/SummaryScoreList.vue';
 import SummaryCategories from '@/components/summary/SummaryCategories.vue';
+import PreviousAttempts from '@/components/PreviousAttempts.vue';
 
 export default {
   name: 'Summary',
@@ -35,7 +38,8 @@ export default {
     SummaryHeader,
     SummaryScoreTotal,
     SummaryScoreList,
-    SummaryCategories
+    SummaryCategories,
+    PreviousAttempts
   },
   computed: {
     ainfo () {
@@ -66,9 +70,11 @@ export default {
 <style>
 .flexpanes {
   display: flex;
-  flex-flow: row;
+  flex-flow: row wrap;
 }
-.flexpanes div + div{
+.flexpanes > div + div{
   border-left: 1px solid #ddd;
+  border-top: 1px solid #ddd;
+  margin-top: -1px;
 }
 </style>

@@ -36,13 +36,13 @@ export default {
     scoreDisplay () {
       if (this.option.dispqn === 0) {
         return '';
-      } else if (!this.option.hasOwnProperty('gbscore')) {
-        return this.$tc('header.pts', this.option.points_possible);
-      } else {
+      } else if (this.option.hasOwnProperty('gbscore')) {
         let str = this.option.canretry ? '(' : '[';
         str += this.option.gbscore + '/' + this.option.points_possible;
         str += this.option.canretry ? ')' : ']';
         return str;
+      } else {
+        return this.$tc('header.pts', this.option.points_possible);
       }
     }
   }

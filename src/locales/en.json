@@ -108,6 +108,8 @@
     "viewwork_after_due": "You can view your work and scores in the gradebook after the due date",
     "viewwork_never": "",
     "score": "Score",
+    "recordedscore": "Recorded Score",
+    "use_override": "Instructor grade override is recorded", 
     "scorepts": "{pts} of {poss} pt | {pts} of {poss} pts",
     "retake_penalty": "{n}% retake penalty applied",
     "late_penalty": "{n}% late work penalty applied"
@@ -122,5 +124,10 @@
     "category": "Category",
     "score": "Score",
     "pts": "{pts} of {poss} pt | {pts} of {poss} pts"
+  },
+  "prev": {
+    "previous_attempts": "Previous Attempts",
+    "date": "Date",
+    "score": "Score"
   }
 }

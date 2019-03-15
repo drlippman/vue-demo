@@ -68,7 +68,7 @@ export default {
       for (let i in this.ainfo.questions) {
         let parts = this.ainfo.questions[i].parts;
         for (let pn=0; pn < parts.length; pn++) {
-          if (parts[pn].penalties.hasOwnProperty('late')) {
+          if (parts[pn].hasOwnProperty('penalties') && parts[pn].penalties.hasOwnProperty('late')) {
             hasLate == parts[pn].penalties.late;
           } else if (hasLate > 0) {
             //if one is not late, we won't report late here

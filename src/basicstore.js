@@ -68,7 +68,11 @@ export const actions = {
         } else if (store.assessInfo.has_active_attempt) {
           store.inProgress = true;
           if (store.assessInfo.displaymethod === 'skip') {
-            Router.push('/skip/0' + store.queryString);
+            if (store.assessInfo.intro != '') {
+              Router.push('/skip/0' + store.queryString);
+            } else {
+              Router.push('/skip/1' + store.queryString);
+            }
           } else if (store.assessInfo.displaymethod === 'full') {
             Router.push('/full' + store.queryString);
           }
@@ -110,24 +114,30 @@ export const actions = {
         store.inTransit = false;
       });
   },
-  submitQuestion (qn, autosave, endattempt) {
+  submitQuestion (qns, autosave, endattempt) {
+    if (typeof qns !== 'array') {
+      qns = [qns];
+    }
     store.inTransit = true;
     if (typeof window.tinyMCE != "undefined") {window.tinyMCE.triggerSave();}
     let data = new FormData();
-    var regex = new RegExp("^(qn|tc|qs)("+qn+"\\b|"+(qn+1)+"\\d{3})");
-    window.$("#questionwrap" + qn).find("input,select,textarea").each(function(i,el) {
-      if (el.name.match(regex)) {
-        if ((el.type!=='radio' && el.type!=='checkbox') || el.checked) {
-          if (el.type==='file') {
-            data.append(el.name, el.files[0]);
-          } else {
-            data.append(el.name, el.value);
+    for (let k=0; k<qns.length; k++) {
+      let qn = qns[k];
+      var regex = new RegExp("^(qn|tc|qs)("+qn+"\\b|"+(qn+1)+"\\d{3})");
+      window.$("#questionwrap" + qn).find("input,select,textarea").each(function(i,el) {
+        if (el.name.match(regex)) {
+          if ((el.type!=='radio' && el.type!=='checkbox') || el.checked) {
+            if (el.type==='file') {
+              data.append(el.name, el.files[0]);
+            } else {
+              data.append(el.name, el.value);
+            }
           }
         }
-      }
-    });
-    data.append('toscoreqn', qn);
-    data.append('lastloaded', 0);   // TODO
+      });
+    };
+    data.append('toscoreqn', qns);
+    data.append('lastloaded', [0]);   // TODO
     if (autosave) {
       data.append('autosave', autosave);
     }

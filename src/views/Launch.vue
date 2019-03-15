@@ -1,42 +1,47 @@
 <template>
-  <div class="home">
-    <h1>{{ aInfo.name }}</h1>
+  <div class="home flexpanes">
+    <div style="flex-grow: 1">
+      <h1>{{ aInfo.name }}</h1>
 
-    <div class="med-below" v-html="aInfo.summary"></div>
+      <div class="med-below" v-html="aInfo.summary"></div>
 
-    <settings-list />
+      <settings-list />
 
-    <div class="settings-list">
-      <div class="flexrow" v-if="aInfo.has_password">
-        <div>
-          <icons name="lock" size="small"/>
+      <div class="settings-list">
+        <div class="flexrow" v-if="aInfo.has_password">
+          <div>
+            <icons name="lock" size="small"/>
+          </div>
+          <password-entry v-model="password"/>
         </div>
-        <password-entry v-model="password"/>
-      </div>
-      <div class="flexrow" v-if="aInfo.isgroup > 0">
-        <div>
-          <icons name="group" size="small" />
+        <div class="flexrow" v-if="aInfo.isgroup > 0">
+          <div>
+            <icons name="group" size="small" />
+          </div>
+          <group-entry @update-new-group="updateNewGroup" />
         </div>
-        <group-entry @update-new-group="updateNewGroup" />
       </div>
-    </div>
 
-    <p
-      class = "noticetext"
-      v-if = "errorMsg !== null"
-    >
-      {{ errorMsg }}
-    <p>
-
-    <p v-if="okToLaunch">
-      <button
-        type="button"
-        class="primary"
-        @click="startAssess"
+      <p
+        class = "noticetext"
+        v-if = "errorMsg !== null"
       >
-        {{ startLabel }}
-      </button>
-    </p>
+        {{ errorMsg }}
+      <p>
+
+      <p v-if="okToLaunch">
+        <button
+          type="button"
+          class="primary"
+          @click="startAssess"
+        >
+          {{ startLabel }}
+        </button>
+      </p>
+    </div>
+    <previous-attempts
+      v-if="aInfo.hasOwnProperty('prev_attempts') && aInfo.prev_attempts.length > 0"
+    />
   </div>
 </template>
 
@@ -47,6 +52,8 @@
 import SettingsList from '@/components/launch/SettingsList.vue';
 import PasswordEntry from '@/components/launch/PasswordEntry.vue';
 import GroupEntry from '@/components/launch/GroupEntry.vue';
+import PreviousAttempts from '@/components/PreviousAttempts.vue';
+
 import Icons from '@/components/Icons.vue';
 
 import { store, actions } from '../basicstore';
@@ -57,6 +64,7 @@ export default {
     SettingsList,
     PasswordEntry,
     GroupEntry,
+    PreviousAttempts,
     Icons
   },
   data: function () {

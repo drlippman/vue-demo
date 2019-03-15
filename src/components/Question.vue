@@ -96,7 +96,7 @@ export default {
       );
     },
     showScore () {
-      return this.questionData.hasOwnProperty('score') && this.questionData.hasOwnProperty('parts');
+      return this.questionData.hasOwnProperty('score') && this.questionData.status !== 'unattempted';
     },
     submitLabel () {
       if (store.assessInfo.submitby === 'by_question') {

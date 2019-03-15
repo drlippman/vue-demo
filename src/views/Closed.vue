@@ -1,51 +1,56 @@
 <template>
-  <div class="home">
-    <h1>{{ settings.name }}</h1>
+  <div class="home flexpanes">
+    <div style="flex-grow: 1">
+      <h1>{{ settings.name }}</h1>
 
-    <p>{{ closedMessage }}</p>
+      <p>{{ closedMessage }}</p>
 
-    <p v-if="settings.can_use_latepass > 0">
-      {{ $tc('closed.latepassn', settings.latepasses_avail) }}
-      <br/>
-      {{ latepassExtendMsg }}
-    </p>
+      <p v-if="settings.can_use_latepass > 0">
+        {{ $tc('closed.latepassn', settings.latepasses_avail) }}
+        <br/>
+        {{ latepassExtendMsg }}
+      </p>
 
-    <p v-if="settings.available === 'practice' && settings.can_use_latepass === 0">
-      {{ $t('closed.practice_no_latepass') }}
-    </p>
-    <p v-else-if="settings.available === 'practice' && settings.can_use_latepass > 0">
-      {{ $t('closed.practice_w_latepass') }}
-      <br/>
-      <icons name="alert" size="micro" />
-      {{ $t('closed.will_block_latepass') }}
-    </p>
-
-    <p v-if="settings.is_lti && settings.viewingb != 'never'">
-      {{ $t('closed.can_view_scored') }}
-      <span v-if="settings.can_use_latepass > 0">
+      <p v-if="settings.available === 'practice' && settings.can_use_latepass === 0">
+        {{ $t('closed.practice_no_latepass') }}
+      </p>
+      <p v-else-if="settings.available === 'practice' && settings.can_use_latepass > 0">
+        {{ $t('closed.practice_w_latepass') }}
         <br/>
         <icons name="alert" size="micro" />
         {{ $t('closed.will_block_latepass') }}
-      </span>
-    </p>
+      </p>
 
-    <p>
-      <button
-        v-if = "primaryButton != ''"
-        class = "primary"
-        @click = "handlePrimary"
-      >
-        {{ primaryButton }}
-      </button>
-      <button
-        v-if = "secondaryButton != ''"
-        class = "secondarybtn"
-        @click = "handleSecondary"
-      >
-        {{ secondaryButton }}
-      </button>
-    </p>
+      <p v-if="settings.is_lti && settings.viewingb != 'never'">
+        {{ $t('closed.can_view_scored') }}
+        <span v-if="settings.can_use_latepass > 0">
+          <br/>
+          <icons name="alert" size="micro" />
+          {{ $t('closed.will_block_latepass') }}
+        </span>
+      </p>
 
+      <p>
+        <button
+          v-if = "primaryButton != ''"
+          class = "primary"
+          @click = "handlePrimary"
+        >
+          {{ primaryButton }}
+        </button>
+        <button
+          v-if = "secondaryButton != ''"
+          class = "secondarybtn"
+          @click = "handleSecondary"
+        >
+          {{ secondaryButton }}
+        </button>
+      </p>
+
+    </div>
+    <previous-attempts
+      v-if="settings.hasOwnProperty('prev_attempts') && settings.prev_attempts.length > 0"
+    />
   </div>
 </template>
 
@@ -53,12 +58,14 @@
 // TODO: list previous attempts and scores when appropriate
 
 import Icons from '@/components/Icons.vue';
+import PreviousAttempts from '@/components/PreviousAttempts.vue';
 import { store } from '../basicstore';
 
 export default {
   name: 'Closed',
   components: {
-    Icons
+    Icons,
+    PreviousAttempts
   },
   computed: {
     settings () {

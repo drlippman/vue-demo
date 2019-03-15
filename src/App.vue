@@ -41,6 +41,8 @@ export default {
         // currently closed
         this.$router.replace('/closed' + this.queryString);
       }
+    } else {
+      actions.loadAssessData();
     }
   },
   created () {
@@ -121,6 +123,9 @@ input[type=submit].secondarybtn:focus,input[type=button].secondarybtn:focus, but
 }
 .med-below {
   margin-bottom: 16px;
+}
+.med-left {
+  margin-left: 16px;
 }
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;

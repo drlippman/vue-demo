@@ -75,7 +75,9 @@ export default {
       for (let i in this.ainfo.questions) {
         pointsPossible += this.ainfo.questions[i].points_possible * 1;
         if (this.ainfo.show_scores_during) {
-          pointsEarned += this.ainfo.questions[i].gbscore * 1;
+          if (this.ainfo.questions[i].hasOwnProperty('gbscore')) {
+            pointsEarned += this.ainfo.questions[i].gbscore * 1;
+          }
         }
       }
       if (this.ainfo.show_scores_during) {
@@ -88,7 +90,7 @@ export default {
       let qAnswered = 0;
       let nQuestions = this.ainfo.questions.length;
       for (let i in this.ainfo.questions) {
-        if (this.ainfo.questions[i].status > 0) {
+        if (this.ainfo.questions[i].try > 0) {
           qAnswered++;
         }
       }
@@ -105,7 +107,17 @@ export default {
   methods: {
     handleSubmit () {
       if (this.ainfo.submitby === 'by_assessment') {
-
+        if (this.ainfo.showscores === 'during') {
+          // TODO: check for dirty questions and submit them
+          actions.submitQuestion(-1, false, true);
+        } else {
+          // submit them all
+          var qns = [];
+          for (let k=0; k < this.ainfo.questions.length; k++) {
+            qns.push(k);
+          }
+          actions.submitQuestion(qns, false, true);
+        }
       } else {
         actions.submitQuestion(-1, false, true);
       }
