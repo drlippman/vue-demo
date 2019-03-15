@@ -127,6 +127,7 @@
   },
   "prev": {
     "previous_attempts": "Previous Attempts",
+    "all_attempts": "All Attempts",
     "date": "Date",
     "score": "Score"
   }

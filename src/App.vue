@@ -23,6 +23,10 @@ export default {
     }
   },
   beforeUpdate () {
+    store.cid = this.$route.query.cid;
+    store.aid = this.$route.query.aid;
+    store.queryString = '?cid=' + store.cid + '&aid=' + store.aid;
+    
     // handle routing to launch or closed page if needed
     if (store.assessInfo !== null) {
       if ((store.assessInfo.available === 'yes' ||

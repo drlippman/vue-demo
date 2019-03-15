@@ -41,6 +41,7 @@
     </div>
     <previous-attempts
       v-if="aInfo.hasOwnProperty('prev_attempts') && aInfo.prev_attempts.length > 0"
+      :caption = "$t('prev.previous_attempts')"
     />
   </div>
 </template>

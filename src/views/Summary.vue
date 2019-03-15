@@ -13,13 +13,13 @@
         <summary-score-list v-if="showScores" />
 
         <p>&nbsp;</p>
-        
+
         <summary-categories v-if="hasCategories" />
       </div>
-
-      <previous-attempts
-        v-if="ainfo.hasOwnProperty('prev_attempts') && ainfo.prev_attempts.length > 0"
-      />
+      <div v-if="ainfo.hasOwnProperty('prev_attempts') && ainfo.prev_attempts.length > 0">
+        <summary-gb-score />
+        <previous-attempts :caption = "$t('prev.all_attempts')" />
+      </div>
     </div>
   </div>
 </template>
@@ -27,6 +27,7 @@
 <script>
 import { store, actions } from '../basicstore';
 import SummaryHeader from '@/components/summary/SummaryHeader.vue';
+import SummaryGbScore from '@/components/summary/SummaryGbScore.vue';
 import SummaryScoreTotal from '@/components/summary/SummaryScoreTotal.vue';
 import SummaryScoreList from '@/components/summary/SummaryScoreList.vue';
 import SummaryCategories from '@/components/summary/SummaryCategories.vue';
@@ -37,6 +38,7 @@ export default {
   components: {
     SummaryHeader,
     SummaryScoreTotal,
+    SummaryGbScore,
     SummaryScoreList,
     SummaryCategories,
     PreviousAttempts
