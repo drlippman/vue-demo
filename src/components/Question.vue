@@ -20,17 +20,16 @@
       class = "question"
       :id="'questionwrap' + qn"
     />
-    <div v-if="showSubmit">
-      <p><br/>
-        <button
-          type = "button"
-          @click = "submitQuestion"
-          class = "primary"
-          :disabled = "!canSubmit"
-        >
-          {{ submitLabel }}
-        </button>
-      </p>
+    <question-helps :qn = "qn" />
+    <div v-if="showSubmit" class="submitbtnwrap">
+      <button
+        type = "button"
+        @click = "submitQuestion"
+        class = "primary"
+        :disabled = "!canSubmit"
+      >
+        {{ submitLabel }}
+      </button>
     </div>
     <inter-question-text
       v-if = "questionContentLoaded"
@@ -45,13 +44,15 @@
 import { store, actions } from '../basicstore';
 import InterQuestionText from '@/components/InterQuestionText.vue';
 import ScoreResult from '@/components/ScoreResult.vue';
+import QuestionHelps from '@/components/QuestionHelps.vue';
 
 export default {
   name: 'Question',
   props: ['qn', 'active'],
   components: {
     InterQuestionText,
-    ScoreResult
+    ScoreResult,
+    QuestionHelps
   },
   data: function () {
     return {
@@ -237,5 +238,8 @@ input.red {
 .questionwrap .question {
   border: 0;
   background-color: #fff;
+}
+.submitbtnwrap {
+  margin: 16px 0;
 }
 </style>

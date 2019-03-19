@@ -1,6 +1,6 @@
 <template>
   <div id="qdetails-pane">
-    <div class="pane-header">
+    <div class="pane-header nowrap">
       {{ $t('qdetails.question_details') }}
     </div>
     <div class="pane-body">

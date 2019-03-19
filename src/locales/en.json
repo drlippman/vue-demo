@@ -164,5 +164,9 @@
   "timer": {
     "hrs": "hr | hrs",
     "min": "min | mins"
+  },
+  "helps": {
+    "message_instructor": "Message instructor about this question",
+    "post_to_forum": "Post this question to forum"
   }
 }
