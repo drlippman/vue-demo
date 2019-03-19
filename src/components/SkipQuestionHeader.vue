@@ -114,7 +114,10 @@ export default {
         return false;
       }
       let curQData = store.assessInfo.questions[this.qn];
-      let hasParts = (curQData.hasOwnProperty('parts') && curQData.parts.length > 1);
+      let hasParts = (curQData.hasOwnProperty('parts') &&
+        curQData.parts.length > 1 &&
+        curQData.parts[0].hasOwnProperty('points_possible')
+      );
       let hasCategory = curQData.hasOwnProperty('category') && curQData.category !== '';
       return (hasParts || hasCategory);
     }

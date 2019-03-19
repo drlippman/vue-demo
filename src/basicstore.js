@@ -10,7 +10,9 @@ export const store = Vue.observable({
   errorMsg: null,
   lastLoaded: [],
   inProgress: false,
-  assessFormIsDirty: []
+  assessFormIsDirty: [],
+  timelimit_timer: null,
+  timelimit_expired: false
 });
 
 export const actions = {
@@ -196,6 +198,12 @@ export const actions = {
         store.inTransit = false;
       });
   },
+  handleTimelimitUp () {
+    store.timelimit_expired = true;
+    if (true && store.assessInfo.has_active_attempt) { // TODO!
+      this.submitQuestion(-1, false, true);
+    }
+  },
   processSettings (data) {
     if (data.hasOwnProperty('questions')) {
       for (let i in data.questions) {
@@ -218,6 +226,20 @@ export const actions = {
     }
     if (data.hasOwnProperty('regen')) {
       data['regens_remaining'] = (data.regens_max - data.regen);
+    }
+    if (data.hasOwnProperty('timelimit_expires')) {
+      clearTimeout(store.timelimit_timer);
+      let now = new Date();
+      let expires = new Date(data.timelimit_expires * 1000);
+      if (expires > now) {
+        console.log("expires at: " + expires.toString());
+        console.log("now: " + now.toString());
+        console.log("ending in: " + (expires - now));
+        store.timelimit_timer = setTimeout(()=>{this.handleTimelimitUp();}, expires - now);
+        store.timelimit_expired = false;
+      } else {
+        store.timelimit_expired = true;
+      }
     }
     if (data.hasOwnProperty('interquestion_text')) {
       // ensure proper data type on these

@@ -29,6 +29,11 @@ export default {
   components: {
     Icons
   },
+  data: function () {
+    return {
+      now: new Date
+    }
+  },
   computed: {
     settingRows () {
       var out = [];
@@ -144,12 +149,9 @@ export default {
         timeobj.sub = this.$t('setlist.timelimit_extend', { time: this.formatTimeLimit(settings.timelimit) });
       }
       if (settings.has_active_attempt) {
-        let now = new Date();
-        let expires = new Date(settings.timelimit_expires * 1000);
-        if (now < expires) {
+        if (!store.timelimit_expired) {
+          let expires = new Date(settings.timelimit_expires * 1000);
           timeobj.alert = this.$t('setlist.time_expires', {date: this.$d(expires, 'long')});
-        } else {
-          timeobj.alert = this.$t('setlist.time_expired', {date: this.$d(expires, 'long')});
         }
       }
       return timeobj;

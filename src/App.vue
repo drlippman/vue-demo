@@ -3,7 +3,9 @@
     <div v-if="!assessInfoLoaded">
       {{ $t('loading') }}
     </div>
+
     <router-view v-if="assessInfoLoaded"/>
+
     <error-dialog v-if="hasError" />
   </div>
 </template>
@@ -147,6 +149,28 @@ input[type=submit].secondarybtn:focus,input[type=button].secondarybtn:focus, but
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition-duration: 0.5s;
+  transition-property: height, opacity, transform;
+  transition-timing-function: cubic-bezier(0.55, 0, 0.1, 1);
+  overflow: hidden;
+}
+
+.slide-left-enter,
+.slide-right-leave-active {
+  opacity: 0;
+  transform: translate(2em, 0);
+}
+
+.slide-left-leave-active,
+.slide-right-enter {
+  opacity: 0;
+  transform: translate(-2em, 0);
 }
 
 </style>

@@ -53,7 +53,7 @@ export default {
       }
     },
     handleFocusout () {
-      //this.closetimer = setTimeout(() => { this.open = false; }, 50);
+      this.closetimer = setTimeout(() => { this.open = false; }, 50);
     },
     handleFocusin () {
       clearTimeout(this.closetimer);

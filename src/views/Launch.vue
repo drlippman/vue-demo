@@ -29,6 +29,14 @@
         {{ errorMsg }}
       <p>
 
+      <p
+        v-if = "timeLimitExpired !== ''"
+        class = "noticetext"
+      >
+        <icons name="alert" />
+        {{ timeLimitExpired }}
+      </p>
+
       <p v-if="okToLaunch">
         <button
           type="button"
@@ -92,22 +100,25 @@ export default {
         return this.$t('launch.start_assess');
       }
     },
+    timeLimitExpired () {
+      if (store.timelimit_expired) {
+        let expires = new Date(this.aInfo.timelimit_expires * 1000);
+        return this.$t('setlist.time_expired', {date: this.$d(expires, 'long')});
+      } else {
+        return '';
+      }
+    },
     okToLaunch () {
       if (this.aInfo.isgroup === 3 && this.aInfo.group_members.length === 0) {
         // If it's instructor-created groups and not in a group yet
         return false;
       }
-
       if (this.aInfo.timelimit > 0 &&
+        store.timelimit_expired &&
         this.aInfo.timelimit_type == 'kick_out' &&
         this.aInfo.has_active_attempt
       ) {
-        let now = new Date();
-        let expires = new Date(this.aInfo.timelimit_expires * 1000);
-        // The time limit has expired
-        if (now > expires) {
-          return false;
-        }
+        return false;
       }
       return true;
     }
