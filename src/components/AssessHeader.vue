@@ -10,12 +10,13 @@
 
     <timer v-if="ainfo.timelimit > 0"
       :total="ainfo.timelimit"
-      :end="ainfo.timeExpires">
+      :end="ainfo.timelimit_expires">
     </timer>
 
     <button
       :class="{primary: ainfo.submitby === 'by_assessment' }"
       @click="handleSubmit"
+      :disabled = "!canSubmit"
     >
       {{ assessSubmitLabel }}
     </button>
@@ -58,16 +59,12 @@ export default {
       resourceMenuShowing: false
     };
   },
-  created () {
-    // temporary for demo purposes
-    if (store.assessInfo.timelimit > 0) {
-      let now = new Date().getTime();
-      store.assessInfo.timeExpires = now + 1000 * 60 * store.assessInfo.timelimit;
-    }
-  },
   computed: {
     ainfo () {
       return store.assessInfo;
+    },
+    canSubmit () {
+      return (!store.inTransit);
     },
     curScorePoints () {
       let pointsPossible = 0;

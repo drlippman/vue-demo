@@ -4,16 +4,24 @@
       {{ $t('loading') }}
     </div>
     <router-view v-if="assessInfoLoaded"/>
+    <error-dialog v-if="hasError" />
   </div>
 </template>
 
 <script>
 import { store, actions } from './basicstore';
+import ErrorDialog from '@/components/ErrorDialog.vue';
 
 export default {
+  components: {
+    ErrorDialog
+  },
   computed: {
     assessInfoLoaded () {
       return (store.assessInfo !== null);
+    },
+    hasError () {
+      return (store.errorMsg !== null);
     },
     assessName () {
       return store.assessInfo.name;
@@ -26,7 +34,7 @@ export default {
     store.cid = this.$route.query.cid;
     store.aid = this.$route.query.aid;
     store.queryString = '?cid=' + store.cid + '&aid=' + store.aid;
-    
+
     // handle routing to launch or closed page if needed
     if (store.assessInfo !== null) {
       if ((store.assessInfo.available === 'yes' ||
@@ -77,6 +85,9 @@ input {
 }
 button.slim {
   padding: 0px 12px;
+}
+button.nopad {
+  padding: 0;
 }
 button.plain {
   border: 0;

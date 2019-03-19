@@ -47,9 +47,6 @@
 </template>
 
 <script>
-/* TODO
-  Pane for previous attempt scores
-*/
 import SettingsList from '@/components/launch/SettingsList.vue';
 import PasswordEntry from '@/components/launch/PasswordEntry.vue';
 import GroupEntry from '@/components/launch/GroupEntry.vue';
@@ -100,14 +97,29 @@ export default {
         // If it's instructor-created groups and not in a group yet
         return false;
       }
+
+      if (this.aInfo.timelimit > 0 &&
+        this.aInfo.timelimit_type == 'kick_out' &&
+        this.aInfo.has_active_attempt
+      ) {
+        let now = new Date();
+        let expires = new Date(this.aInfo.timelimit_expires * 1000);
+        // The time limit has expired
+        if (now > expires) {
+          return false;
+        }
+      }
       return true;
     }
   },
   methods: {
     startAssess () {
-      let pwval = this.password;
-      this.password = '';
-      actions.startAssess(false, pwval, this.newGroupMembers);
+      let timelimit = this.aInfo.timelimit;
+      if (timelimit === 0 || confirm(this.$t('launch.timewarning'))) {
+        let pwval = this.password;
+        this.password = '';
+        actions.startAssess(false, pwval, this.newGroupMembers);
+      }
     },
     updateNewGroup (newMembers) {
       this.newGroupMembers = newMembers;

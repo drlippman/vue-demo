@@ -12,6 +12,7 @@
     <score-result
       v-if = "showScore"
       :qdata = "questionData"
+      :qn = "qn"
     />
     <div
       v-if = "questionContentLoaded"
@@ -25,6 +26,7 @@
           type = "button"
           @click = "submitQuestion"
           class = "primary"
+          :disabled = "!canSubmit"
         >
           {{ submitLabel }}
         </button>
@@ -51,9 +53,18 @@ export default {
     InterQuestionText,
     ScoreResult
   },
+  data: function () {
+    return {
+        timeActivated: null,
+        timeActive: 0
+    }
+  },
   computed: {
     questionData () {
       return store.assessInfo.questions[this.qn];
+    },
+    canSubmit () {
+      return (!store.inTransit);
     },
     preText () {
       let out = [];
@@ -114,17 +125,49 @@ export default {
   methods: {
     loadQuestionIfNeeded () {
       if (!this.questionContentLoaded && this.active && store.errorMsg===null) {
-        actions.loadQuestion(this.qn);
+        actions.loadQuestion(this.qn, false);
       }
     },
     submitQuestion () {
-      actions.submitQuestion(this.qn, false, false);
+      actions.submitQuestion(this.qn, false, false, this.timeActive);
+    },
+    updateTime (goingActive) {
+      if (this.timeActivated === null || goingActive) {
+        this.timeActivated = new Date();
+      } else if (this.timeActivated !== null) {
+        let now = new Date();
+        this.timeActive += (now - this.timeActivated);
+      }
+    },
+    addDirtyTrackers () {
+      window.$('#questionwrap' + this.qn).find('input,select,textarea')
+      .on('focus', function() {
+        window.$(this).attr('data-lastval', window.$(this).val());
+      })
+      .on('change', function() {
+        let val = window.$(this).val();
+        if (val != window.$(this).attr('data-lastval')) {
+          let name = window.$(this).attr("name");
+          let m = name.match(/^(qs|qn|tc)(\d+)/);
+          if (m !== null) {
+            var qn = m[2]*1;
+            if (qn>1000) {
+              qn = Math.floor(qn/1000 + .001)-1;
+            }
+            if (store.assessFormIsDirty.indexOf(qn)==-1) {
+              store.assessFormIsDirty.push(qn);
+            }
+          }
+        }
+      });
     }
   },
   updated () {
     if (this.questionContentLoaded) {
       setTimeout(window.drawPics, 100);
       window.rendermathnode(document.getElementById('questionwrap' + this.qn));
+      this.updateTime(true);
+      this.addDirtyTrackers();
     } else {
       this.loadQuestionIfNeeded();
     }
@@ -135,6 +178,7 @@ export default {
   watch: {
     active: function (newVal, oldVal) {
       this.loadQuestionIfNeeded();
+      this.updateTime(newVal);
     }
   }
 };

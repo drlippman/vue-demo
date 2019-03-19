@@ -55,7 +55,6 @@
 </template>
 
 <script>
-// TODO: list previous attempts and scores when appropriate
 
 import Icons from '@/components/Icons.vue';
 import PreviousAttempts from '@/components/PreviousAttempts.vue';

@@ -37,22 +37,22 @@
     <div>
       <span
         v-if="qn >= 0 && curQData.canretry"
-        :title="$t('qinfo.tryn', {n: curQData.try + 1, nmax: curQData.tries_max})">
+        :title="$tc('qinfo.tries_remaining', curQData.tries_remaining)">
         <icons name="retry"/>
-        {{ curQData.try + 1 }}/{{ curQData.tries_max}}
+        {{ curQData.tries_remaining }}
       </span>
       <span
         v-if="qn >= 0 && curQData.canregen"
-        :title="$t('qinfo.regenn', {n: curQData.regen, nmax: curQData.regens_max})">
+        :title="$tc('qinfo.regens_remaining', curQData.regens_remaining)">
         <icons name="retake"/>
-        {{ curQData.regen }}/{{ curQData.regens_max}}
+        {{ curQData.regens_remaining }}
       </span>
     </div>
 
     <dropdown id="question-details" position="right" v-if="showDetails">
       <template v-slot:button>
         <icons name="info" size="medium"/>
-        Details
+        {{ $t('header.details') }}
       </template>
       <question-details-pane :qn="qn" />
     </dropdown>

@@ -24,6 +24,7 @@
         <button
           v-if = "qdata.canregen"
           type = "button"
+          @click = "trySimilar"
         >
           <icons name="retake" />
           {{ $t('scoreresult.trysimilar') }}
@@ -34,12 +35,12 @@
 </template>
 
 <script>
-import { store } from '../basicstore';
+import { store, actions } from '../basicstore';
 import Icons from '@/components/Icons.vue';
 
 export default {
   name: 'ScoreResult',
-  props: ['qdata'],
+  props: ['qdata', 'qn'],
   data: function () {
     return {
       expanded: true
@@ -80,6 +81,12 @@ export default {
       } else {
         return 'partial';
       }
+    }
+  },
+  methods: {
+    trySimilar () {
+      actions.loadQuestion(this.qn, true);
+      this.expanded = false;
     }
   }
 };

@@ -8,7 +8,9 @@ export const store = Vue.observable({
   cid: null,
   queryString: '',
   errorMsg: null,
-  inProgress: false
+  lastLoaded: [],
+  inProgress: false,
+  assessFormIsDirty: []
 });
 
 export const actions = {
@@ -25,7 +27,7 @@ export const actions = {
     })
       .done(response => {
         if (response.hasOwnProperty('error')) {
-          store.errorMsg = data.error;
+          store.errorMsg = response.error;
           return;
         }
         response = this.processSettings(response);
@@ -55,7 +57,7 @@ export const actions = {
     })
       .done(response => {
         if (response.hasOwnProperty('error')) {
-          store.errorMsg = data.error;
+          store.errorMsg = response.error;
           return;
         }
       // overwrite properties with those from response
@@ -82,7 +84,7 @@ export const actions = {
         store.inTransit = false;
       });
   },
-  loadQuestion (qn) {
+  loadQuestion (qn, regen) {
     store.inTransit = true;
     window.$.ajax({
       url: store.APIbase + 'loadquestion.php' + store.queryString,
@@ -90,6 +92,7 @@ export const actions = {
       dataType: 'json',
       data: {
         qn: qn,
+        regen: regen?1:0
       },
       xhrFields: {
         withCredentials: true
@@ -97,8 +100,9 @@ export const actions = {
       crossDomain: true
     })
       .done(response => {
+        console.log(response);
         if (response.hasOwnProperty('error')) {
-          store.errorMsg = data.error;
+          store.errorMsg = response.error;
           return;
         }
         response = this.processSettings(response);
@@ -114,11 +118,15 @@ export const actions = {
         store.inTransit = false;
       });
   },
-  submitQuestion (qns, autosave, endattempt) {
+  submitQuestion (qns, autosave, endattempt, timeactive) {
     if (typeof qns !== 'array') {
       qns = [qns];
     }
+    if (typeof timeactive !== 'array') {
+      timeactive = [timeactive];
+    }
     store.inTransit = true;
+    let lastLoaded = [];
     if (typeof window.tinyMCE != "undefined") {window.tinyMCE.triggerSave();}
     let data = new FormData();
     for (let k=0; k<qns.length; k++) {
@@ -135,9 +143,11 @@ export const actions = {
           }
         }
       });
+      lastLoaded[k] = store.lastLoaded[qn];
     };
     data.append('toscoreqn', qns);
-    data.append('lastloaded', [0]);   // TODO
+    data.append('timeactive', timeactive);
+    data.append('lastloaded', lastLoaded);
     if (autosave) {
       data.append('autosave', autosave);
     }
@@ -158,10 +168,18 @@ export const actions = {
     })
       .done(response => {
         if (response.hasOwnProperty('error')) {
-          store.errorMsg = data.error;
+          store.errorMsg = response.error;
           return;
         }
         response = this.processSettings(response);
+        // un-dirty submitted questions
+        var loc;
+        for (let k=0; k<qns.length; k++) {
+          let qn = qns[k]*1;
+          if ((loc = store.assessFormIsDirty.indexOf(qn)) !== -1) {
+		    	    store.assessFormIsDirty.splice(loc,1);
+		    	}
+        }
         // overwrite existing questions with new data
         for (let i in response.questions) {
           store.assessInfo.questions[parseInt(i)] = response.questions[i];
@@ -192,6 +210,7 @@ export const actions = {
           data.questions[i].canregen = false;
           data.questions[i].regens_remaining = 0;
         }
+        store.lastLoaded[i] = new Date();
       }
     }
     if (data.hasOwnProperty('showscores')) {

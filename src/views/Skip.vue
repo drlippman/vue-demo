@@ -3,6 +3,11 @@
     <assess-header></assess-header>
     <skip-question-header :qn="qn"/>
     <div class="scrollpane">
+      <div
+        class = "questionpane"
+        v-if = "qn == -1"
+        v-html = "intro"
+      />
       <div class="questionpane">
         <question
           v-for="curqn in questionArray"
@@ -32,6 +37,9 @@ export default {
   computed: {
     qn () {
       return parseInt(this.$route.params.qn) - 1;
+    },
+    intro () {
+      return store.assessInfo.intro;
     },
     questionArray () {
       let qnArray = {};

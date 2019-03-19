@@ -1,7 +1,12 @@
 <template>
   <div id="timerbox" @click="toggleShow" tabindex=0>
     <i class="far fa-clock"></i>
-    <span v-if="open">{{ timeString }}</span>
+    <span
+      v-if="open"
+      :class = "{noticetext: hours===0 && minutes<2}"
+    >
+      {{ timeString }}
+    </span>
     <span v-if="open">&times;</span>
   </div>
 </template>
@@ -27,13 +32,18 @@ export default {
   methods: {
     updateTimer: function () {
       let now = new Date().getTime();
-      let remaining = Math.max(0, this.end - now);
+      let remaining = Math.max(0, this.end*1000 - now);
       this.hours = Math.floor(remaining / (1000 * 60 * 60));
       this.minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
       this.seconds = Math.floor((remaining % (1000 * 60)) / (1000));
-      this.timeString = this.hours > 0 ? this.hours + ':' : '';
-      this.timeString += (this.minutes < 10 ? '0' : '') + this.minutes + ':';
-      this.timeString += (this.seconds < 10 ? '0' : '') + this.seconds;
+      if (this.hours == 0 && this.minutes < 5) {
+        this.timeString = this.hours > 0 ? this.hours + ':' : '';
+        this.timeString += (this.minutes < 10 ? '0' : '') + this.minutes + ':';
+        this.timeString += (this.seconds < 10 ? '0' : '') + this.seconds;
+      } else {
+        this.timeString = this.hours > 0 ? this.hours + this.$tc('timer.hrs', this.hours) : '';
+        this.timeString += this.minutes > 0 ? this.minutes + this.$tc('timer.min', this.minutes) : '';
+      }
     },
     toggleShow: function () {
       this.open = !this.open;

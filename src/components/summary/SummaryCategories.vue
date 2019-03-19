@@ -10,8 +10,8 @@
       </td>
       <td>
         {{ cat.pct }}%
-        <span class="subdued">
-          {{ $tc('catlist.pts', cat.poss, {pts: cat.pts, poss: cat.poss}) }}
+        <span class="subdued med-left">
+          {{ $tc('catlist.pts', cat.poss, {pts: cat.tot, poss: cat.poss}) }}
         </span>
       </td>
     </tr>
@@ -32,7 +32,7 @@ export default {
       let questions = store.assessInfo.questions;
       let cats = [];
       for (let i in questions) {
-        if (questions[i].hasOwnProperty('category') || questions[i].category === '') {
+        if (!questions[i].hasOwnProperty('category') || questions[i].category === '') {
           // skip if no category
           continue;
         }

@@ -144,9 +144,13 @@ export default {
         timeobj.sub = this.$t('setlist.timelimit_extend', { time: this.formatTimeLimit(settings.timelimit) });
       }
       if (settings.has_active_attempt) {
-        timeobj.alert = this.$t('setlistmsg.time_expires', {
-          date: this.$d(new Date(settings.timelimit_expires * 1000), 'long')
-        });
+        let now = new Date();
+        let expires = new Date(settings.timelimit_expires * 1000);
+        if (now < expires) {
+          timeobj.alert = this.$t('setlist.time_expires', {date: this.$d(expires, 'long')});
+        } else {
+          timeobj.alert = this.$t('setlist.time_expired', {date: this.$d(expires, 'long')});
+        }
       }
       return timeobj;
     },

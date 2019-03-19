@@ -12,7 +12,8 @@
   "launch": {
     "continue_assess": "Continue Assessment",
     "retake_assess": "Retake Assessment",
-    "start_assess": "Start Assessment"
+    "start_assess": "Start Assessment",
+    "timewarning": "This assessment has a time limit. Once you start the assessment, the timer will not pause for any reason.  Are you sure you are ready to start?"
   },
   "closed": {
     "hidden": "This assessment is not currently available.",
@@ -49,6 +50,7 @@
     "keep_last": "Last attempt recorded as grade.",
     "retake_penalty": "A penalty of {p}% will be applied on the next retake.",
     "time_expires": "Your current assessment time limit expires at {date}.",
+    "time_expired": "Your current assessment time limit expired at {date}.",
     "timelimit": "Time limit: {time}.",
     "timelimit_extend": "Extended from the original {time}."
   },
@@ -68,7 +70,9 @@
   },
   "qinfo": {
     "tryn": "Try {n} of {nmax}",
-    "regenn": "Version {n} of {nmax}"
+    "regenn": "Version {n} of {nmax}",
+    "tries_remaining": "1 try on this question remaining | {n} tries on this question remaining",
+    "regens_remaining": "You can Try a Similar Question 1 more time | You can Try a Similar Question {n} more times"
   },
   "question": {
     "submit": "Submit Question",
@@ -82,13 +86,15 @@
     "assess_submit": "Submit Assessment",
     "done": "Done",
     "resources_header": "Resources",
-    "pts": "1 pt | {n} pts"
+    "pts": "1 pt | {n} pts",
+    "details": "Details"
   },
   "text": {
     "hide": "Hide text",
     "show": "Show question text"
   },
   "error": {
+    "error": "Error",
     "invalid_password": "The password you entered was invalid"
   },
   "scoreresult": {
@@ -109,7 +115,7 @@
     "viewwork_never": "",
     "score": "Score",
     "recordedscore": "Recorded Score",
-    "use_override": "Instructor grade override is recorded", 
+    "use_override": "Instructor grade override is recorded",
     "scorepts": "{pts} of {poss} pt | {pts} of {poss} pts",
     "retake_penalty": "{n}% retake penalty applied",
     "late_penalty": "{n}% late work penalty applied"
@@ -130,5 +136,24 @@
     "all_attempts": "All Attempts",
     "date": "Date",
     "score": "Score"
+  },
+  "penalties": {
+    "applied": "Penalties applied",
+    "retry": "Retry penalty",
+    "regen": "Assessment retake penalty",
+    "trysimilar": "Try Similar Question penalty",
+    "late": "Late work penalty"
+  },
+  "qdetails": {
+    "question_details": "Question Details",
+    "part": "Part",
+    "score": "Score",
+    "try": "Try",
+    "penalties": "Penalties",
+    "category": "Category"
+  },
+  "timer": {
+    "hrs": "hr | hrs",
+    "min": "min | mins"
   }
 }
