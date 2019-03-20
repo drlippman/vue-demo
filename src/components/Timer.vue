@@ -3,7 +3,7 @@
     <i class="far fa-clock"></i>
     <span
       v-if="open"
-      :class = "{noticetext: hours===0 && minutes<2}"
+      :class = "{noticetext: hours===0 && 60*minutes+seconds<warningTime}"
     >
       {{ timeString }}
     </span>
@@ -22,17 +22,27 @@ export default {
       seconds: 0,
       timeString: '',
       interval: null,
-      open: true
+      open: true,
+      gaveWarning: false
     };
   },
   created () {
     this.updateTimer();
     this.interval = setInterval(this.updateTimer, 1000);
   },
+  computed: {
+    warningTime () {
+      return Math.max(60, Math.min(.05*this.total, 300));
+    }
+  },
   methods: {
     updateTimer: function () {
       let now = new Date().getTime();
       let remaining = Math.max(0, this.end*1000 - now);
+      if (!this.gaveWarning && remaining < this.warningTime*1000) {
+        this.open = true;
+        this.gaveWarning = true;
+      }
       this.hours = Math.floor(remaining / (1000 * 60 * 60));
       this.minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
       this.seconds = Math.floor((remaining % (1000 * 60)) / (1000));

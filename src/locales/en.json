@@ -23,7 +23,7 @@
     "no_attempts": "You have used all your attempts at this assessment.",
     "latepassn": "You have one LatePass available. | You have {n} LatePass available.",
     "latepass_needed": "You can redeem one LatePass to reopen this assessment until {date} | You can redeem {n} LatePasses to reopen this assessment until {date}",
-    "practice_no_latepass": "It is now open for un-graded practice.",
+    "practice_no_latepass": "This assessment is now open for un-graded practice.",
     "practice_w_latepass": "You can also open the assessment for un-graded practice.",
     "will_block_latepass": "If you do so, you will not be able to later use a LatePass.",
     "confirm": "Are you SURE you want to do this? If you do, you will not be able to later use a LatePass.",
@@ -31,6 +31,9 @@
     "view_scored": "View scored assessment",
     "use_latepass": "Redeem LatePass | Redeem {n} LatePasses",
     "do_practice": "Practice",
+    "unsubmitted_pastdue": "You have an unsubmitted assessment attempt.",
+    "unsubmitted_overtime": "You have an unsubmitted assessment attempt whose time limit has expired.",
+    "submit_now": "Submit it now",
     "exit": "Exit"
   },
   "setlist": {
@@ -87,7 +90,8 @@
     "done": "Done",
     "resources_header": "Resources",
     "pts": "1 pt | {n} pts",
-    "details": "Details"
+    "details": "Details",
+    "warn_unattempted": "There appears to be unattempted questions. Are you sure you want to submit now?"
   },
   "text": {
     "hide": "Hide text",
@@ -114,7 +118,8 @@
     "trysimilar": "Try a similar question",
     "scorepts": "{pts} of {poss} pts | {pts} of {poss} pts",
     "scorelast": "Score on last try:",
-    "submitted": "Question submitted."
+    "submitted": "Question submitted.",
+    "see_details": "See Details for more."
   },
   "summary": {
     "no_total": "Your assessment has been submitted.",
@@ -156,10 +161,13 @@
   "qdetails": {
     "question_details": "Question Details",
     "part": "Part",
+    "lasttry": "Results on last try:",
     "score": "Score",
-    "try": "Try",
+    "try": "Tries Remaining",
     "penalties": "Penalties",
-    "category": "Category"
+    "category": "Category",
+    "gbscore": "Recorded score",
+    "lastscore": "Score on last try"
   },
   "timer": {
     "hrs": "hr | hrs",
@@ -168,5 +176,9 @@
   "helps": {
     "message_instructor": "Message instructor about this question",
     "post_to_forum": "Post this question to forum"
+  },
+  "unload": {
+    "unsubmitted_questions": "You have entered answered that have not yet been submitted. Are you sure you want to leave?",
+    "unsubmitted_assessment": "You have attempted every question, but have not submitted your assessment yet. Don't forget to come back and do that."
   }
 }

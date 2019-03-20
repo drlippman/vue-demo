@@ -3,12 +3,6 @@
     <div v-if = "!questionContentLoaded">
       {{ $t('loading') }}
     </div>
-    <inter-question-text
-      v-if = "questionContentLoaded"
-      v-for = "(textitem,index) in preText"
-      :textobj = "textitem"
-      :key = "index"
-    />
     <score-result
       v-if = "showScore"
       :qdata = "questionData"
@@ -31,18 +25,11 @@
         {{ submitLabel }}
       </button>
     </div>
-    <inter-question-text
-      v-if = "questionContentLoaded"
-      v-for = "(textitem,index) in postText"
-      :textobj = "textitem"
-      :key = "index"
-    />
   </div>
 </template>
 
 <script>
 import { store, actions } from '../basicstore';
-import InterQuestionText from '@/components/InterQuestionText.vue';
 import ScoreResult from '@/components/ScoreResult.vue';
 import QuestionHelps from '@/components/QuestionHelps.vue';
 
@@ -50,7 +37,6 @@ export default {
   name: 'Question',
   props: ['qn', 'active'],
   components: {
-    InterQuestionText,
     ScoreResult,
     QuestionHelps
   },
@@ -66,35 +52,6 @@ export default {
     },
     canSubmit () {
       return (!store.inTransit);
-    },
-    preText () {
-      let out = [];
-      for (let  i in store.assessInfo.interquestion_text) {
-        let textObj = store.assessInfo.interquestion_text[i];
-        if (this.qn >= textObj.displayBefore && this.qn <= textObj.displayUntil) {
-          out.push({
-            html: textObj.text,
-            expanded: (textObj.forntype === true || this.qn === textObj.displayBefore)
-          });
-        }
-      }
-      return out;
-    },
-    postText () {
-      let out = [];
-      if (this.qn === store.assessInfo.questions.length - 1) {
-        // only show post text if last question
-        for (let i in store.assessInfo.interquestion_text) {
-          let textObj = store.assessInfo.interquestion_text[i];
-          if (this.qn < textObj.displayBefore) {
-            out.push({
-              html: textObj.text,
-              expanded: (textObj.forntype == 1 || this.qn == textObj.displayBefore)
-            });
-          }
-        }
-      }
-      return out;
     },
     questionContentLoaded () {
       return (this.questionData.html !== null);
@@ -114,8 +71,8 @@ export default {
       if (store.assessInfo.submitby === 'by_question') {
         // by question submission
         return this.$t('question.submit');
-      } else if (this.questionData.try === this.questionData.tries_max - 1) {
-        // by assessment, on last try
+      } else if (this.questionData.tries_max === 1) {
+        // by assessment, with one try
         return this.$t('question.saveans');
       } else {
         // by assessment, can retry
@@ -161,20 +118,26 @@ export default {
           }
         }
       });
-    }
-  },
-  updated () {
-    if (this.questionContentLoaded) {
+    },
+    renderAndTrack () {
       setTimeout(window.drawPics, 100);
       window.rendermathnode(document.getElementById('questionwrap' + this.qn));
       this.updateTime(true);
       this.addDirtyTrackers();
+    }
+  },
+  updated () {
+    if (this.questionContentLoaded) {
+      this.renderAndTrack();
     } else {
       this.loadQuestionIfNeeded();
     }
   },
   created () {
     this.loadQuestionIfNeeded();
+    if (this.questionContentLoaded) {
+      this.renderAndTrack();
+    }
   },
   watch: {
     active: function (newVal, oldVal) {
@@ -238,6 +201,7 @@ input.red {
 .questionwrap .question {
   border: 0;
   background-color: #fff;
+  margin: 12px 0;
 }
 .submitbtnwrap {
   margin: 16px 0;

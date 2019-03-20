@@ -47,16 +47,15 @@
         <icons name="retake"/>
         {{ curQData.regens_remaining }}
       </span>
+      <dropdown id="question-details" position="right" v-if="showDetails">
+        <template v-slot:button>
+          <icons name="info" size="medium"/>
+          {{ $t('header.details') }}
+        </template>
+        <question-details-pane :qn="qn" />
+      </dropdown>
+
     </div>
-
-    <dropdown id="question-details" position="right" v-if="showDetails">
-      <template v-slot:button>
-        <icons name="info" size="medium"/>
-        {{ $t('header.details') }}
-      </template>
-      <question-details-pane :qn="qn" />
-    </dropdown>
-
   </div>
 </template>
 

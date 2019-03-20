@@ -5,6 +5,18 @@
 
       <p>{{ closedMessage }}</p>
 
+      <p v-if = "hasActive">
+        {{ hasActiveMsg }}
+        <br/>
+        <button
+          type="button"
+          class="primary"
+          @click="endAssess"
+        >
+          {{ $t('closed.submit_now') }}
+        </button>
+      </p>
+
       <p v-if="settings.can_use_latepass > 0">
         {{ $tc('closed.latepassn', settings.latepasses_avail) }}
         <br/>
@@ -59,7 +71,7 @@
 
 import Icons from '@/components/Icons.vue';
 import PreviousAttempts from '@/components/PreviousAttempts.vue';
-import { store } from '../basicstore';
+import { store, actions } from '../basicstore';
 
 export default {
   name: 'Closed',
@@ -90,6 +102,22 @@ export default {
         return this.$t('closed.no_attempts');
       }
       return '';
+    },
+    hasActive () {
+      return (this.settings.has_active_attempt &&
+        this.settings.submitby === 'by_assessment'
+      );
+    },
+    hasActiveMsg () {
+      if (this.settings.hasOwnProperty('timelimit_expires')) {
+        let expires = new Date(this.settings.timelimit_expires * 1000);
+        let now = new Date();
+        if (expires < now) {
+          return this.$t('closed.unsubmitted_overtime');
+        }
+      } else {
+        return this.$t('closed.unsubmitted_pastdue');
+      }
     },
     latepassExtendMsg () {
       return this.$tc('closed.latepass_needed', this.settings.can_use_latepass, {
@@ -143,6 +171,9 @@ export default {
           // start practice mode
         }
       }
+    },
+    endAssess () {
+      actions.endAssess();
     }
   }
 };

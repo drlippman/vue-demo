@@ -14,6 +14,7 @@
     </timer>
 
     <button
+      v-if = "assessSubmitLabel != ''"
       :class="{primary: ainfo.submitby === 'by_assessment' }"
       @click="handleSubmit"
       :disabled = "!canSubmit"
@@ -83,40 +84,59 @@ export default {
         return this.$t('header.possible', { poss: pointsPossible });
       }
     },
-    curAnswered () {
-      let qAnswered = 0;
-      let nQuestions = this.ainfo.questions.length;
+    qAttempted () {
+      let qAttempted = 0;
       for (let i in this.ainfo.questions) {
         if (this.ainfo.questions[i].try > 0) {
-          qAnswered++;
+          qAttempted++;
         }
       }
-      return this.$t('header.answered', { n: qAnswered, tot: nQuestions });
+      return qAttempted;
+    },
+    curAnswered () {
+      let nQuestions = this.ainfo.questions.length;
+      return this.$t('header.answered', { n: this.qAttempted, tot: nQuestions });
     },
     assessSubmitLabel () {
       if (this.ainfo.submitby === 'by_assessment') {
         return this.$t('header.assess_submit');
       } else {
-        return this.$t('header.done');
+        // don't have
+        return '';
+        //return this.$t('header.done');
       }
     }
   },
   methods: {
     handleSubmit () {
       if (this.ainfo.submitby === 'by_assessment') {
-        if (this.ainfo.showscores === 'during') {
-          // TODO: check for dirty questions and submit them
-          actions.submitQuestion(-1, false, true);
-        } else {
-          // submit them all
-          var qns = [];
-          for (let k=0; k < this.ainfo.questions.length; k++) {
-            qns.push(k);
+        let qAttempted = 0;
+        for (let i in this.ainfo.questions) {
+          if (this.ainfo.questions[i].try > 0 ||
+            store.assessFormIsDirty.indexOf(i*1) !== -1
+          ) {
+            qAttempted++;
           }
-          actions.submitQuestion(qns, false, true);
+        }
+        let nQuestions = this.ainfo.questions.length;
+        if (qAttempted === nQuestions ||
+          confirm(this.$t('header.warn_unattempted'))
+        ) {
+          if (this.ainfo.showscores === 'during') {
+            // check for dirty questions and submit them
+            actions.submitQuestion(store.assessFormIsDirty, false, true);
+          } else {
+            // submit them all
+            var qns = [];
+            for (let k=0; k < this.ainfo.questions.length; k++) {
+              qns.push(k);
+            }
+            actions.submitQuestion(qns, false, true);
+          }
         }
       } else {
-        actions.submitQuestion(-1, false, true);
+        // don't want to submit if by_question
+        //actions.submitQuestion(-1, false, true);
       }
     }
   }

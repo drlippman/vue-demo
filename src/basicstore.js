@@ -32,6 +32,11 @@ export const actions = {
           store.errorMsg = response.error;
           return;
         }
+        // reset store
+        store.inProgress = false;
+        store.timelimit_expired = false;
+        clearTimeout(store.timelimit_timer);
+        // parse response
         response = this.processSettings(response);
         store.assessInfo = response;
       })
@@ -102,29 +107,22 @@ export const actions = {
       crossDomain: true
     })
       .done(response => {
-        console.log(response);
         if (response.hasOwnProperty('error')) {
           store.errorMsg = response.error;
           return;
         }
         response = this.processSettings(response);
-        // overwrite existing questions with new data
-        for (let i in response.questions) {
-          store.assessInfo.questions[parseInt(i)] = response.questions[i];
-        }
-        delete response.questions;
-        // copy other settings from response to store
-        store.assessInfo = Object.assign({}, store.assessInfo, response);
+        this.copySettings(response);
       })
       .always(response => {
         store.inTransit = false;
       });
   },
   submitQuestion (qns, autosave, endattempt, timeactive) {
-    if (typeof qns !== 'array') {
+    if (typeof qns !== 'object') {
       qns = [qns];
     }
-    if (typeof timeactive !== 'array') {
+    if (typeof timeactive !== 'object') {
       timeactive = [timeactive];
     }
     store.inTransit = true;
@@ -147,9 +145,9 @@ export const actions = {
       });
       lastLoaded[k] = store.lastLoaded[qn];
     };
-    data.append('toscoreqn', qns);
-    data.append('timeactive', timeactive);
-    data.append('lastloaded', lastLoaded);
+    data.append('toscoreqn', qns.join(','));
+    data.append('timeactive', timeactive.join(','));
+    data.append('lastloaded', lastLoaded.join(','));
     if (autosave) {
       data.append('autosave', autosave);
     }
@@ -182,13 +180,7 @@ export const actions = {
 		    	    store.assessFormIsDirty.splice(loc,1);
 		    	}
         }
-        // overwrite existing questions with new data
-        for (let i in response.questions) {
-          store.assessInfo.questions[parseInt(i)] = response.questions[i];
-        }
-        delete response.questions;
-        // copy other settings from response to store
-        store.assessInfo = Object.assign({}, store.assessInfo, response);
+        this.copySettings(response);
         if (endattempt) {
           store.inProgress = false;
           Router.push('/summary' + store.queryString);
@@ -199,10 +191,49 @@ export const actions = {
       });
   },
   handleTimelimitUp () {
-    store.timelimit_expired = true;
-    if (true && store.assessInfo.has_active_attempt) { // TODO!
-      this.submitQuestion(-1, false, true);
+    if (store.assessInfo.has_active_attempt) {
+      // submit dirty questions and end attempt
+      let tosub = (store.assessFormIsDirty.length > 0) ? store.assessFormIsDirty : -1;
+      this.submitQuestion(tosub, false, true);
     }
+    //store.timelimit_expired = true;
+  },
+  endAssess () {
+    store.inTransit = true;
+    store.errorMsg = null;
+    window.$.ajax({
+      url: store.APIbase + 'endassess.php' + store.queryString,
+      dataType: 'json',
+      xhrFields: {
+        withCredentials: true
+      },
+      crossDomain: true
+    })
+      .done(response => {
+        if (response.hasOwnProperty('error')) {
+          store.errorMsg = response.error;
+          return;
+        }
+        response = this.processSettings(response);
+        this.copySettings(response);
+      })
+      .always(response => {
+        store.inTransit = false;
+      });
+  },
+  copySettings(response) {
+    // overwrite existing questions with new data
+    if (response.hasOwnProperty('questions')) {
+      if (!store.assessInfo.hasOwnProperty('questions')) {
+        store.assessInfo.questions = [];
+      }
+      for (let i in response.questions) {
+        store.assessInfo.questions[parseInt(i)] = response.questions[i];
+      }
+      delete response.questions;
+    }
+    // copy other settings from response to store
+    store.assessInfo = Object.assign({}, store.assessInfo, response);
   },
   processSettings (data) {
     if (data.hasOwnProperty('questions')) {
@@ -232,9 +263,6 @@ export const actions = {
       let now = new Date();
       let expires = new Date(data.timelimit_expires * 1000);
       if (expires > now) {
-        console.log("expires at: " + expires.toString());
-        console.log("now: " + now.toString());
-        console.log("ending in: " + (expires - now));
         store.timelimit_timer = setTimeout(()=>{this.handleTimelimitUp();}, expires - now);
         store.timelimit_expired = false;
       } else {

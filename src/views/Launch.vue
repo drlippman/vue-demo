@@ -35,6 +35,14 @@
       >
         <icons name="alert" />
         {{ timeLimitExpired }}
+        <br/>
+        <button
+          type="button"
+          class="primary"
+          @click="endAssess"
+        >
+          {{ $t('closed.submit_now') }}
+        </button>
       </p>
 
       <p v-if="okToLaunch">
@@ -131,6 +139,9 @@ export default {
         this.password = '';
         actions.startAssess(false, pwval, this.newGroupMembers);
       }
+    },
+    endAssess () {
+      actions.endAssess();
     },
     updateNewGroup (newMembers) {
       this.newGroupMembers = newMembers;

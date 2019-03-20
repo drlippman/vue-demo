@@ -6,8 +6,11 @@
     >
       <p v-if="showScores">
         {{ $t('scoreresult.scorelast') }}
-        {{ $tc('scoreresult.scorepts', qdata.points_possible, {
-          pts: qdata.score, poss: qdata.points_possible }) }}
+        <strong>
+          {{ $tc('scoreresult.scorepts', qdata.points_possible, {
+            pts: qdata.score, poss: qdata.points_possible }) }}.
+        </strong>
+        {{ $t('scoreresult.see_details') }}
       </p>
       <p v-else>
         {{ $t('scoreresult.submitted') }}

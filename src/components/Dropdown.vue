@@ -53,7 +53,7 @@ export default {
       }
     },
     handleFocusout () {
-      //this.closetimer = setTimeout(() => { this.open = false; }, 50);
+      this.closetimer = setTimeout(() => { this.open = false; }, 50);
     },
     handleFocusin () {
       clearTimeout(this.closetimer);
@@ -65,6 +65,7 @@ export default {
 <style>
 .dropdown-wrap {
   position: relative;
+  display: inline-block;
 }
 .dropdown-button {
   border: none;
@@ -77,6 +78,7 @@ export default {
   padding: 0;
   margin: 0;
   z-index: 1000;
+  min-width: 30vw;
 }
 .dropdown-right {
   right: 0px;

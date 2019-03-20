@@ -32,6 +32,28 @@ export default {
       return '?cid=' + store.cid + '&aid=' + store.aid;
     }
   },
+  methods: {
+    beforeUnload () {
+      var unanswered = true;
+      if (store.assessInfo.hasOwnProperty('questions')) {
+        let qAnswered = 0;
+        let nQuestions = store.assessInfo.questions.length;
+        for (let i in store.assessInfo.questions) {
+          if (store.assessInfo.questions[i].try > 0) {
+            qAnswered++;
+          }
+        }
+        if (qAnswered === nQuestions) {
+          unanswered = false;
+        }
+      }
+      if (store.assessFormIsDirty.length > 0) {
+        return this.$t('unload.unsubmitted_questions');
+      } else if (store.assessInfo.submitby === 'by_assessment' && !unanswered) {
+        return this.$t('unload.unsubmitted_assessment');
+      }
+    }
+  },
   beforeUpdate () {
     store.cid = this.$route.query.cid;
     store.aid = this.$route.query.aid;
@@ -71,6 +93,7 @@ export default {
     if (store.assessInfo === null) {
       actions.loadAssessData();
     }
+    window.$(window).on('beforeunload', this.beforeUnload);
   }
 };
 </script>

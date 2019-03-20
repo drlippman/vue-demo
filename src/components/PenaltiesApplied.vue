@@ -1,23 +1,9 @@
 <template>
-  <div class="inline">
-    <button
-      type="button"
-      class="plain"
-      @click="expanded = !expanded"
-      :aria-expanded = "expanded ? 'true' : 'false'"
-    >
-      <icons name="alert" />
-      {{ $t("penalties.applied")}}
-    </button>
-    <ul
-      class="listpane"
-      v-if="expanded"
-    >
-      <li v-for="(penalty, index) in penalties" :key="index">
-        {{ penalty.pct }}% {{ $t("penalties." + penalty.type) }}
-      </li>
-    </ul>
-  </div>
+  <ul class="listpane">
+    <li v-for="(penalty, index) in penalties" :key="index">
+      {{ penalty.pct }}% {{ $t("penalties." + penalty.type) }}
+    </li>
+  </ul>
 </template>
 
 <script>
@@ -26,7 +12,7 @@ import Icons from '@/components/Icons.vue';
 
 export default {
   name: 'PreviousAttempts',
-  props: ['qn', 'part'],
+  props: ['part'],
   data: function () {
     return {
       expanded: false
@@ -38,7 +24,7 @@ export default {
   computed: {
     penalties () {
       let by_questions = (store.assessInfo.submitby === 'by_question');
-      let penalties = store.assessInfo.questions[this.qn].parts[this.part].penalties;
+      let penalties = this.part.penalties;
       for (let i in penalties) {
         if (penalties[i].type === 'regen' && by_questions) {
           penalties[i].type = 'trysimilar';

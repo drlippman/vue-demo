@@ -57,7 +57,8 @@ export default {
       let hascat = false;
       for (let i in this.ainfo.questions) {
         if (this.ainfo.questions[i].hasOwnProperty('category') &&
-          this.ainfo.questions[i].category !== ''
+          this.ainfo.questions[i].category !== '' &&
+          this.ainfo.questions[i].category !== null
         ) {
           hascat = true;
           break;

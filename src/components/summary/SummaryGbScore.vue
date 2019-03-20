@@ -1,6 +1,6 @@
 <template>
   <div v-if="showGBScore" class="pane-header">
-    <strong>{{ $t('summary.recordedscore') }}: {{ gbScore }}</strong>
+    <strong>{{ $t('summary.recordedscore') }}: {{ gbScore }}%</strong>
     <br/>
     <span class="small subdued">
       {{ scoreUsed }}

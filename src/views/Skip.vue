@@ -9,13 +9,24 @@
         v-html = "intro"
       />
       <div class="questionpane">
-        <question
+        <div
           v-for="curqn in questionArray"
-          :qn="curqn"
-          :active="curqn == qn"
           :key="curqn"
           :class="{inactive: curqn != qn}"
-        ></question>
+        >
+          <inter-question-text-list
+            pos = "before"
+            :qn = "curqn"
+          />
+          <question
+            :qn="curqn"
+            :active="curqn == qn"
+          />
+          <inter-question-text-list
+            pos = "after"
+            :qn = "curqn"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -24,6 +35,7 @@
 <script>
 import AssessHeader from '@/components/AssessHeader.vue';
 import SkipQuestionHeader from '@/components/SkipQuestionHeader.vue';
+import InterQuestionTextList from '@/components/InterQuestionTextList.vue';
 import Question from '@/components/Question.vue';
 import { store } from '../basicstore';
 
@@ -32,6 +44,7 @@ export default {
   components: {
     SkipQuestionHeader,
     Question,
+    InterQuestionTextList,
     AssessHeader
   },
   computed: {

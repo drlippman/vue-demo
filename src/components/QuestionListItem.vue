@@ -1,9 +1,11 @@
 <template>
   <span>
-    <icons :name="statusIcon" class="qstatusicon" />
-    {{ nameDisp }}
-    {{ scoreDisplay }}
-    <span class="redoicon" v-if="option.dispqn > 0">
+    <span class="qname-wrap">
+      <icons :name="statusIcon" class="qstatusicon" />
+      {{ nameDisp }}
+      {{ scoreDisplay }}
+    </span>
+    <span class="redoicon">
       <icons name="retry" v-if="option.canretry" />
     </span>
   </span>
@@ -67,6 +69,10 @@ export default {
 }
 .bluetext {
   color: #009;
+}
+.qname-wrap {
+  display: inline-block;
+  min-width: 12em;
 }
 .qstatusicon {
   margin-right: 4px;
