@@ -16,7 +16,7 @@ export const store = Vue.observable({
 });
 
 export const actions = {
-  loadAssessData () {
+  loadAssessData (callback) {
     store.inTransit = true;
     store.errorMsg = null;
     window.$.ajax({
@@ -39,6 +39,9 @@ export const actions = {
         // parse response
         response = this.processSettings(response);
         store.assessInfo = response;
+        if (typeof callback !== 'undefined') {
+          callback();
+        }
       })
       .always(response => {
         store.inTransit = false;

@@ -15,7 +15,21 @@
       <td v-else>
         {{ $tc('scorelist.pts', question.points_possible,
               {pts: question.gbscore, poss: question.points_possible}) }}
-        <!-- TODO: display penalty note? -->
+        &nbsp;&nbsp;
+        <click-to-show
+          v-if = "showDetails[index]"
+          class="question-details"
+          :id="'qd_'+index"
+        >
+          <template v-slot:button>
+            <icons name="info" size="small"/>
+            {{ $t('header.details') }}
+          </template>
+          <question-details-table
+            :qinfo="question"
+            :showtries="false"
+          />
+        </click-to-show>
       </td>
     </tr>
   </table>
@@ -24,15 +38,30 @@
 <script>
 import { store } from '../../basicstore';
 import Icons from '@/components/Icons.vue';
+import QuestionDetailsTable from '@/components/QuestionDetailsTable.vue';
+import ClickToShow from '@/components/ClickToShow.vue';
 
 export default {
   name: 'SummaryScoreList',
   components: {
-    Icons
+    Icons,
+    QuestionDetailsTable,
+    ClickToShow
   },
   computed: {
     questions () {
       return store.assessInfo.questions;
+    },
+    showDetails () {
+      var out = [];
+      for (let i in this.questions) {
+        let thisq = this.questions[i];
+        out[i] = (thisq.hasOwnProperty('parts') &&
+          thisq.parts[0].hasOwnProperty('penalties') &&
+          (thisq.parts.length > 1 || thisq.parts[0].penalties.length > 0)
+        );
+      }
+      return out;
     }
   }
 }

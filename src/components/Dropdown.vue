@@ -70,6 +70,7 @@ export default {
 .dropdown-button {
   border: none;
   background: none;
+  cursor: default;
 }
 .dropdown-pane {
   position: absolute;

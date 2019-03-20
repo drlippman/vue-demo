@@ -54,45 +54,7 @@ export default {
       }
     }
   },
-  beforeUpdate () {
-    store.cid = this.$route.query.cid;
-    store.aid = this.$route.query.aid;
-    store.queryString = '?cid=' + store.cid + '&aid=' + store.aid;
-
-    // handle routing to launch or closed page if needed
-    if (store.assessInfo !== null) {
-      if ((store.assessInfo.available === 'yes' ||
-        (store.assessInfo.available === 'practice' && store.assessInfo.in_practice))
-        && (store.assessInfo.has_active_attempt || store.assessInfo.can_retake)
-      ) {
-        // has a currently available assessment or practice session
-        if (!store.inProgress) {
-          if (store.assessInfo.hasOwnProperty('score')) {
-            this.$router.replace('/summary' + this.queryString);
-          } else {
-            this.$router.replace('/' + this.queryString);
-          }
-        }
-      } else {
-        // currently closed
-        this.$router.replace('/closed' + this.queryString);
-      }
-    } else {
-      actions.loadAssessData();
-    }
-  },
   created () {
-    if (typeof window.APIbase !== 'undefined') {
-      store.APIbase = window.APIbase;
-    } else {
-      store.APIbase = process.env.BASE_URL;
-    }
-    store.cid = this.$route.query.cid;
-    store.aid = this.$route.query.aid;
-    store.queryString = '?cid=' + store.cid + '&aid=' + store.aid;
-    if (store.assessInfo === null) {
-      actions.loadAssessData();
-    }
     window.$(window).on('beforeunload', this.beforeUnload);
   }
 };
