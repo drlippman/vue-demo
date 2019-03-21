@@ -23,7 +23,7 @@ const router = new Router({
          ) {
            next();
          } else {
-           next('/closed' + store.queryString);
+           next({path: '/closed' + store.queryString, replace: true});
          }
       }
     },
@@ -37,7 +37,7 @@ const router = new Router({
           (store.assessInfo.available === 'practice' && store.assessInfo.in_practice))
             && (store.assessInfo.has_active_attempt || store.assessInfo.can_retake)
          ) {
-           next('/' + store.queryString);
+           next({path: '/' + store.queryString, replace: true});
          } else {
            next();
          }
@@ -52,7 +52,7 @@ const router = new Router({
         if (store.inProgress) {
           next();
         } else {
-          next('/' + store.queryString);
+          next({path: '/' + store.queryString, replace: true});
         }
       }
     },
@@ -65,7 +65,7 @@ const router = new Router({
         if (store.inProgress) {
           next();
         } else {
-          next('/' + store.queryString);
+          next({path: '/' + store.queryString, replace: true});
         }
       }
     },
@@ -81,7 +81,7 @@ const router = new Router({
          ) {
            next();
          } else {
-           next('/' + store.queryString);
+           next({path: '/' + store.queryString, replace: true});
          }
       }
     }

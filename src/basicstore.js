@@ -11,6 +11,8 @@ export const store = Vue.observable({
   lastLoaded: [],
   inProgress: false,
   assessFormIsDirty: [],
+  autosaveQueue: {},
+  autosaveTimer: null,
   timelimit_timer: null,
   timelimit_expired: false
 });
@@ -121,11 +123,15 @@ export const actions = {
         store.inTransit = false;
       });
   },
-  submitQuestion (qns, autosave, endattempt, timeactive) {
+  submitQuestion (qns, endattempt, timeactive, partnum) {
     if (typeof qns !== 'object') {
       qns = [qns];
     }
-    if (typeof timeactive !== 'object') {
+    this.clearAutosave(qns);
+    // don't store time active when full-test
+    if (store.assessInfo.displaymethod === 'full') {
+      timeactive = [];
+    } else if (typeof timeactive !== 'object') {
       timeactive = [timeactive];
     }
     store.inTransit = true;
@@ -146,14 +152,11 @@ export const actions = {
           }
         }
       });
-      lastLoaded[k] = store.lastLoaded[qn];
+      lastLoaded[k] = store.lastLoaded[qn].getTime();
     };
     data.append('toscoreqn', qns.join(','));
     data.append('timeactive', timeactive.join(','));
     data.append('lastloaded', lastLoaded.join(','));
-    if (autosave) {
-      data.append('autosave', autosave);
-    }
     if (endattempt) {
       data.append('endattempt', endattempt);
     }
@@ -174,6 +177,7 @@ export const actions = {
           store.errorMsg = response.error;
           return;
         }
+
         response = this.processSettings(response);
         // un-dirty submitted questions
         var loc;
@@ -188,6 +192,89 @@ export const actions = {
           store.inProgress = false;
           Router.push('/summary' + store.queryString);
         }
+
+      })
+      .always(response => {
+        store.inTransit = false;
+      });
+  },
+  doAutosave (qn, partnum) {
+    window.clearTimeout(store.autosaveTimer);
+    if (!store.autosaveQueue.hasOwnProperty(qn)) {
+      store.autosaveQueue[qn] = [];
+    }
+    if (store.autosaveQueue[qn].indexOf(partnum) === -1) {
+      store.autosaveQueue[qn].push(partnum);
+    }
+    store.autosaveTimer = window.setTimeout(() => {this.submitAutosave(true);}, 2000)
+  },
+  clearAutosave(qns) {
+    for (let i in qns) {
+      if (store.autosaveQueue.hasOwnProperty(qns[i])) {
+        delete store.autosaveQueue[qns[i]];
+      }
+    }
+    if (store.autosaveQueue.length === 0) {
+      window.clearTimeout(store.autosaveTimer);
+    }
+  },
+  clearAutosaveTimer() {
+    window.clearTimeout(store.autosaveTimer);
+  },
+  submitAutosave (async) {
+    window.clearTimeout(store.autosaveTimer);
+
+    store.inTransit = true;
+    let lastLoaded = {};
+    if (typeof window.tinyMCE != "undefined") {window.tinyMCE.triggerSave();}
+    let data = new FormData();
+    for (let qn in store.autosaveQueue) {
+      // build up regex to match the inputs for all the parts we want to save
+      let regexpts = [];
+      for (let k in store.autosaveQueue[qn]) {
+        let pn = store.autosaveQueue[qn][k];
+        if (pn === 0) {
+          regexpts.push(qn);
+        }
+        regexpts.push((qn*1+1)*1000 + pn*1);
+      }
+      let regex = new RegExp('^(qn|tc|qs)(' + regexpts.join('\\b|') + '\\b)');
+      window.$("#questionwrap" + qn).find("input,select,textarea").each(function(i,el) {
+        if (el.name.match(regex)) {
+          if ((el.type!=='radio' && el.type!=='checkbox') || el.checked) {
+            if (el.type==='file') {
+              data.append(el.name, el.files[0]);
+            } else {
+              data.append(el.name, el.value);
+            }
+          }
+        }
+      });
+      lastLoaded[qn] = store.lastLoaded[qn].getTime();
+    };
+    data.append('toscoreqn', JSON.stringify(store.autosaveQueue));
+    data.append('lastloaded', JSON.stringify(lastLoaded));
+
+    window.$.ajax({
+      url: store.APIbase + 'autosave.php' + store.queryString,
+      type: 'POST',
+      dataType: 'json',
+      data: data,
+      async: async,
+      processData: false,
+      contentType: false,
+      xhrFields: {
+        withCredentials: true
+      },
+      crossDomain: true
+    })
+      .done(response => {
+        if (response.hasOwnProperty('error')) {
+          store.errorMsg = response.error;
+          return;
+        }
+        // clear autosave queue
+        store.autosaveQueue = {};
       })
       .always(response => {
         store.inTransit = false;
@@ -197,7 +284,7 @@ export const actions = {
     if (store.assessInfo.has_active_attempt) {
       // submit dirty questions and end attempt
       let tosub = (store.assessFormIsDirty.length > 0) ? store.assessFormIsDirty : -1;
-      this.submitQuestion(tosub, false, true);
+      this.submitQuestion(tosub, true);
     }
     //store.timelimit_expired = true;
   },

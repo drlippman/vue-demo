@@ -124,19 +124,19 @@ export default {
         ) {
           if (this.ainfo.showscores === 'during') {
             // check for dirty questions and submit them
-            actions.submitQuestion(store.assessFormIsDirty, false, true);
+            actions.submitQuestion(store.assessFormIsDirty, true);
           } else {
             // submit them all
             var qns = [];
             for (let k=0; k < this.ainfo.questions.length; k++) {
               qns.push(k);
             }
-            actions.submitQuestion(qns, false, true);
+            actions.submitQuestion(qns, true);
           }
         }
       } else {
         // don't want to submit if by_question
-        //actions.submitQuestion(-1, false, true);
+        //actions.submitQuestion(-1, true);
       }
     }
   }

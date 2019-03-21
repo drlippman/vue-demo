@@ -16,7 +16,7 @@
     />
     <question-helps
       v-if = "questionData.hasOwnProperty('help_features')"
-      :qn = "qn" 
+      :qn = "qn"
     />
     <div v-if="showSubmit" class="submitbtnwrap">
       <button
@@ -94,7 +94,8 @@ export default {
       }
     },
     submitQuestion () {
-      actions.submitQuestion(this.qn, false, false, this.timeActive);
+      this.updateTime(false);
+      actions.submitQuestion(this.qn, false, this.timeActive);
     },
     updateTime (goingActive) {
       if (this.timeActivated === null || goingActive) {
@@ -106,22 +107,29 @@ export default {
     },
     addDirtyTrackers () {
       window.$('#questionwrap' + this.qn).find('input,select,textarea')
-      .on('focus', function() {
+      .off('focus.dirtrytrack').off('change.dirtrytrack')
+      .on('focus.dirtrytrack', function() {
         window.$(this).attr('data-lastval', window.$(this).val());
+        actions.clearAutosaveTimer();
       })
-      .on('change', function() {
+      .on('change.dirtrytrack', function() {
         let val = window.$(this).val();
         if (val != window.$(this).attr('data-lastval')) {
           let name = window.$(this).attr("name");
           let m = name.match(/^(qs|qn|tc)(\d+)/);
           if (m !== null) {
             var qn = m[2]*1;
+            var pn = 0;
             if (qn>1000) {
+              pn = qn%1000;
               qn = Math.floor(qn/1000 + .001)-1;
             }
+            // mark as dirty for later submission
             if (store.assessFormIsDirty.indexOf(qn)==-1) {
               store.assessFormIsDirty.push(qn);
             }
+            // autosave value
+            actions.doAutosave(qn, pn);
           }
         }
       });
@@ -142,6 +150,8 @@ export default {
   },
   created () {
     this.loadQuestionIfNeeded();
+  },
+  mounted () {
     if (this.questionContentLoaded) {
       this.renderAndTrack();
     }

@@ -34,6 +34,9 @@ export default {
   },
   methods: {
     beforeUnload () {
+      if (store.autosaveQueue.length > 0) {
+        actions.submitAutosave(false);
+      }
       var unanswered = true;
       if (store.assessInfo.hasOwnProperty('questions')) {
         let qAnswered = 0;
