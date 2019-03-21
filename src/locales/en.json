@@ -132,7 +132,9 @@
     "use_override": "Instructor grade override is recorded",
     "scorepts": "{pts} of {poss} pt | {pts} of {poss} pts",
     "retake_penalty": "{n}% retake penalty applied",
-    "late_penalty": "{n}% late work penalty applied"
+    "late_penalty": "{n}% late work penalty applied",
+    "scorelist": "Score List",
+    "reshowquestions": "Review Questions"
   },
   "scorelist": {
     "question": "Question",

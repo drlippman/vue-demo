@@ -10,11 +10,19 @@
           v-html = "ainfo.endmsg"
         />
 
-        <summary-score-list v-if="showScores" />
+        <div v-if = "showScores">
+          <vue-tabs id="scoretabs">
+            <vue-tab :name="$t('summary.scorelist')">
+              <summary-score-list />
+              <p>&nbsp;</p>
+              <summary-categories v-if="hasCategories" />
+            </vue-tab>
+            <vue-tab :name="$t('summary.reshowquestions')">
+              <summary-reshow-questions />
+            </vue-tab>
+          </vue-tabs>
 
-        <p>&nbsp;</p>
-
-        <summary-categories v-if="hasCategories" />
+        </div>
       </div>
       <div v-if="ainfo.hasOwnProperty('prev_attempts') && ainfo.prev_attempts.length > 0">
         <summary-gb-score />
@@ -30,8 +38,11 @@ import SummaryHeader from '@/components/summary/SummaryHeader.vue';
 import SummaryGbScore from '@/components/summary/SummaryGbScore.vue';
 import SummaryScoreTotal from '@/components/summary/SummaryScoreTotal.vue';
 import SummaryScoreList from '@/components/summary/SummaryScoreList.vue';
+import SummaryReshowQuestions from '@/components/summary/SummaryReshowQuestions.vue';
 import SummaryCategories from '@/components/summary/SummaryCategories.vue';
 import PreviousAttempts from '@/components/PreviousAttempts.vue';
+import VueTabs from '@/components/VueTabs.vue';
+import VueTab from '@/components/VueTab.vue';
 
 export default {
   name: 'Summary',
@@ -41,11 +52,22 @@ export default {
     SummaryGbScore,
     SummaryScoreList,
     SummaryCategories,
-    PreviousAttempts
+    SummaryReshowQuestions,
+    PreviousAttempts,
+    VueTabs,
+    VueTab
+  },
+  data: function () {
+    return {
+      activeTab: 0
+    }
   },
   computed: {
     ainfo () {
       return store.assessInfo;
+    },
+    hasScore () {
+      return store.assessInfo.hasOwnProperty('score');
     },
     showTotal () {
       return (this.ainfo.showscores !== 'none');
@@ -55,6 +77,9 @@ export default {
     },
     hasCategories () {
       let hascat = false;
+      if (!this.showScores) {
+        return false;
+      }
       for (let i in this.ainfo.questions) {
         if (this.ainfo.questions[i].hasOwnProperty('category') &&
           this.ainfo.questions[i].category !== '' &&
@@ -66,6 +91,19 @@ export default {
       }
       return hascat;
     }
+  },
+  methods: {
+    loadScoresIfNeeded () {
+      if (!this.hasScore) {
+        actions.getScores();
+      }
+    }
+  },
+  created() {
+    this.loadScoresIfNeeded();
+  },
+  updated() {
+    this.loadScoresIfNeeded();
   }
 }
 </script>
@@ -80,4 +118,5 @@ export default {
   border-top: 1px solid #ddd;
   margin-top: -1px;
 }
+
 </style>

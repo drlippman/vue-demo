@@ -224,6 +224,29 @@ export const actions = {
         store.inTransit = false;
       });
   },
+  getScores () {
+    store.inTransit = true;
+    window.$.ajax({
+      url: store.APIbase + 'getscores.php' + store.queryString,
+      type: 'GET',
+      dataType: 'json',
+      xhrFields: {
+        withCredentials: true
+      },
+      crossDomain: true
+    })
+      .done(response => {
+        if (response.hasOwnProperty('error')) {
+          store.errorMsg = response.error;
+          return;
+        }
+        response = this.processSettings(response);
+        this.copySettings(response);
+      })
+      .always(response => {
+        store.inTransit = false;
+      });
+  },
   copySettings(response) {
     // overwrite existing questions with new data
     if (response.hasOwnProperty('questions')) {
@@ -252,6 +275,12 @@ export const actions = {
           data.questions[i].canregen = false;
           data.questions[i].regens_remaining = 0;
         }
+        data.questions[i].has_details = (thisq.hasOwnProperty('parts') && (
+          thisq.parts.length > 1 || (
+            thisq.parts[0].hasOwnProperty('penalties') &&
+            thisq.parts[0].penalties.length > 0
+          ))
+        );
         store.lastLoaded[i] = new Date();
       }
     }

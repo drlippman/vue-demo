@@ -27,10 +27,14 @@ export default {
   },
   computed: {
     showMessage () {
-      return (store.assessInfo.help_features.message === true);
+      return (store.assessInfo.hasOwnProperty('help_features') &&
+        store.assessInfo.help_features.message === true
+      );
     },
     postToForum () {
-      return store.assessInfo.help_features.forum;
+      return (store.assessInfo.hasOwnProperty('help_features') &&
+        store.assessInfo.help_features.forum
+      );
     },
     quoteQ () {
       let qsid = store.assessInfo.questions[this.qn].questionsetid;

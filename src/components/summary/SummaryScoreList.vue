@@ -17,7 +17,7 @@
               {pts: question.gbscore, poss: question.points_possible}) }}
         &nbsp;&nbsp;
         <click-to-show
-          v-if = "showDetails[index]"
+          v-if = "question.has_details"
           class="question-details"
           :id="'qd_'+index"
         >
@@ -51,17 +51,6 @@ export default {
   computed: {
     questions () {
       return store.assessInfo.questions;
-    },
-    showDetails () {
-      var out = [];
-      for (let i in this.questions) {
-        let thisq = this.questions[i];
-        out[i] = (thisq.hasOwnProperty('parts') &&
-          thisq.parts[0].hasOwnProperty('penalties') &&
-          (thisq.parts.length > 1 || thisq.parts[0].penalties.length > 0)
-        );
-      }
-      return out;
     }
   }
 }

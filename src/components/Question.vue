@@ -14,7 +14,10 @@
       class = "question"
       :id="'questionwrap' + qn"
     />
-    <question-helps :qn = "qn" />
+    <question-helps
+      v-if = "questionData.hasOwnProperty('help_features')"
+      :qn = "qn" 
+    />
     <div v-if="showSubmit" class="submitbtnwrap">
       <button
         type = "button"
@@ -57,15 +60,19 @@ export default {
       return (this.questionData.html !== null);
     },
     showSubmit () {
-      return (this.questionContentLoaded &&
+      return (store.inProgress &&
+        this.questionContentLoaded &&
         this.questionData.canretry && (
         store.assessInfo.submitby === 'by_question' ||
           this.questionData.tries_max > 1
-      )
+        )
       );
     },
     showScore () {
-      return this.questionData.hasOwnProperty('score') && this.questionData.status !== 'unattempted';
+      return (store.inProgress &&
+        this.questionData.hasOwnProperty('score') &&
+        this.questionData.status !== 'unattempted'
+      );
     },
     submitLabel () {
       if (store.assessInfo.submitby === 'by_question') {

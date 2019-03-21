@@ -13,15 +13,16 @@
       @click = "triggerOpen"
       @keydown.enter.prevent = "triggerOpen"
       @keydown.space.prevent = "triggerOpen"
-      class = "dropdown-button"
+      class = "dropdown-button noselect"
       :aria-controls = "id + '_pane'"
       :aria-expanded = "open?'true':'false'"
     >
       <slot name=button></slot>
     </span>
     <div
-      :class = "{'dropdown-pane': true, 'dropdown-right': position=='right'}"
+      class = "dropdown-pane"
       :id = "id + '_pane'"
+      ref = "pane"
       v-if = "open"
     >
       <slot />
@@ -50,6 +51,15 @@ export default {
       }
       if (!this.open) {
         this.$refs.button.focus();
+      } else {
+        this.$nextTick(() => {
+          this.$refs.pane.style.right = '';
+          let bndbox = this.$refs.pane.getBoundingClientRect();
+          let pageWidth = document.documentElement.clientWidth;
+          if (bndbox.right > pageWidth) {
+            this.$refs.pane.style.right = '12px';
+          }
+        });
       }
     },
     handleFocusout () {
@@ -64,7 +74,7 @@ export default {
 
 <style>
 .dropdown-wrap {
-  position: relative;
+  /*position: relative;*/
   display: inline-block;
 }
 .dropdown-button {
@@ -79,9 +89,10 @@ export default {
   padding: 0;
   margin: 0;
   z-index: 1000;
-  min-width: 30vw;
+  max-width: 70vw;
+  /*min-width: 30vw;*/
 }
 .dropdown-right {
-  right: 0px;
+  /*right: 0px;*/
 }
 </style>
