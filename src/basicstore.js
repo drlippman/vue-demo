@@ -136,18 +136,34 @@ export const actions = {
     }
     store.inTransit = true;
     let lastLoaded = [];
+    let nonBlank = {};
     if (typeof window.tinyMCE != "undefined") {window.tinyMCE.triggerSave();}
     let data = new FormData();
     for (let k=0; k<qns.length; k++) {
       let qn = qns[k];
+      nonBlank[qn] = [];
       var regex = new RegExp("^(qn|tc|qs)("+qn+"\\b|"+(qn+1)+"\\d{3})");
       window.$("#questionwrap" + qn).find("input,select,textarea").each(function(i,el) {
         if (el.name.match(regex)) {
+          let fieldBlank = true;
           if ((el.type!=='radio' && el.type!=='checkbox') || el.checked) {
             if (el.type==='file') {
               data.append(el.name, el.files[0]);
+              fieldBlank = (el.files.length === 0);
             } else {
               data.append(el.name, el.value);
+              fieldBlank = (el.value === '');
+            }
+            // add to non-blank question/part list
+            if (!fieldBlank) {
+              if (el.name.length < 6) {
+                nonBlank[qn].push(0);
+              } else {
+                let pn = parseInt(el.name.substring(el.name.length-3));
+                if (nonBlank[qn].indexOf(pn) === -1) {
+                  nonBlank[qn].push(pn);
+                }
+              }
             }
           }
         }
@@ -155,6 +171,7 @@ export const actions = {
       lastLoaded[k] = store.lastLoaded[qn].getTime();
     };
     data.append('toscoreqn', qns.join(','));
+    data.append('nonblank', JSON.stringify(nonBlank));
     data.append('timeactive', timeactive.join(','));
     data.append('lastloaded', lastLoaded.join(','));
     if (endattempt) {
@@ -214,7 +231,7 @@ export const actions = {
         delete store.autosaveQueue[qns[i]];
       }
     }
-    if (store.autosaveQueue.length === 0) {
+    if (Object.keys(store.autosaveQueue).length === 0) {
       window.clearTimeout(store.autosaveTimer);
     }
   },
@@ -223,7 +240,9 @@ export const actions = {
   },
   submitAutosave (async) {
     window.clearTimeout(store.autosaveTimer);
-
+    if (Object.keys(store.autosaveQueue).length === 0) {
+      return;
+    }
     store.inTransit = true;
     let lastLoaded = {};
     if (typeof window.tinyMCE != "undefined") {window.tinyMCE.triggerSave();}
@@ -349,6 +368,11 @@ export const actions = {
     store.assessInfo = Object.assign({}, store.assessInfo, response);
   },
   processSettings (data) {
+    // hack job temporary fix until we can do something better
+    let svgchk = '<svg viewBox="0 0 24 24" width="16" height="16" stroke="green" stroke-width="3" fill="none"><title>correct</title>';
+    svgchk += '<polyline points="20 6 9 17 4 12"></polyline></svg>';
+    let svgx = '<svg viewBox="0 0 24 24" width="16" height="16" stroke="red" stroke-width="3" fill="none"><title>correct</title>';
+    svgx += '<path d="M18 6 L6 18 M6 6 L18 18" /></svg>';
     if (data.hasOwnProperty('questions')) {
       for (let i in data.questions) {
         let thisq = data.questions[i];
@@ -368,6 +392,11 @@ export const actions = {
             thisq.parts[0].penalties.length > 0
           ))
         );
+        if (data.questions[i].html !== null) {
+          data.questions[i].html = data.questions[i].html
+            .replace(/<img[^>]*gchk.gif[^>]*>/g, svgchk)
+            .replace(/<img[^>]*redx.gif[^>]*>/g, svgx);
+        }
         store.lastLoaded[i] = new Date();
       }
     }

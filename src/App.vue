@@ -72,6 +72,7 @@ input {
   border: 1px solid #999;
   padding: 4px 6px;
   border-radius: 4px;
+  margin: 1px 0;
 }
 button.slim {
   padding: 0px 12px;

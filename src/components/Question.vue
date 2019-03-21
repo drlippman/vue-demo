@@ -134,6 +134,25 @@ export default {
         }
       });
     },
+    disableOutOfTries () {
+      let trymax = this.questionData.tries_max;
+      for (let pn in this.questionData.parts) {
+        var regex;
+        if (this.questionData.parts[pn].try >= trymax) {
+          // out of tries - disable inputs
+          if (pn === 0) {
+            regex = new RegExp("^(qn|tc|qs)("+(this.qn)+"\\b|"+((this.qn+1)*1000 + pn*1)+"\\b)");
+          } else {
+            regex = new RegExp("^(qn|tc|qs)"+((this.qn+1)*1000 + pn*1)+"\\b");
+          }
+          window.$("#questionwrap" + this.qn).find("input,select,textarea").each(function(i,el) {
+            if (el.name.match(regex)) {
+              el.disabled = true;
+            }
+          });
+        }
+      }
+    },
     renderAndTrack () {
       setTimeout(window.drawPics, 100);
       window.rendermathnode(document.getElementById('questionwrap' + this.qn));
@@ -144,6 +163,7 @@ export default {
   updated () {
     if (this.questionContentLoaded) {
       this.renderAndTrack();
+      this.disableOutOfTries();
     } else {
       this.loadQuestionIfNeeded();
     }
@@ -154,6 +174,7 @@ export default {
   mounted () {
     if (this.questionContentLoaded) {
       this.renderAndTrack();
+      this.disableOutOfTries();
     }
   },
   watch: {
@@ -222,5 +243,14 @@ input.red {
 }
 .submitbtnwrap {
   margin: 16px 0;
+}
+.ansgrn {
+  border: 1px solid #090;
+}
+.ansred {
+  border: 1px solid #900;
+}
+.ansyel {
+  border: 1px solid #fb0;
 }
 </style>
