@@ -9,7 +9,7 @@
         <icons :name="question.status" />
         {{ $t('question_n', {n: index+1}) }}
       </td>
-      <td v-if="question.try === 0">
+      <td v-if="noTries[index]">
         {{ $t('scorelist.unattempted') }}
       </td>
       <td v-else>
@@ -51,6 +51,24 @@ export default {
   computed: {
     questions () {
       return store.assessInfo.questions;
+    },
+    noTries () {
+      var out = {};
+      for (let i in this.questions) {
+        if (!this.questions[i].hasOwnProperty('parts')) {
+          out[i] = true;
+        } else {
+          let notries = true;
+          for (let p in this.questions[i].parts) {
+            if (this.questions[i].parts[p].try > 0) {
+              notries = false;
+              break;
+            }
+          }
+          out[i] = notries;
+        }
+      }
+      return out;
     }
   }
 }
