@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'interqtext': true, 'right': !expanded}">
+  <div :class="{'interqtext': true, 'right': !expanded}" ref="main">
     <button
       type = "button"
       :class = "{plain: true, floatright: expanded}"
@@ -10,7 +10,7 @@
       <icons v-if="expanded" name="close" />
       <span v-else>{{ $t('text.show') }}</span>
     </button>
-    <div v-if="expanded" v-html="textobj.html" />
+    <div v-show="expanded" v-html="textobj.html" />
   </div>
 </template>
 
@@ -19,17 +19,33 @@ import Icons from '@/components/Icons.vue';
 
 export default {
   name: 'InterQuestionText',
-  props: ['textobj'],
+  props: ['textobj', 'active'],
   components: {
     Icons
   },
   data: function () {
     return {
-      expanded: false
+      expanded: false,
+      rendered: false
     };
+  },
+  methods: {
+    renderMath() {
+      setTimeout(window.drawPics, 100);
+      window.rendermathnode(this.$refs.main);
+      this.rendered = true;
+    }
+  },
+  updated () {
+    if (this.active && this.expanded && !this.rendered) {
+      this.renderMath();
+    }
   },
   mounted () {
     this.expanded = this.textobj.expanded;
+    if (this.active && this.expanded) {
+      this.renderMath();
+    }
   }
 }
 </script>

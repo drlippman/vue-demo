@@ -4,6 +4,7 @@
       v-for = "(textitem,index) in texts"
       :textobj = "textitem"
       :key = "index"
+      :active = "active"
     />
   </div>
 </template>
@@ -14,7 +15,7 @@ import InterQuestionText from '@/components/InterQuestionText.vue';
 
 export default {
   name: 'InterQuestionTextList',
-  props: ['qn', 'pos'],
+  props: ['qn', 'pos', 'active'],
   components: {
     InterQuestionText
   },
@@ -32,7 +33,7 @@ export default {
       let out = [];
       for (let  i in store.assessInfo.interquestion_text) {
         let textObj = store.assessInfo.interquestion_text[i];
-        if ((this.pos === 'beforeexact' && this.qn === textObj.displayBefore) || 
+        if ((this.pos === 'beforeexact' && this.qn === textObj.displayBefore) ||
           (this.pos !== 'beforeexact' && this.qn >= textObj.displayBefore && this.qn <= textObj.displayUntil)
         ) {
           out.push({

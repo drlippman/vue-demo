@@ -5,28 +5,30 @@
     <div class="scrollpane">
       <div
         class = "questionpane"
-        v-if = "qn == -1"
+        v-show = "qn == -1"
+        key = "-1"
         v-html = "intro"
+        ref = "introtext"
       />
-      <div class="questionpane">
-        <div
-          v-for="curqn in questionArray"
-          :key="curqn"
-          :class="{inactive: curqn != qn}"
-        >
-          <inter-question-text-list
-            pos = "before"
-            :qn = "curqn"
-          />
-          <question
-            :qn="curqn"
-            :active="curqn == qn"
-          />
-          <inter-question-text-list
-            pos = "after"
-            :qn = "curqn"
-          />
-        </div>
+      <div
+        v-for="curqn in questionArray"
+        :key="curqn"
+        :class="{inactive: curqn != qn, questionpane: true}"
+      >
+        <inter-question-text-list
+          pos = "before"
+          :qn = "curqn"
+          :active="curqn == qn"
+        />
+        <question
+          :qn="curqn"
+          :active="curqn == qn"
+        />
+        <inter-question-text-list
+          pos = "after"
+          :qn = "curqn"
+          :active="curqn == qn"
+        />
       </div>
     </div>
   </div>
@@ -61,6 +63,10 @@ export default {
       }
       return qnArray;
     }
+  },
+  mounted () {
+    setTimeout(window.drawPics, 100);
+    window.rendermathnode(this.$refs.introtext);
   }
 };
 </script>
