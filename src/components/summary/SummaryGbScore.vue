@@ -20,8 +20,14 @@ export default {
     scoreUsed () {
       if (this.ainfo.scored_attempt.kept === 'override') {
         return this.$t('summary.use_override');
-      } else if (this.ainfo.keepscore === 'best') {
+      } else if (this.ainfo.keepscore === 'best' &&
+          this.ainfo.submitby === 'by_assessment'
+      ) {
         return this.$t('setlist.keep_highest');
+      } else if (this.ainfo.keepscore === 'best' &&
+          this.ainfo.submitby === 'by_question'
+      ) {
+        return this.$t('setlist.keep_highest_q');
       } else if (this.ainfo.keepscore === 'average') {
         return this.$t('setlist.keep_highest');
       } else if (this.ainfo.keepscore === 'last') {
@@ -30,7 +36,7 @@ export default {
     },
     showGBScore () {
       return (this.ainfo.hasOwnProperty('scored_attempt') &&
-        this.ainfo.scored_attempt.length > 0 &&
+        this.ainfo.scored_attempt.hasOwnProperty('score') &&
         this.ainfo.showscores !== 'none'
       );
     },

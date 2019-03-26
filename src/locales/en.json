@@ -48,6 +48,7 @@
     "take_more": "You can take this assessment one more time. | You can take this assessment {n} more times.",
     "attempt_inprogress": "You have an assessment attempt in progress.",
     "cur_attempt_n_of": "You are working on attempt {n} of {nmax}.",
+    "keep_highest_q": "Best attempt on each question recorded as grade.",
     "keep_highest": "Highest scored attempt recorded as grade.",
     "keep_average": "Average score recorded as grade.",
     "keep_last": "Last attempt recorded as grade.",
