@@ -55,10 +55,10 @@
         </button>
       </p>
     </div>
-    <previous-attempts
-      v-if="aInfo.hasOwnProperty('prev_attempts') && aInfo.prev_attempts.length > 0"
-      :caption = "$t('prev.previous_attempts')"
-    />
+    <div v-if="settings.hasOwnProperty('prev_attempts') && settings.prev_attempts.length > 0" >
+      <summary-gb-score />
+      <previous-attempts :caption = "$t('prev.previous_attempts')" />
+    </div>
   </div>
 </template>
 
@@ -67,6 +67,8 @@ import SettingsList from '@/components/launch/SettingsList.vue';
 import PasswordEntry from '@/components/launch/PasswordEntry.vue';
 import GroupEntry from '@/components/launch/GroupEntry.vue';
 import PreviousAttempts from '@/components/PreviousAttempts.vue';
+import SummaryGbScore from '@/components/summary/SummaryGbScore.vue';
+
 
 import Icons from '@/components/Icons.vue';
 

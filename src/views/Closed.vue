@@ -60,10 +60,10 @@
       </p>
 
     </div>
-    <previous-attempts
-      v-if="settings.hasOwnProperty('prev_attempts') && settings.prev_attempts.length > 0"
-      :caption = "$t('prev.previous_attempts')"
-    />
+    <div v-if="settings.hasOwnProperty('prev_attempts') && settings.prev_attempts.length > 0" >
+      <summary-gb-score />
+      <previous-attempts :caption = "$t('prev.scored_attempts')" />
+    </div>
   </div>
 </template>
 
@@ -71,13 +71,15 @@
 
 import Icons from '@/components/Icons.vue';
 import PreviousAttempts from '@/components/PreviousAttempts.vue';
+import SummaryGbScore from '@/components/summary/SummaryGbScore.vue';
 import { store, actions } from '../basicstore';
 
 export default {
   name: 'Closed',
   components: {
     Icons,
-    PreviousAttempts
+    PreviousAttempts,
+    SummaryGbScore
   },
   computed: {
     settings () {

@@ -16,10 +16,11 @@
         <router-link
           :to="'/skip/'+ (dispqn-1) + queryString"
           tag="button"
-          :disabled="qn<0"
+          :disabled="qn < this.hasIntro? 0 : 1"
           class="secondarybtn"
           id="qprev"
           :aria-label="$t('previous')"
+          v-if = "navOptions.length > 1"
         >
           <icons name="left"/>
         </router-link>
@@ -30,6 +31,7 @@
           class="secondarybtn"
           id="qnext"
           :aria-label="$t('next')"
+          v-if = "navOptions.length > 1"
         >
           <icons name="right" />
         </router-link>
@@ -95,9 +97,12 @@ export default {
     queryString () {
       return store.queryString;
     },
+    hasIntro () {
+      return (store.assessInfo.intro !== '');
+    },
     navOptions () {
       var out = {};
-      if (store.assessInfo.intro !== '') {
+      if (this.hasIntro) {
         out[0] = {
           internallink: '/skip/0' + this.queryString,
           dispqn: 0

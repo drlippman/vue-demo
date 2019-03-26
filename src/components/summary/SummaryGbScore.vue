@@ -29,7 +29,10 @@ export default {
       }
     },
     showGBScore () {
-      return (this.ainfo.hasOwnProperty('scored_attempt') && this.ainfo.showscores !== 'none');
+      return (this.ainfo.hasOwnProperty('scored_attempt') &&
+        this.ainfo.scored_attempt.length > 0 &&
+        this.ainfo.showscores !== 'none'
+      );
     },
     gbScore () {
       return Math.round(1000 * this.ainfo.scored_attempt.score / this.ainfo.points_possible) / 10;
