@@ -19,7 +19,7 @@
           :disabled="qn<0"
           class="secondarybtn"
           id="qprev"
-          :aria-label="$t('prev')"
+          :aria-label="$t('previous')"
         >
           <icons name="left"/>
         </router-link>
@@ -34,12 +34,12 @@
           <icons name="right" />
         </router-link>
     </div>
-    <div>
+    <div class="headericons">
       <span
         v-if="qn >= 0 && curQData.canretry"
-        :title="$tc('qinfo.tries_remaining', curQData.tries_remaining)">
+        :title="retryInfo.msg">
         <icons name="retry"/>
-        {{ curQData.tries_remaining }}
+        {{ retryInfo.cnt }}
       </span>
       <span
         v-if="qn >= 0 && curQData.canregen"
@@ -96,10 +96,13 @@ export default {
       return store.queryString;
     },
     navOptions () {
-      var out = [{
-        internallink: '/skip/0' + this.queryString,
-        dispqn: 0
-      }];
+      var out = {};
+      if (store.assessInfo.intro !== '') {
+        out[0] = {
+          internallink: '/skip/0' + this.queryString,
+          dispqn: 0
+        };
+      }
       for (let qn in store.assessInfo.questions) {
         let dispqn = parseInt(qn) + 1;
         out[dispqn] = store.assessInfo.questions[qn];
@@ -112,12 +115,33 @@ export default {
       if (this.qn < 0) {
         return false;
       }
-      let curQData = store.assessInfo.questions[this.qn];
-      let hasCategory = curQData.hasOwnProperty('category') && curQData.category !== '';
-      return (curQData.has_details ||
+      let hasCategory = this.curQData.hasOwnProperty('category') && this.curQData.category !== '';
+      return (this.curQData.has_details ||
         hasCategory ||
-        curQData.hasOwnProperty('gbscore')
+        this.curQData.hasOwnProperty('gbscore')
       );
+    },
+    retryInfo () {
+      if (this.qn < 0) {
+        return {};
+      }
+      let trymsg;
+      let trycnt;
+      if (this.curQData.hasOwnProperty('tries_remaining_range')) {
+        let range = this.curQData.tries_remaining_range;
+        trymsg = this.$t('qinfo.tries_remaining_range', {
+          min: range[0],
+          max: range[1]
+        });
+        trycnt = range[0] + '-' + range[1];
+      } else {
+        trymsg = this.$tc('qinfo.tries_remaining', this.curQData.tries_remaining);
+        trycnt = this.curQData.tries_remaining;
+      }
+      return {
+        msg: trymsg,
+        cnt: trycnt
+      }
     }
   },
   methods: {
@@ -135,10 +159,10 @@ export default {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #ccc;
-  padding: 5px 0;
+  padding: 0;
 }
 #skip-question-header > * {
-  margin-right: 10px;
+  margin: 4px 0;
 }
 #skip-question-select {
   display: flex;
@@ -160,6 +184,9 @@ export default {
 #qnext {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+.headericons > * {
+  margin-left: 8px;
 }
 
 </style>

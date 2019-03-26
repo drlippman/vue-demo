@@ -7,7 +7,7 @@
   "loading": "Loading...",
   "intro": "Intro / Instructions",
   "next": "Next",
-  "prev": "Previous",
+  "previous": "Previous",
   "question_n": "Question {n}",
   "launch": {
     "continue_assess": "Continue Assessment",
@@ -75,6 +75,7 @@
     "tryn": "Try {n} of {nmax}",
     "regenn": "Version {n} of {nmax}",
     "tries_remaining": "1 try on this question remaining | {n} tries on this question remaining",
+    "tries_remaining_range": "{min} to {max} tries remaining depending on the part - see Details",
     "regens_remaining": "You can Try a Similar Question 1 more time | You can Try a Similar Question {n} more times"
   },
   "question": {
@@ -84,6 +85,7 @@
   },
   "header": {
     "score": "Score: {pts}/{poss}",
+    "practicescore": "Practice score: {pts}/{poss}",
     "possible": "{poss} points possible",
     "answered": "{n}/{tot} answered",
     "assess_submit": "Submit Assessment",
@@ -169,6 +171,7 @@
     "penalties": "Penalties",
     "category": "Category",
     "gbscore": "Recorded score",
+    "bestpractice": "Best practice score",
     "lastscore": "Score on last try"
   },
   "timer": {

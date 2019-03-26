@@ -6,7 +6,7 @@
     <div class="pane-body">
 
       <p v-if="showGBScore">
-        {{ $t('qdetails.gbscore') }}:
+        {{ gbScoreString }}:
         <span class="nowrap">
           {{ $tc('scoreresult.scorepts', qinfo.points_possible,
             {pts: qinfo.gbscore, poss: qinfo.points_possible}) }}
@@ -77,8 +77,18 @@ export default {
     showGBScore () {
       return this.qinfo.hasOwnProperty('gbscore');
     },
+    gbScoreString () {
+      if (store.assessInfo.in_practice) {
+        return this.$t('qdetails.bestpractice');
+      } else {
+        return this.$t('qdetails.gbscore');
+      }
+    },
     hasCategory () {
-      return (this.qinfo.hasOwnProperty('category') && this.qinfo.category != '');
+      return (this.qinfo.hasOwnProperty('category') &&
+        this.qinfo.category !== '' &&
+        this.qinfo.category !== null
+      );
     }
   }
 };

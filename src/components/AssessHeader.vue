@@ -1,9 +1,13 @@
 <template>
-  <div class="assess-header headerpane">
+  <div :class="{'assess-header': true, 'headerpane': true, 'practice': ainfo.in_practice}">
     <div style="flex-grow: 1">
       <h1>{{ ainfo.name }}</h1>
       <div>
-        <span>{{ curScorePoints }}</span>
+        <span
+          :class="{practicenotice: ainfo.in_practice}"
+        >
+          {{ curScorePoints }}
+        </span>
         <span class="answeredinfo">{{ curAnswered }}</span>
       </div>
     </div>
@@ -78,7 +82,9 @@ export default {
           }
         }
       }
-      if (this.ainfo.show_scores_during) {
+      if (this.ainfo.in_practice) {
+        return this.$t('header.practicescore', { pts: pointsEarned, poss: pointsPossible });
+      } else if (this.ainfo.show_scores_during) {
         return this.$t('header.score', { pts: pointsEarned, poss: pointsPossible });
       } else {
         return this.$t('header.possible', { poss: pointsPossible });
@@ -150,6 +156,10 @@ export default {
   justify-content: space-between;
   align-items: center;
 }
+.assess-header.practice {
+  border-top: 2px solid #900;
+  border-bottom: 2px solid #900;
+}
 .assess-header > * {
   margin-right: 10px;
 }
@@ -162,5 +172,9 @@ export default {
 }
 .bigicon {
   font-size: 130%;
+}
+.practicenotice {
+  color: #C00;
+  font-style: italic;
 }
 </style>

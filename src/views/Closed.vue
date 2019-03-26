@@ -104,8 +104,9 @@ export default {
       return '';
     },
     hasActive () {
-      return (this.settings.has_active_attempt &&
-        this.settings.submitby === 'by_assessment'
+      return (this.settings.submitby === 'by_assessment' &&
+        ((this.settings.available === 'yes' && this.settings.has_active_attempt) ||
+        (this.settings.available !== 'yes' && this.settings.has_unsubmitted_scored))
       );
     },
     hasActiveMsg () {
@@ -157,6 +158,7 @@ export default {
         // redeem latepass
       } else if (this.settings.available === 'practice') {
         // start practice mode
+        actions.startAssess(true, '', []);
       } else if (this.canViewScored) {
 
       } else {

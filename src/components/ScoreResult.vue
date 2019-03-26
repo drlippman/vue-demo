@@ -50,7 +50,7 @@ export default {
     };
   },
   watch: {
-    data: function (val) {
+    qdata: function (val) {
       this.expanded = true;
     }
   },

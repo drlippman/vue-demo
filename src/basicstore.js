@@ -57,7 +57,7 @@ export const actions = {
       type: 'POST',
       dataType: 'json',
       data: {
-        do_practice: dopractice,
+        practice: dopractice,
         password: password,
         new_group_members: newGroupMembers.join(','),
         cur_group: store.assessInfo.stugroupid
@@ -104,6 +104,7 @@ export const actions = {
       dataType: 'json',
       data: {
         qn: qn,
+        practice: store.assessInfo.in_practice,
         regen: regen?1:0
       },
       xhrFields: {
@@ -134,10 +135,12 @@ export const actions = {
     } else if (typeof timeactive !== 'object') {
       timeactive = [timeactive];
     }
+    if (typeof window.tinyMCE != "undefined") {window.tinyMCE.triggerSave();}
     store.inTransit = true;
+
+    // figure out non-blank questions to submit
     let lastLoaded = [];
     let nonBlank = {};
-    if (typeof window.tinyMCE != "undefined") {window.tinyMCE.triggerSave();}
     let data = new FormData();
     for (let k=0; k<qns.length; k++) {
       let qn = qns[k];
@@ -176,6 +179,9 @@ export const actions = {
     data.append('lastloaded', lastLoaded.join(','));
     if (endattempt) {
       data.append('endattempt', endattempt);
+    }
+    if (store.assessInfo.in_practice) {
+      data.append('practice', true);
     }
     window.$.ajax({
       url: store.APIbase + 'scorequestion.php' + store.queryString,
@@ -273,7 +279,9 @@ export const actions = {
     };
     data.append('toscoreqn', JSON.stringify(store.autosaveQueue));
     data.append('lastloaded', JSON.stringify(lastLoaded));
-
+    if (store.assessInfo.in_practice) {
+      data.append('practice', true);
+    }
     window.$.ajax({
       url: store.APIbase + 'autosave.php' + store.queryString,
       type: 'POST',
@@ -379,6 +387,22 @@ export const actions = {
 
         data.questions[i].canretry = (thisq.try < thisq.tries_max);
         data.questions[i].tries_remaining = thisq.tries_max - thisq.try;
+        if (thisq.hasOwnProperty('parts')) {
+          let trymin = 1e10;
+          let trymax = 0;
+          for (let pn in thisq.parts) {
+            let remaining = thisq.tries_max - thisq.parts[pn].try;
+            if (remaining < trymin) {
+              trymin = remaining;
+            }
+            if (remaining > trymax) {
+              trymax = remaining;
+            }
+          }
+          if (trymin !== trymax) {
+            data.questions[i].tries_remaining_range = [trymin, trymax];
+          }
+        }
         if (thisq.hasOwnProperty('regens_max') !== 'undefined' && thisq.regen < thisq.regens_max) {
           data.questions[i].canregen = true;
           data.questions[i].regens_remaining = thisq.regens_max - thisq.regen;
