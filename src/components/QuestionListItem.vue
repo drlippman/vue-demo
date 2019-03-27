@@ -2,7 +2,12 @@
   <span>
     <span class="qname-wrap">
       <icons :name="statusIcon" class="qstatusicon" />
-      {{ nameDisp }}
+      <span
+        :class="{greystrike: option.withdrawn !==0}"
+        :title = "nameHover"
+      >
+        {{ nameDisp }}
+      </span>
       {{ scoreDisplay }}
     </span>
     <span class="redoicon">
@@ -34,6 +39,11 @@ export default {
       } else {
         return this.$t('question_n', { n: this.option.dispqn });
       }
+    },
+    nameHover () {
+        if (this.option.withdrawn !== 0) {
+          return this.$t('header.withdrawn');
+        }
     },
     scoreDisplay () {
       if (this.option.dispqn === 0) {

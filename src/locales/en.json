@@ -82,7 +82,8 @@
   "question": {
     "submit": "Submit Question",
     "checkans": "Check Answer",
-    "saveans": "Save Answer"
+    "saveans": "Save Answer",
+    "withdrawn": "This question was withdrawn by the instructor. You do not need to complete this question."
   },
   "header": {
     "score": "Score: {pts}/{poss}",
@@ -94,7 +95,8 @@
     "resources_header": "Resources",
     "pts": "1 pt | {n} pts",
     "details": "Details",
-    "warn_unattempted": "There appears to be unattempted questions. Are you sure you want to submit now?"
+    "warn_unattempted": "There appears to be unattempted questions. Are you sure you want to submit now?",
+    "withdrawn": "Question withdrawn"
   },
   "text": {
     "hide": "Hide text",

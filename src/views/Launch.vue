@@ -55,7 +55,7 @@
         </button>
       </p>
     </div>
-    <div v-if="settings.hasOwnProperty('prev_attempts') && settings.prev_attempts.length > 0" >
+    <div v-if="aInfo.hasOwnProperty('prev_attempts') && aInfo.prev_attempts.length > 0" >
       <summary-gb-score />
       <previous-attempts :caption = "$t('prev.previous_attempts')" />
     </div>

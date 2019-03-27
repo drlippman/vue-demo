@@ -416,6 +416,13 @@ export const actions = {
             thisq.parts[0].penalties.length > 0
           ))
         );
+        if (data.questions[i].withdrawn !== 0) {
+          data.questions[i].canretry = false;
+          data.questions[i].tries_remaining = 0;
+          data.questions[i].canregen = false;
+          data.questions[i].regens_remaining = 0;
+        }
+        // TODO: remove this hack
         if (data.questions[i].html !== null) {
           data.questions[i].html = data.questions[i].html
             .replace(/<img[^>]*gchk.gif[^>]*>/g, svgchk)

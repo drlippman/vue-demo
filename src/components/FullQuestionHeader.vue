@@ -2,7 +2,9 @@
   <div class="full-question-header">
     <div style="flex-grow: 1">
       <icons :name="statusIcon" class="qstatusicon" />
-      <strong>
+      <strong
+        :class="{greystrike: curQData.withdrawn !==0}"
+      >
         {{ $t('question_n', { n: dispqn }) }}
       </strong>
     </div>
@@ -83,6 +85,11 @@ export default {
       } else {
         return this.$tc('header.pts', this.curQData.points_possible);
       }
+    },
+    nameHover () {
+        if (this.curQData.withdrawn !== 0) {
+          return this.$t('header.withdrawn');
+        }
     },
     showDetails () {
       if (this.qn < 0) {

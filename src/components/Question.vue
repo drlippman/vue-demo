@@ -8,6 +8,13 @@
       :qdata = "questionData"
       :qn = "qn"
     />
+    <p
+      v-if="questionData.withdrawn !== 0"
+      class="noticetext"
+    >
+      <icons name="alert" color="warn" size="medium" />
+      {{ $t('question.withdrawn') }}
+    </p>
     <div
       v-if = "questionContentLoaded"
       v-html="questionData.html"
@@ -34,6 +41,7 @@
 <script>
 import { store, actions } from '../basicstore';
 import ScoreResult from '@/components/ScoreResult.vue';
+import Icons from '@/components/Icons.vue';
 import QuestionHelps from '@/components/QuestionHelps.vue';
 
 export default {
@@ -41,7 +49,8 @@ export default {
   props: ['qn', 'active'],
   components: {
     ScoreResult,
-    QuestionHelps
+    QuestionHelps,
+    Icons
   },
   data: function () {
     return {
@@ -62,6 +71,7 @@ export default {
     showSubmit () {
       return (store.inProgress &&
         this.questionContentLoaded &&
+        this.questionData.withdrawn === 0 &&
         this.questionData.canretry && (
         store.assessInfo.submitby === 'by_question' ||
           this.questionData.tries_max > 1
@@ -71,7 +81,8 @@ export default {
     showScore () {
       return (store.inProgress &&
         this.questionData.hasOwnProperty('score') &&
-        this.questionData.status !== 'unattempted'
+        this.questionData.status !== 'unattempted' &&
+        this.questionData.withdrawn === 0
       );
     },
     submitLabel () {

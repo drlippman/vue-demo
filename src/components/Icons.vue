@@ -9,7 +9,7 @@
       :width = "iconwidth"
       :height = "iconwidth"
       fill="none"
-      :stroke="dark"
+      :stroke="stroke"
       :stroke-width="strokewidth"
       stroke-linecap="round"
       stroke-linejoin="round"
@@ -123,10 +123,11 @@ export default {
       neutral: '#00a',
       wrong: '#900',
       correct: '#090',
-      partial: '#fb0'
+      partial: '#fb0',
+      warn: "#900"
     };
   },
-  props: ['name', 'size'],
+  props: ['name', 'size', 'color'],
   computed: {
     alttext () {
       switch (this.name) {
@@ -137,6 +138,17 @@ export default {
         case 'circle-check': return 'Correct';
       }
       return '';
+    },
+    stroke () {
+      if (this.color) {
+        if (this.hasOwnProperty(this.color)) {
+          return this[this.color];
+        } else {
+          return this.color;
+        }
+      } else {
+        return this.dark;
+      }
     },
     iconwidth () {
       switch (this.size) {
